@@ -1,0 +1,71 @@
+﻿<Window x:Class="RESTToolkitTestApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:RESTToolkitTestApp"
+        Title="Bing Maps REST Service Toolkit Test app" Height="600" Width="800">
+    
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="10,3"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="130"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Geocode" Click="GeocodeBtn_Clicked"/>
+                <Button Content="Reverse Geocode" Click="ReverseGeocodeBtn_Clicked"/>
+                <Button Content="Elevation" Click="ElevationBtn_Clicked"/>
+                <Button Content="Route" Click="RouteBtn_Clicked"/>
+                <Button Content="Transit Route" Click="TransitRouteBtn_Clicked"/>                
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Traffic" Click="TrafficBtn_Clicked"/>
+                <Button Content="Imagery Metadata" Click="ImageMetadataBtn_Clicked"/>
+                <Button Content="Static Image" Click="StaticImageBtn_Clicked"/>
+                <Button Content="Static Image Metadata" Click="StaticImageMetadataBtn_Clicked"/>
+            </StackPanel>
+
+            <Grid Margin="5,10,5,5">
+                <TextBlock Text="Request URL:"/>
+                
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Width="170">
+                    <TextBlock Text="Processing Time: "/>
+                    <TextBlock Name="ProcessingTimeTbx"/>
+                </StackPanel>
+            </Grid>
+            
+            <TextBox Name="RequestUrlTbx" Height="25"/>            
+        </StackPanel>
+        
+        <TabControl Grid.Row="1">
+            <TabItem Name="ResponseTab" Header="Response">
+                <TreeView Name="ResultTreeView" BorderThickness="0">
+                    <TreeView.Resources>
+                        <HierarchicalDataTemplate DataType="{x:Type local:ObjectNode}" ItemsSource="{Binding Path=Children}">
+                            <TreeViewItem>
+                                <TreeViewItem.Header>
+                                    <StackPanel Orientation="Horizontal" Margin="-10,0,0,0">
+                                        <TextBlock Text="{Binding Path=Name}"/>
+                                        <TextBlock Text=" : "/>
+                                        <TextBlock Text="{Binding Path=Value}"/>
+                                    </StackPanel>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
+                        </HierarchicalDataTemplate>
+                    </TreeView.Resources>
+                </TreeView>
+            </TabItem>
+            <TabItem Name="ImageTab" Header="Image Response">
+                <Image Name="ImageBox" Stretch="None"/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

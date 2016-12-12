@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{EE7ACF1F-56D3-4A01-8262-A49A8B444639}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{A155C82A-42DC-4206-8DA8-C9C8CC3BFFE2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{833D0345-46F0-486E-9BEF-5269405683F8}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\Source\Repos\Bing-Maps-V8-TypeScript-Definitions\.gitignore = ..\..\..\..\Source\Repos\Bing-Maps-V8-TypeScript-Definitions\.gitignore
+		CONTRIBUTING.md = CONTRIBUTING.md
+		Documentation.md = Documentation.md
+		LICENSE.txt = LICENSE.txt
+		README.txt = README.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{26E65B0F-9554-408A-95D4-BDEC52945FC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RESTToolkitTestApp", "Samples\WPF\RESTToolkitTestApp\RESTToolkitTestApp.csproj", "{4E8E6F9A-14C5-4758-B96F-D18B5B923075}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BingMapsRESTToolkit", "Source\BingMapsRESTToolkit.csproj", "{AC15CCAC-63B7-43EB-A1CB-25925F04398B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E8E6F9A-14C5-4758-B96F-D18B5B923075}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E8E6F9A-14C5-4758-B96F-D18B5B923075}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E8E6F9A-14C5-4758-B96F-D18B5B923075}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E8E6F9A-14C5-4758-B96F-D18B5B923075}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC15CCAC-63B7-43EB-A1CB-25925F04398B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC15CCAC-63B7-43EB-A1CB-25925F04398B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC15CCAC-63B7-43EB-A1CB-25925F04398B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC15CCAC-63B7-43EB-A1CB-25925F04398B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{26E65B0F-9554-408A-95D4-BDEC52945FC3} = {EE7ACF1F-56D3-4A01-8262-A49A8B444639}
+		{4E8E6F9A-14C5-4758-B96F-D18B5B923075} = {26E65B0F-9554-408A-95D4-BDEC52945FC3}
+		{AC15CCAC-63B7-43EB-A1CB-25925F04398B} = {A155C82A-42DC-4206-8DA8-C9C8CC3BFFE2}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
+    <metadata>
+        <id>BingMapsRESTToolkit</id>
+        <version>1.0.1</version>
+        <title>Bing Maps REST Services Toolkit</title>
+        <authors>Microsoft</authors>
+        <owners>microsoft bingmaps</owners>
+        <iconUrl>https://www.bing.com/sa/simg/bing_p_rr_teal_min.ico</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>This is a portable class library which makes it easy to access the Bing Maps REST services from .NET.</description>
+        <summary>This is a portable class library which makes it easy to access the Bing Maps REST services from .NET.</summary>
+        <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+        <tags>Microsoft "Bing Maps" Maps GIS Map Geospatial VB C# .NET REST</tags>
+        <references>
+            <group targetFramework=".NETFramework4.5">
+                <reference file="BingMapsRESTToolkit.dll" />
+            </group>
+            <group targetFramework="WindowsPhone8.0">
+                <reference file="BingMapsRESTToolkit.dll" />
+            </group>
+            <group targetFramework=".NETCore4.5">
+                <reference file="BingMapsRESTToolkit.dll" />
+            </group>
+            <group targetFramework=".NETPortable0.0-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10">
+                <reference file="BingMapsRESTToolkit.dll" />
+            </group>
+            <group targetFramework="Xamarin iOS1.0">
+                <reference file="BingMapsRESTToolkit.dll" />
+            </group>
+            <group targetFramework="WindowsPhone8.1">
+                <reference file="BingMapsRESTToolkit.dll" />
+            </group>
+            <group targetFramework="Windows4.5.1">
+                <reference file="BingMapsRESTToolkit.dll" />
+            </group>
+            <group targetFramework="Unsupported0.0">
+                <reference file="BingMapsRESTToolkit.dll" />
+            </group>
+        </references>
+    </metadata>
+    <files>
+        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.dll" target="lib\dotnet\BingMapsRESTToolkit.dll" />
+        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.XML" target="lib\dotnet\BingMapsRESTToolkit.XML" />
+        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.dll" target="lib\net45\BingMapsRESTToolkit.dll" />
+        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.XML" target="lib\net45\BingMapsRESTToolkit.XML" />
+        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.dll" target="lib\portable-net45+wp8+win8\BingMapsRESTToolkit.dll" />
+        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.XML" target="lib\portable-net45+wp8+win8\BingMapsRESTToolkit.XML" />
+        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.dll" target="lib\uap10.0\BingMapsRESTToolkit.dll" />
+        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.XML" target="lib\uap10.0\BingMapsRESTToolkit.XML" />
+        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.dll" target="lib\wpa81\BingMapsRESTToolkit.dll" />
+        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.XML" target="lib\wpa81\BingMapsRESTToolkit.XML" />
+        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.dll" target="lib\xamarinios\BingMapsRESTToolkit.dll" />
+        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.XML" target="lib\xamarinios\BingMapsRESTToolkit.XML" />
+    </files>
+</package>
