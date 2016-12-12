@@ -40,17 +40,17 @@
         </references>
     </metadata>
     <files>
-        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.dll" target="lib\dotnet\BingMapsRESTToolkit.dll" />
-        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.XML" target="lib\dotnet\BingMapsRESTToolkit.XML" />
-        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.dll" target="lib\net45\BingMapsRESTToolkit.dll" />
-        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.XML" target="lib\net45\BingMapsRESTToolkit.XML" />
-        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.dll" target="lib\portable-net45+wp8+win8\BingMapsRESTToolkit.dll" />
-        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.XML" target="lib\portable-net45+wp8+win8\BingMapsRESTToolkit.XML" />
-        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.dll" target="lib\uap10.0\BingMapsRESTToolkit.dll" />
-        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.XML" target="lib\uap10.0\BingMapsRESTToolkit.XML" />
-        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.dll" target="lib\wpa81\BingMapsRESTToolkit.dll" />
-        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.XML" target="lib\wpa81\BingMapsRESTToolkit.XML" />
-        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.dll" target="lib\xamarinios\BingMapsRESTToolkit.dll" />
-        <file src="BingMapsRESTToolkit\bin\Release\BingMapsRESTToolkit.XML" target="lib\xamarinios\BingMapsRESTToolkit.XML" />
+        <file src="..\Source\bin\Release\BingMapsRESTToolkit.dll" target="lib\dotnet\BingMapsRESTToolkit.dll" />
+        <file src="..\Source\bin\Release\BingMapsRESTToolkit.XML" target="lib\dotnet\BingMapsRESTToolkit.XML" />
+        <file src="..\Source\bin\Release\BingMapsRESTToolkit.dll" target="lib\net45\BingMapsRESTToolkit.dll" />
+        <file src="..\Source\bin\Release\BingMapsRESTToolkit.XML" target="lib\net45\BingMapsRESTToolkit.XML" />
+        <file src="..\Source\bin\Release\BingMapsRESTToolkit.dll" target="lib\portable-net45+wp8+win8\BingMapsRESTToolkit.dll" />
+        <file src="..\Source\bin\Release\BingMapsRESTToolkit.XML" target="lib\portable-net45+wp8+win8\BingMapsRESTToolkit.XML" />
+        <file src="..\Source\bin\Release\BingMapsRESTToolkit.dll" target="lib\uap10.0\BingMapsRESTToolkit.dll" />
+        <file src="..\Source\bin\Release\BingMapsRESTToolkit.XML" target="lib\uap10.0\BingMapsRESTToolkit.XML" />
+        <file src="..\Source\bin\Release\BingMapsRESTToolkit.dll" target="lib\wpa81\BingMapsRESTToolkit.dll" />
+        <file src="..\Source\bin\Release\BingMapsRESTToolkit.XML" target="lib\wpa81\BingMapsRESTToolkit.XML" />
+        <file src="..\Source\bin\Release\BingMapsRESTToolkit.dll" target="lib\xamarinios\BingMapsRESTToolkit.dll" />
+        <file src="..\Source\bin\Release\BingMapsRESTToolkit.XML" target="lib\xamarinios\BingMapsRESTToolkit.XML" />
     </files>
 </package>
