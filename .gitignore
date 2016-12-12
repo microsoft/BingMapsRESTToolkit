@@ -274,4 +274,6 @@ __pycache__/
 # Cake - Uncomment if you are using it
 # tools/
 
+
+# Ignore updates to the App.config file in the sample app. This file will contain sensitive data (credentials). By uploading an empty version of it earlier and now ignoring it, this will prevent credentials from being published to GitHub.
 Samples/WPF/RESTToolkitTestApp/App.config
