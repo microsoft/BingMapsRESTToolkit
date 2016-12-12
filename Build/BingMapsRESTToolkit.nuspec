@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
     <metadata>
         <id>BingMapsRESTToolkit</id>
-        <version>1.0.1</version>
+        <version>1.0.0</version>
         <title>Bing Maps REST Services Toolkit</title>
         <authors>Microsoft</authors>
         <owners>microsoft bingmaps</owners>
