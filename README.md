@@ -19,12 +19,13 @@ This is a portable .NET class library which provides a set of tools that make it
 * .NET Framework 4.5+ 
 * ASP.NET Core 1.0
 * Universal Windows Platform (UWP) 
-* Windows 8
+* Windows 10
 * Windows 8.1
-* Windows Phone 8.1
+* Windows 8
 * Windows Phone 10
-* Windows Phone Silverlight 8
+* Windows Phone 8.1
 * Windows Phone Silverlight 8.1
+* Windows Phone Silverlight 8
 * Xamarin.Android
 * Xamarin.iOS
 * Xamarin.iOS (Classic)
