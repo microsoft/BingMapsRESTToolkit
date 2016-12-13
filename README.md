@@ -1,4 +1,12 @@
+
 This is a portable .NET class library which provides a set of tools that make it easy to access the Bing Maps REST services in .NET based apps. Take a look at the [Getting Started documentation](https://github.com/Microsoft/BingMapsRESTToolkit/wiki/Getting-Started).
+
+## Features ##
+
+* Uses HTTPS by default.
+* Implements the documented [best practices for Bing Maps](https://msdn.microsoft.com/en-us/library/dn894107.aspx). For example, it automatically encodes query parameters. A commonly overlooked stepped which greatly reduces the chances of invalid queries being sent to the service.
+* Handles errors and rate limiting by catching exception and returning response with error message.
+* Automatically determines when a POST request should be made instead of a GET request.
 
 ## Nuget Package ##
 
@@ -7,13 +15,6 @@ The Bing Maps REST Services Toolkit is available as a [NuGet package](https://ww
 Alternatively, if you are using the nuget command line:
 
 > PM&gt; Install-Package BingMapsRESTToolkit
-
-## Features ##
-
-* Uses HTTPS by default.
-* Implements the documented [best practices for Bing Maps](https://msdn.microsoft.com/en-us/library/dn894107.aspx). For example, it automatically encodes query parameters. A commonly overlooked stepped which greatly reduces the chances of invalid queries being sent to the service.
-* Handles errors and rate limiting by catching exception and returning response with error message.
-* Automatically determines when a POST request should be made instead of a GET request.
 
 ## Supported Platforms ##
 
