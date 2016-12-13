@@ -27,7 +27,7 @@ using System;
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// Geocodes a query to it's coordinates.
+    /// Geocodes a query to its coordinates.
     /// </summary>
     public class GeocodeRequest : BaseRestRequest
     {
@@ -78,7 +78,7 @@ namespace BingMapsRESTToolkit
         #region Public Methods
 
         /// <summary>
-        /// Gets the request URL. If both a Query and Address are specified the Query value will be used. Throws an exception if a Query or Address value is not specified.
+        /// Gets the request URL. If both a Query and Address are specified, the Query value will be used. Throws an exception if a Query or Address value is not specified.
         /// </summary>
         /// <returns>Geocode request URL for GET request.</returns>
         public override string GetRequestUrl()

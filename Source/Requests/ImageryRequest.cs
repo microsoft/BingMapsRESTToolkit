@@ -196,7 +196,7 @@ namespace BingMapsRESTToolkit
         #region Public Methods
 
         /// <summary>
-        /// Gets the request URL. If both a Query and Address are specified the Query value will be used. 
+        /// Gets the request URL. If both a Query and Address are specified, the Query value will be used. 
         /// Throws an exception if a Query or Address value is not specified.
         /// </summary>
         /// <returns>Geocode request URL for GET request.</returns>
@@ -318,7 +318,7 @@ namespace BingMapsRESTToolkit
         }
 
         /// <summary>
-        /// Returns the Pushpin information as a formated string. 
+        /// Returns the Pushpin information as a formatted string. 
         /// </summary>
         /// <returns>A formatted string of pushpin data.</returns>
         public string GetPushpinsAsString()

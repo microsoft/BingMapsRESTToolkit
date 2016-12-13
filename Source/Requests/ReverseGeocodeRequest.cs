@@ -35,7 +35,7 @@ namespace BingMapsRESTToolkit
         #region Public Properties
 
         /// <summary>
-        /// A centeral coordinate to perform the nearby search.
+        /// A central coordinate to perform the nearby search.
         /// </summary>
         public Coordinate Point { get; set; }
 
@@ -58,6 +58,10 @@ namespace BingMapsRESTToolkit
 
         #region Public Methods
 
+        /// <summary>
+        /// Gets the request URL to perform a reverse geocode query.
+        /// </summary>
+        /// <returns>A request URL to perform a reverse geocode query.</returns>
         public override string GetRequestUrl()
         {
             string url = string.Format("https://dev.virtualearth.net/REST/v1/Locations/{0:0.#####},{1:0.#####}?", 

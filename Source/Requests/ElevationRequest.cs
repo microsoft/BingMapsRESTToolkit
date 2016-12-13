@@ -207,7 +207,7 @@ namespace BingMapsRESTToolkit
         }
 
         /// <summary>
-        /// Returns the Point information as a formated string. Only the first 1024 points will be used.
+        /// Returns the Point information as a formatted string. Only the first 1024 points will be used.
         /// </summary>
         /// <returns>A formatted string of point data.</returns>
         public string GetPointsAsString()

@@ -6,8 +6,10 @@
         <title>Bing Maps REST Services Toolkit</title>
         <authors>Microsoft</authors>
         <owners>microsoft bingmaps</owners>
+        <licenseUrl>https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/LICENSE.md</licenseUrl>
+        <projectUrl>https://github.com/Microsoft/BingMapsRESTToolkit</projectUrl>
         <iconUrl>https://www.bing.com/sa/simg/bing_p_rr_teal_min.ico</iconUrl>
-        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>This is a portable class library which makes it easy to access the Bing Maps REST services from .NET.</description>
         <summary>This is a portable class library which makes it easy to access the Bing Maps REST services from .NET.</summary>
         <copyright>© Microsoft Corporation. All rights reserved.</copyright>
