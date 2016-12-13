@@ -1,20 +1,21 @@
-This is a portable .NET class library which provides a set of tools that make it easy to access the Bing Maps REST services in .NET based apps.
+This is a portable .NET class library which provides a set of tools that make it easy to access the Bing Maps REST services in .NET based apps. Take a look at the [Getting Started documentation](https://github.com/Microsoft/BingMapsRESTToolkit/wiki/Getting-Started).
 
-## Getting Started ##
+## Nuget Package ##
 
+The Bing Maps REST Services Toolkit is available as a [NuGet package](https://www.nuget.org/packages/BingMapsRESTToolkit). If using Visual Studio, open the nuget package manager, select the Browse tab and search for "Bing Maps REST". This should reduce the list of results enough to find the "BingMapsRESTToolkit" package. The owner of the package is bingmaps and the author is Microsoft.
 
+Alternatively, if you are using the nuget command line:
+
+> PM&gt; Install-Package BingMapsRESTToolkit
 
 ## Features ##
 
 * Uses HTTPS by default.
-* Imagery Metadata allows HTTPS tile urls to be returned. ????
-* Automatically encodes query parameters. A commonly overlooked stepped which greatly reduces th chances of invalid queries being sent to the service.
+* Implements the documented [best practices for Bing Maps](https://msdn.microsoft.com/en-us/library/dn894107.aspx). For example, it automatically encodes query parameters. A commonly overlooked stepped which greatly reduces the chances of invalid queries being sent to the service.
 * Handles errors and rate limiting by catching exception and returning response with error message.
-* Extentions added to make it easier to work with elevation data:
-    * Method to get the coordinates that relate to each elevation data point.
-	* Automatically determines if a POST request should be made.
+* Automatically determines when a POST request should be made instead of a GET request.
 
-## Supports Target Platforms ##
+## Supported Platforms ##
 
 * .NET Framework 4.5+ 
 * ASP.NET Core 1.0
