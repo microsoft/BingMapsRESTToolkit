@@ -35,17 +35,17 @@ namespace BingMapsRESTToolkit
         None,
 
         /// <summary>
-        /// High confience match.
+        /// High confidence match.
         /// </summary>
         High,
 
         /// <summary>
-        /// Medium confience match.
+        /// Medium confidence match.
         /// </summary>
         Medium,
 
         /// <summary>
-        /// Low confience match.
+        /// Low confidence match.
         /// </summary>
         Low
     }

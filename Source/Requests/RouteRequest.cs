@@ -52,6 +52,10 @@ namespace BingMapsRESTToolkit
 
         #region Public Methods
 
+        /// <summary>
+        /// Gets the request URL to perform a query for route directions.
+        /// </summary>
+        /// <returns>A request URL to perform a query for route directions.</returns>
         public override string GetRequestUrl()
         {
             //https://dev.virtualearth.net/REST/v1/Routes?wayPoint.1=wayPoint1&viaWaypoint.2=viaWaypoint2&waypoint.3=wayPoint3&wayPoint.n=wayPointn&heading=heading&optimize=optimize&avoid=avoidOptions&distanceBeforeFirstTurn=distanceBeforeFirstTurn&routeAttributes=routeAttributes&maxSolutions=maxSolutions&tolerances=tolerance1,tolerance2,tolerancen&distanceUnit=distanceUnit&mfa=mfa&key=BingMapsKey

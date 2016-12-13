@@ -60,6 +60,10 @@ namespace BingMapsRESTToolkit
 
         #region Public Methods
 
+        /// <summary>
+        /// Gets the request URL to perform a query for routes using major roads.
+        /// </summary>
+        /// <returns>A request URL to perform a query for routes using major roads.</returns>
         public override string GetRequestUrl()
         {
             //https://dev.virtualearth.net/REST/v1/Routes/FromMajorRoads?destination=destination&exclude=routes&rpo=routePathOutput&du=distanceUnit&key=BingMapsKey

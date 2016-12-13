@@ -35,12 +35,12 @@ namespace BingMapsRESTToolkit
         Distance,
 
         /// <summary>
-        /// Optimizes route for shortst travel time.
+        /// Optimizes route for shortest travel time.
         /// </summary>
         Time,
 
         /// <summary>
-        /// Optimizes route for shortst travel time with respect to current traffic conditions.
+        /// Optimizes route for shortest travel time with respect to current traffic conditions.
         /// </summary>
         TimeWithTraffic,
 
