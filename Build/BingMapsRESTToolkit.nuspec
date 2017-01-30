@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
     <metadata>
         <id>BingMapsRESTToolkit</id>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
         <title>Bing Maps REST Services Toolkit</title>
         <authors>Microsoft</authors>
         <owners>microsoft bingmaps</owners>
@@ -27,16 +27,14 @@
             <group targetFramework=".NETPortable0.0-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10">
                 <reference file="BingMapsRESTToolkit.dll" />
             </group>
-            <group targetFramework="Xamarin iOS1.0">
+            <group targetFramework="Unsupported0.0">
+                <reference file="BingMapsRESTToolkit.dll" />
                 <reference file="BingMapsRESTToolkit.dll" />
             </group>
             <group targetFramework="WindowsPhone8.1">
                 <reference file="BingMapsRESTToolkit.dll" />
             </group>
             <group targetFramework="Windows4.5.1">
-                <reference file="BingMapsRESTToolkit.dll" />
-            </group>
-            <group targetFramework="Unsupported0.0">
                 <reference file="BingMapsRESTToolkit.dll" />
             </group>
         </references>

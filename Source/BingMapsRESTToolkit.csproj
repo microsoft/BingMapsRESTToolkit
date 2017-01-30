@@ -50,6 +50,7 @@
     <Compile Include="Enums\SeverityType.cs" />
     <Compile Include="Enums\TrafficType.cs" />
     <Compile Include="Internal\DateTimeHelper.cs" />
+    <Compile Include="Models\BoundingBox.cs" />
     <Compile Include="Models\ImageryPushpin.cs" />
     <Compile Include="Models\RouteOptions.cs" />
     <Compile Include="Requests\ImageryMetadataRequest.cs" />
