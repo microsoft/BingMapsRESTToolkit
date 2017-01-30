@@ -54,6 +54,22 @@ namespace BingMapsRESTToolkit
     }
 
     [DataContract]
+    public class CoverageArea
+    {
+        /// <summary>
+        /// Bounding box of the coverage area. Structure [South Latitude, West Longitude, North Latitude, East Longitude]
+        /// </summary>
+        [DataMember(Name = "bbox", EmitDefaultValue = false)]
+        public double[] BoundingBox { get; set; }
+
+        [DataMember(Name = "zoomMax", EmitDefaultValue = false)]
+        public int ZoomMax { get; set; }
+
+        [DataMember(Name = "zoomMin", EmitDefaultValue = false)]
+        public int ZoomMin { get; set; }
+    }
+
+    [DataContract]
     public class DetailedAddress
     {
         [DataMember(Name = "countryRegionIso2", EmitDefaultValue = false)]
@@ -80,31 +96,6 @@ namespace BingMapsRESTToolkit
 
         [DataMember(Name = "tilesY", EmitDefaultValue = false)]
         public int TilesY { get; set; }
-    }
-
-    [DataContract]
-    public class BoundingBox
-    {
-        [DataMember(Name = "southLatitude", EmitDefaultValue = false)]
-        public double SouthLatitude { get; set; }
-
-        [DataMember(Name = "westLongitude", EmitDefaultValue = false)]
-        public double WestLongitude { get; set; }
-
-        [DataMember(Name = "northLatitude", EmitDefaultValue = false)]
-        public double NorthLatitude { get; set; }
-
-        [DataMember(Name = "eastLongitude", EmitDefaultValue = false)]
-        public double EastLongitude { get; set; }
-
-        public override string ToString()
-        {
-            return string.Format("{0:0.#####},{1:0.#####},{2:0.#####},{3:0.#####}",
-                    SouthLatitude,
-                    WestLongitude,
-                    NorthLatitude,
-                    EastLongitude);
-        }
     }
 
     [DataContract]
@@ -169,6 +160,9 @@ namespace BingMapsRESTToolkit
         [DataMember(Name = "imageWidth", EmitDefaultValue = false)]
         public int ImageWidth { get; set; }
 
+        [DataMember(Name = "imageryProviders", EmitDefaultValue = false)]
+        public ImageryProvider[] ImageryProviders { get; set; }
+
         [DataMember(Name = "imageUrl", EmitDefaultValue = false)]
         public string ImageUrl { get; set; }
 
@@ -186,6 +180,16 @@ namespace BingMapsRESTToolkit
 
         [DataMember(Name = "zoomMin", EmitDefaultValue = false)]
         public int ZoomMin { get; set; }
+    }
+
+    [DataContract]
+    public class ImageryProvider
+    {
+        [DataMember(Name = "attribution", EmitDefaultValue = false)]
+        public string Attribution { get; set; }
+
+        [DataMember(Name = "coverageAreas", EmitDefaultValue = false)]
+        public CoverageArea[] CoverageAreas { get; set; }
     }
 
     [DataContract]
@@ -403,6 +407,9 @@ namespace BingMapsRESTToolkit
     [KnownType(typeof(CompressedPointList))]
     public class Resource
     {
+        /// <summary>
+        /// Bounding box of the response. Structure [South Latitude, West Longitude, North Latitude, East Longitude]
+        /// </summary>
         [DataMember(Name = "bbox", EmitDefaultValue = false)]
         public double[] BoundingBox { get; set; }
 
