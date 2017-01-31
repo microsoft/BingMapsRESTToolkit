@@ -34,14 +34,6 @@ Alternatively, if you are using the nuget command line:
 * Xamarin.iOS
 * Xamarin.iOS (Classic)
 
-## Additional Resources ##
-
-* [Bing Maps REST Services MSDN Documentation](https://msdn.microsoft.com/en-us/library/ff701713.aspx)
-* [Bing Maps MSDN Docuemntation](https://msdn.microsoft.com/en-us/library/dd877180.aspx)
-* [Bing Maps Blog](http://blogs.bing.com/maps)
-* [Bing Maps forums](https://social.msdn.microsoft.com/Forums/en-US/home?forum=bingmapsajax&filter=alltypes&sort=lastpostdesc)
-* [Bing Maps for Enterpise site](https://www.microsoft.com/maps/)
-
 ## Contributing ##
 
 We welcome contributions. Feel free to file issues and pull requests on the repo and we'll address them as we can. Learn more about how you can help on our [Contribution Rules & Guidelines](CONTRIBUTING.md). 
@@ -51,3 +43,10 @@ You can reach out to us anytime with questions and suggestions using our communi
 * [StackOverflow](http://stackoverflow.com/questions/tagged/bing-maps)
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+## Additional Resources ##
+* [Bing Maps REST Services MSDN Documentation](https://msdn.microsoft.com/en-us/library/ff701713.aspx)
+* [Bing Maps MSDN Docuemntation](https://msdn.microsoft.com/en-us/library/dd877180.aspx)
+* [Bing Maps Blog](http://blogs.bing.com/maps)
+* [Bing Maps forums](https://social.msdn.microsoft.com/Forums/en-US/home?forum=bingmapsajax&filter=alltypes&sort=lastpostdesc)
+* [Bing Maps for Enterpise site](https://www.microsoft.com/maps/)
