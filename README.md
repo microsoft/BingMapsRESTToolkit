@@ -10,7 +10,7 @@ This is a portable .NET class library which provides a set of tools that make it
 * Handles errors and rate limiting by catching exception and returning response with error message.
 * Automatically determines when a POST request should be made instead of a GET request.
 
-## Nuget Package ##
+## NuGet Package ##
 
 The Bing Maps REST Services Toolkit is available as a [NuGet package](https://www.nuget.org/packages/BingMapsRESTToolkit). If using Visual Studio, open the nuget package manager, select the Browse tab and search for "Bing Maps REST". This should reduce the list of results enough to find the "BingMapsRESTToolkit" package. The owner of the package is bingmaps and the author is Microsoft.
 
@@ -34,14 +34,6 @@ Alternatively, if you are using the nuget command line:
 * Xamarin.iOS
 * Xamarin.iOS (Classic)
 
-## Additional Resources ##
-
-* [Bing Maps REST Services MSDN Documentation](https://msdn.microsoft.com/en-us/library/ff701713.aspx)
-* [Bing Maps MSDN Docuemntation](https://msdn.microsoft.com/en-us/library/dd877180.aspx)
-* [Bing Maps Blog](http://blogs.bing.com/maps)
-* [Bing Maps forums](https://social.msdn.microsoft.com/Forums/en-US/home?forum=bingmapsajax&filter=alltypes&sort=lastpostdesc)
-* [Bing Maps for Enterpise site](https://www.microsoft.com/maps/)
-
 ## Contributing ##
 
 We welcome contributions. Feel free to file issues and pull requests on the repo and we'll address them as we can. Learn more about how you can help on our [Contribution Rules & Guidelines](CONTRIBUTING.md). 
@@ -51,3 +43,17 @@ You can reach out to us anytime with questions and suggestions using our communi
 * [StackOverflow](http://stackoverflow.com/questions/tagged/bing-maps)
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+## License ##
+
+MIT
+ 
+See [License](LICENSE.md) for full license text.
+
+## Additional Resources ##
+
+* [Bing Maps REST Services MSDN Documentation](https://msdn.microsoft.com/en-us/library/ff701713.aspx)
+* [Bing Maps MSDN Docuemntation](https://msdn.microsoft.com/en-us/library/dd877180.aspx)
+* [Bing Maps Blog](http://blogs.bing.com/maps)
+* [Bing Maps forums](https://social.msdn.microsoft.com/Forums/en-US/home?forum=bingmapsajax&filter=alltypes&sort=lastpostdesc)
+* [Bing Maps for Enterprise site](https://www.microsoft.com/maps/)
