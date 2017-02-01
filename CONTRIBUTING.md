@@ -1,10 +1,10 @@
-﻿# Contributing to the Bing Maps REST Sevices Toolkit
+﻿# Contributing to the Bing Maps REST Services Toolkit #
 
-## Code of Conduct
+## Code of Conduct ##
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-## How to contribute
+## How to contribute ##
 
 There are a couple of ways you can contribute to this repo:
 * **Ideas, feature requests and bugs**: We are open to all ideas and we want to get rid of bugs! Use the [Issues section](https://github.com/Microsoft/Bing-Maps-V8-TypeScript-Definitions/issues) to either report a new issue, provide your ideas or contribute to existing threads
