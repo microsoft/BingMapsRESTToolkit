@@ -48,7 +48,6 @@ You can reach out to us anytime with questions and suggestions using our communi
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-<<<<<<< HEAD
 ## License ##
 
 MIT
@@ -57,15 +56,8 @@ See [License](LICENSE.md) for full license text.
 
 ## Additional Resources ##
 
-=======
-## Additional Resources ##
->>>>>>> origin/master
 * [Bing Maps REST Services MSDN Documentation](https://msdn.microsoft.com/en-us/library/ff701713.aspx)
 * [Bing Maps MSDN Docuemntation](https://msdn.microsoft.com/en-us/library/dd877180.aspx)
 * [Bing Maps Blog](http://blogs.bing.com/maps)
 * [Bing Maps forums](https://social.msdn.microsoft.com/Forums/en-US/home?forum=bingmapsajax&filter=alltypes&sort=lastpostdesc)
-<<<<<<< HEAD
 * [Bing Maps for Enterprise site](https://www.microsoft.com/maps/)
-=======
-* [Bing Maps for Enterpise site](https://www.microsoft.com/maps/)
->>>>>>> origin/master
