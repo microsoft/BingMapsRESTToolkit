@@ -32,9 +32,7 @@ namespace BingMapsRESTToolkit
     /// </summary>
     [DataContract]
     public abstract class BaseRestRequest
-    {
-        public const string baseServiceUrl = "https://dev.virtualearth.net/REST/v1/";
-
+    { 
         #region Public Properties
 
         /// <summary>
