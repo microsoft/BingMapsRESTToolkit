@@ -70,7 +70,7 @@ namespace BingMapsRESTToolkit
     }
 
     [DataContract]
-    public class DetailedAddress
+    public class DetailedAddress : Address
     {
         [DataMember(Name = "countryRegionIso2", EmitDefaultValue = false)]
         public string CountryRegionIso2 { get; set; }
