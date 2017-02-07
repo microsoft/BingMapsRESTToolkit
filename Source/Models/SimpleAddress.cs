@@ -25,7 +25,7 @@
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// A simple address class that can be passed in to queries.
+    /// A simple address class that can be passed in to requests.
     /// </summary>
     public class SimpleAddress
     {

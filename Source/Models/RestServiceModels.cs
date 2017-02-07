@@ -51,6 +51,18 @@ namespace BingMapsRESTToolkit
 
         [DataMember(Name = "postalCode", EmitDefaultValue = false)]
         public string PostalCode { get; set; }
+
+        [DataMember(Name = "countryRegionIso2", EmitDefaultValue = false)]
+        public string CountryRegionIso2 { get; set; }
+
+        [DataMember(Name = "formattedAddress", EmitDefaultValue = false)]
+        public string FormattedAddress { get; set; }
+
+        [DataMember(Name = "neighborhood", EmitDefaultValue = false)]
+        public string Neighborhood { get; set; }
+
+        [DataMember(Name = "landmark", EmitDefaultValue = false)]
+        public string Landmark { get; set; }
     }
 
     [DataContract]
@@ -67,22 +79,6 @@ namespace BingMapsRESTToolkit
 
         [DataMember(Name = "zoomMin", EmitDefaultValue = false)]
         public int ZoomMin { get; set; }
-    }
-
-    [DataContract]
-    public class DetailedAddress : Address
-    {
-        [DataMember(Name = "countryRegionIso2", EmitDefaultValue = false)]
-        public string CountryRegionIso2 { get; set; }
-
-        [DataMember(Name = "formattedAddress", EmitDefaultValue = false)]
-        public string FormattedAddress { get; set; }
-
-        [DataMember(Name = "neighborhood", EmitDefaultValue = false)]
-        public string Neighborhood { get; set; }
-
-        [DataMember(Name = "landmark", EmitDefaultValue = false)]
-        public string Landmark { get; set; }
     }
 
     [DataContract(Namespace = "http://schemas.microsoft.com/search/local/ws/rest/v1")]
@@ -327,7 +323,7 @@ namespace BingMapsRESTToolkit
         public string EntityType { get; set; }
 
         [DataMember(Name = "address", EmitDefaultValue = false)]
-        public DetailedAddress Address { get; set; }
+        public Address Address { get; set; }
 
         [DataMember(Name = "confidence", EmitDefaultValue = false)]
         public string Confidence { get; set; }
@@ -883,7 +879,7 @@ namespace BingMapsRESTToolkit
         [DataMember(Name = "origin", EmitDefaultValue = false)]
         public string Origin { get; set; }
 
-        public Coordinate OriginLocation
+        public Coordinate OriginCoordinate
         {
             get
             {
