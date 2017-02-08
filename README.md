@@ -48,6 +48,13 @@ You can reach out to us anytime with questions and suggestions using our communi
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
+## TODO List ##
+
+The following is a list of tasks to do on this project.
+
+* Add documentation comments to Response classes.
+* Add domain URL property to BaseRestRequest and use in all request classes (i.e. https://dev.virtualearth.net/REST/v1/). This will make it easier to update if needed.
+
 ## License ##
 
 MIT
