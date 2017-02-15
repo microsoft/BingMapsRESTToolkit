@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -142,7 +143,7 @@ namespace BingMapsRESTToolkit
 
             if (CenterPoint != null)
             {
-                url += string.Format("/{0:0.#####},{1:0.#####}?", CenterPoint.Latitude, CenterPoint.Longitude);
+                url += string.Format(CultureInfo.InvariantCulture, "/{0:0.#####},{1:0.#####}?", CenterPoint.Latitude, CenterPoint.Longitude);
 
                 if (ImagerySet == ImageryType.Road || ImagerySet == ImageryType.Aerial || ImagerySet == ImageryType.AerialWithLabels)
                 {

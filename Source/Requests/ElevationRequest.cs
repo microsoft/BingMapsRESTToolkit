@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace BingMapsRESTToolkit
@@ -187,8 +188,8 @@ namespace BingMapsRESTToolkit
                 {
                     throw new Exception("Row * Col value is greater than 1024.");
                 }
-
-                sb.AppendFormat("Bounds?bounds=boundingBox&rows={0}&cols={1}", row, col);
+                
+                sb.AppendFormat("Bounds?bounds={0}&rows={1}&cols={2}", Bounds.ToString(), row, col);
                 seperator = "&";
             }
             else
@@ -224,7 +225,7 @@ namespace BingMapsRESTToolkit
                 for (var i = 0; i < max; i++)
                 {
                     //Only need 5 decimal places. Any more are insignificant.
-                    sb.AppendFormat("{0:0.#####},{1:0.#####}", Points[i].Latitude, Points[i].Longitude);
+                    sb.AppendFormat(CultureInfo.InvariantCulture, "{0:0.#####},{1:0.#####}", Points[i].Latitude, Points[i].Longitude);
 
                     if (i < max - 1)
                     {

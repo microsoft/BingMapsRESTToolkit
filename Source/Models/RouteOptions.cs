@@ -218,7 +218,7 @@ namespace BingMapsRESTToolkit
 
                 for (int i = 0; i < cnt; i++)
                 {
-                    sb.AppendFormat("{0:0.######}", Tolerances[i]);
+                    sb.AppendFormat(CultureInfo.InvariantCulture, "{0:0.######}", Tolerances[i]);
 
                     if (i < Tolerances.Count - 1)
                     {

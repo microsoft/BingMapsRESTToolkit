@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace BingMapsRESTToolkit
@@ -108,7 +109,7 @@ namespace BingMapsRESTToolkit
 
                 if (Waypoints[i].Coordinate != null)
                 {
-                    sb.AppendFormat("{0:0.#####},{1:0.#####}", Waypoints[i].Coordinate.Latitude, Waypoints[i].Coordinate.Longitude);
+                    sb.AppendFormat(CultureInfo.InvariantCulture, "{0:0.#####},{1:0.#####}", Waypoints[i].Coordinate.Latitude, Waypoints[i].Coordinate.Longitude);
                 }
                 else
                 {

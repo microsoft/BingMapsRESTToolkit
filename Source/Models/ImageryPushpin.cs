@@ -22,6 +22,8 @@
  * THE SOFTWARE. 
 */
 
+using System.Globalization;
+
 namespace BingMapsRESTToolkit
 {
     /// <summary>
@@ -89,7 +91,7 @@ namespace BingMapsRESTToolkit
         {
             if (Location != null)
             {
-                return string.Format("pp={0:0.#####},{1:0.#####};{2};{3}", Location.Latitude, Location.Longitude, iconStyle, label);
+                return string.Format(CultureInfo.InvariantCulture, "pp={0:0.#####},{1:0.#####};{2};{3}", Location.Latitude, Location.Longitude, iconStyle, label);
             }
             else
             {

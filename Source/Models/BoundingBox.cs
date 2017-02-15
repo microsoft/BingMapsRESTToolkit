@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace BingMapsRESTToolkit
 {
@@ -49,7 +50,7 @@ namespace BingMapsRESTToolkit
 
         public override string ToString()
         {
-            return string.Format("{0:0.#####},{1:0.#####},{2:0.#####},{3:0.#####}",
+            return string.Format(CultureInfo.InvariantCulture, "{0:0.#####},{1:0.#####},{2:0.#####},{3:0.#####}",
                     SouthLatitude,
                     WestLongitude,
                     NorthLatitude,
