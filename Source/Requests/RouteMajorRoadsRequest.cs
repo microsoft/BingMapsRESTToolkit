@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace BingMapsRESTToolkit
 {
@@ -77,7 +78,7 @@ namespace BingMapsRESTToolkit
 
             if (Destination.Coordinate != null)
             {
-                url += string.Format("{0:0.#####},{1:0.#####}", Destination.Coordinate.Latitude, Destination.Coordinate.Longitude);
+                url += string.Format(CultureInfo.InvariantCulture, "{0:0.#####},{1:0.#####}", Destination.Coordinate.Latitude, Destination.Coordinate.Longitude);
             }
             else
             {

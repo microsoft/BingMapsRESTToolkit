@@ -25,6 +25,7 @@
 using BingMapsRESTToolkit;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -319,7 +320,7 @@ namespace RESTToolkitTestApp
 
                 var processingTime = end - start;
 
-                ProcessingTimeTbx.Text = string.Format("{0:0} ms", processingTime.TotalMilliseconds);
+                ProcessingTimeTbx.Text = string.Format(CultureInfo.InvariantCulture, "{0:0} ms", processingTime.TotalMilliseconds);
 
                 List<ObjectNode> nodes = new List<ObjectNode>();
                 nodes.Add(new ObjectNode("result", response));

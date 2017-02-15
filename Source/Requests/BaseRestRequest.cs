@@ -24,6 +24,7 @@
 
 using System;
 using System.Runtime.Serialization;
+using System.Globalization;
 
 namespace BingMapsRESTToolkit
 {
@@ -84,7 +85,7 @@ namespace BingMapsRESTToolkit
 
             if (UserLocation != null)
             {
-                url += string.Format("&ul={0:0.#####},{1:0.#####}", UserLocation.Latitude, UserLocation.Longitude);
+                url += string.Format(CultureInfo.InvariantCulture, "&ul={0:0.#####},{1:0.#####}", UserLocation.Latitude, UserLocation.Longitude);
             }
 
             if (!string.IsNullOrWhiteSpace(UserIp))

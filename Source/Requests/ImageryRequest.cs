@@ -221,7 +221,7 @@ namespace BingMapsRESTToolkit
             
             if (CenterPoint != null)
             {
-                 sb.AppendFormat("/{0:0.#####},{1:0.#####}/", CenterPoint.Latitude, CenterPoint.Longitude);
+                 sb.AppendFormat(CultureInfo.InvariantCulture, "/{0:0.#####},{1:0.#####}/", CenterPoint.Latitude, CenterPoint.Longitude);
 
                  if (zoomLevel != 0)
                  {

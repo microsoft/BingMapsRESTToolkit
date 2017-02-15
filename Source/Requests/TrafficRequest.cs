@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace BingMapsRESTToolkit
@@ -83,7 +84,7 @@ namespace BingMapsRESTToolkit
                 throw new Exception("MapArea not specified.");
             }
 
-            string url = string.Format("https://dev.virtualearth.net/REST/V1/Traffic/Incidents/{0:0.#####},{1:0.#####},{2:0.#####},{3:0.#####}{4}",
+            string url = string.Format(CultureInfo.InvariantCulture, "https://dev.virtualearth.net/REST/V1/Traffic/Incidents/{0:0.#####},{1:0.#####},{2:0.#####},{3:0.#####}{4}",
                     MapArea.SouthLatitude,
                     MapArea.WestLongitude,
                     MapArea.NorthLatitude,
