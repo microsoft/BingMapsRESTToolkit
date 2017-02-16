@@ -68,6 +68,10 @@ namespace BingMapsRESTToolkit
                             tcs.SetResult(reader.ReadToEnd());
                         }
                     }
+                    else
+                    {
+                        tcs.SetException(ex);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -104,6 +108,10 @@ namespace BingMapsRESTToolkit
                     {
                         tcs.SetResult(CopyToMemoryStream(ex.Response.GetResponseStream()));
                     }
+                    else
+                    {
+                        tcs.SetException(ex);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -119,6 +127,7 @@ namespace BingMapsRESTToolkit
         /// </summary>
         /// <param name="url">URL to post data to.</param>
         /// <param name="data">String representation of data to be posted to service.</param>
+        /// <param name="contentType">The content type of the data.</param>
         /// <returns>Response stream.</returns>
         public static Task<Stream> PostStringAsync(Uri url, string data, string contentType)
         {
@@ -167,6 +176,10 @@ namespace BingMapsRESTToolkit
                             {
                                 tcs.SetResult(CopyToMemoryStream(ex.Response.GetResponseStream()));
                             }
+                            else
+                            {
+                                tcs.SetException(ex);
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -179,6 +192,10 @@ namespace BingMapsRESTToolkit
                     if (ex.Response != null)
                     {
                         tcs.SetResult(CopyToMemoryStream(ex.Response.GetResponseStream()));
+                    }
+                    else
+                    {
+                        tcs.SetException(ex);
                     }
                 }
                 catch (Exception ex)
