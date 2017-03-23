@@ -22,9 +22,7 @@
  * THE SOFTWARE. 
 */
 
-using System;
 using System.Runtime.Serialization;
-using System.Globalization;
 
 namespace BingMapsRESTToolkit
 {
@@ -39,27 +37,32 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// The Bing Maps key for making the request.
         /// </summary>
-        public string BingMapsKey;
+        public string BingMapsKey { get; set; }
 
         /// <summary>
-        /// The culture to use for the request.
+        /// The culture to use for the request. An IETF language code, that includes the language and region code subtags, such as en-us or zh-hans. 
         /// </summary>
-        public string Culture;
+        public string Culture { get; set; }
 
         /// <summary>
         /// The geographic region that corresponds to the current viewport.
         /// </summary>
-        public BoundingBox UserMapView;
+        public BoundingBox UserMapView { get; set; }
 
         /// <summary>
         /// The user’s current position.
         /// </summary>
-        public Coordinate UserLocation;
+        public Coordinate UserLocation { get; set; }
+
+        /// <summary>
+        /// An ISO 3166-1 alpha-2 region code, such as US, IN, and CN.
+        /// </summary>
+        public string UserRegion { get; set; }
 
         /// <summary>
         /// An Internet Protocol version 4 (IPv4) address.
         /// </summary>
-        public string UserIp;
+        public string UserIp { get; set; }
 
         #endregion
 
@@ -85,7 +88,7 @@ namespace BingMapsRESTToolkit
 
             if (UserLocation != null)
             {
-                url += string.Format(CultureInfo.InvariantCulture, "&ul={0:0.#####},{1:0.#####}", UserLocation.Latitude, UserLocation.Longitude);
+                url += string.Format("&ul={0}", UserLocation);
             }
 
             if (!string.IsNullOrWhiteSpace(UserIp))

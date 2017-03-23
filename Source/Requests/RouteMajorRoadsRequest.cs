@@ -105,9 +105,9 @@ namespace BingMapsRESTToolkit
                 }
             }
 
-            if (DistanceUnits == DistanceUnitType.KM)
+            if (DistanceUnits != DistanceUnitType.KM)
             {
-                url += "&distanceUnit=mi";
+                url += "&du=mi";
             }
 
             return url + GetBaseRequestUrl();
