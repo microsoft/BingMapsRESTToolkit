@@ -391,6 +391,15 @@ namespace BingMapsRESTToolkit
 
         [DataMember(Name = "usageTypes", EmitDefaultValue = false)]
         public string[] UsageTypes { get; set; }
+
+        public Coordinate GetCoordinate()
+        {
+            if (Coordinates.Length >= 2) {
+                return new Coordinate(Coordinates[0], Coordinates[1]);
+            }
+
+            return null;
+        }
     }
 
     [DataContract]
@@ -401,6 +410,7 @@ namespace BingMapsRESTToolkit
     [KnownType(typeof(ElevationData))]
     [KnownType(typeof(SeaLevelData))]
     [KnownType(typeof(CompressedPointList))]
+    [KnownType(typeof(GeospatialEndpointResponse))]
     public class Resource
     {
         /// <summary>
@@ -985,5 +995,74 @@ namespace BingMapsRESTToolkit
 
         [DataMember(Name = "zoomLevel", EmitDefaultValue = false)]
         public int ZoomLevel { get; set; }
+    }
+
+    /// <summary>
+    /// This response specifies:
+    ///  - Whether this is a politically disputed area, such as an area claimed by more than one country.
+    ///  - Whether services are available in the user’s region.
+    ///  - A list of available geospatial services including endpoints and language support for each service.
+    /// </summary>
+    [DataContract(Namespace = "http://schemas.microsoft.com/search/local/ws/rest/v1")]
+    public class GeospatialEndpointResponse : Resource
+    {
+        /// <summary>
+        /// Specifies if this area in the request is claimed by more than one country. 
+        /// </summary>
+        [DataMember(Name = "isDisputedArea", EmitDefaultValue = false)]
+        public bool IsDisputedArea { get; set; }
+
+        /// <summary>
+        /// Specifies if Geospatial Platform services are available in the country or region. Microsoft does not support services in embargoed areas.
+        /// </summary>
+        [DataMember(Name = "isSupported", EmitDefaultValue = false)]
+        public bool IsSupported { get; set; }
+
+        /// <summary>
+        /// The country or region that was used to determine service support. If you specified a User Location in 
+        /// the request that is in a non-disputed country or region, this country or region is returned in the response.
+        /// </summary>
+        [DataMember(Name = "ur", EmitDefaultValue = false)]
+        public string UserRegion { get; set; }
+
+        /// <summary>
+        /// Information for each geospatial service that is available in the country or region and language specified in the request.
+        /// </summary>
+        [DataMember(Name = "services", EmitDefaultValue = false)]
+        public GeospatialService[] Services { get; set; }
+    }
+
+    /// <summary>
+    /// Information for a geospatial service that is available in the country or region and language specified in the request.
+    /// </summary>
+    [DataContract]
+    public class GeospatialService
+    {
+        /// <summary>
+        /// The URL service endpoint to use in this region. Note that to use the service, you must typically add parameters specific to 
+        /// the service. These parameters are not described in this documentation.
+        /// </summary>
+        [DataMember(Name = "endpoint", EmitDefaultValue = false)]
+        public string Endpoint { get; set; }
+
+        /// <summary>
+        /// Set to true if the service supports the language in the request for the region. If the language is supported, then the 
+        /// service endpoint will return responses using this language. If it is not supported, then the service will use the fallback language.
+        /// </summary>
+        [DataMember(Name = "fallbackLanguage", EmitDefaultValue = false)]
+        public string FallbackLanguage { get; set; }
+
+        /// <summary>
+        /// Specifies the secondary or fallback language in this region or country. If the requested language is not supported 
+        /// and a fallback language is not available, United States English (en-us) is used.
+        /// </summary>
+        [DataMember(Name = "languageSupported", EmitDefaultValue = false)]
+        public bool LanguageSupported { get; set; }
+
+        /// <summary>
+        /// An abbreviated name for the service.
+        /// </summary>
+        [DataMember(Name = "serviceName", EmitDefaultValue = false)]
+        public string ServiceName { get; set; }
     }
 }

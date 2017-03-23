@@ -23,6 +23,7 @@
 */
 
 using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace BingMapsRESTToolkit
@@ -101,6 +102,11 @@ namespace BingMapsRESTToolkit
                     _longitude = Math.Round(value, 5, MidpointRounding.AwayFromZero);
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            return string.Format(CultureInfo.InvariantCulture, "{0:0.#####},{1:0.#####}", Latitude, Longitude);
         }
 
         #endregion

@@ -79,10 +79,10 @@ namespace BingMapsRESTToolkit
 
             if (responseStream != null)
             {
-                var ser = new DataContractJsonSerializer(typeof(Response));                
+                var ser = new DataContractJsonSerializer(typeof(Response));
                 var r = ser.ReadObject(responseStream) as Response;
                 responseStream.Dispose();
-                return r;                
+                return r;
             }
 
             return null;

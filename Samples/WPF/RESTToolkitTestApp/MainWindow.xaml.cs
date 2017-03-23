@@ -57,7 +57,7 @@ namespace RESTToolkitTestApp
         {
             var r = new GeocodeRequest()
             {
-                Query = "New York, NY",
+                Query = "66-46 74th St, Middle Village, NY 11379",
                 IncludeIso2 = true,
                 IncludeNeighborhood = true,
                 MaxResults = 25,
@@ -295,6 +295,23 @@ namespace RESTToolkitTestApp
             };
 
             ProcessImageRequest(r);           
+        }
+
+        /// <summary>
+        /// Demostrates how to make a Geospatial Endpoint Request.
+        /// </summary>
+        private void GeospatialEndpointBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            var r = new GeospatialEndpointRequest()
+            {
+                //Language = "zh-CN",
+                Culture = "zh-CN",
+                UserRegion = "CN",
+                UserLocation = new Coordinate(40, 116),
+                BingMapsKey = BingMapsKey
+            };
+
+            ProcessRequest(r);
         }
 
         #endregion

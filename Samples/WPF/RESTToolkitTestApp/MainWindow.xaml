@@ -31,6 +31,7 @@
                 <Button Content="Imagery Metadata" Click="ImageMetadataBtn_Clicked"/>
                 <Button Content="Static Image" Click="StaticImageBtn_Clicked"/>
                 <Button Content="Static Image Metadata" Click="StaticImageMetadataBtn_Clicked"/>
+                <Button Content="Geospatial Endpoint" Click="GeospatialEndpointBtn_Clicked"/>
             </StackPanel>
 
             <Grid Margin="5,10,5,5">
