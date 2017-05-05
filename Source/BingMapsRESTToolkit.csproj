@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Enums\AvoidType.cs" />
     <Compile Include="Enums\ConfidenceLevel.cs" />
+    <Compile Include="Enums\ImageResolutionType.cs" />
     <Compile Include="Enums\ImageFormatType.cs" />
     <Compile Include="Enums\ImageryType.cs" />
     <Compile Include="Enums\RouteAttributeType.cs" />

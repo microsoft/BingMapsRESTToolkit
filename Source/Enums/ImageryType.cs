@@ -50,9 +50,29 @@ namespace BingMapsRESTToolkit
         BirdseyeWithLabels,
 
         /// <summary>
-        /// Roads without additional imagery.
+        /// A dark version of the road maps.
+        /// </summary>
+        CanvasDark,
+
+        /// <summary>
+        /// A lighter version of the road maps which also has some of the details such as hill shading disabled.
+        /// </summary>
+		CanvasLight,
+
+        /// <summary>
+        /// A grayscale version of the road maps.
+        /// </summary>
+		CanvasGray,
+
+        /// <summary>
+        /// Roads without additional imagery. Uses legacy static tile service.
         /// </summary>
         Road,
+
+        /// <summary>
+        /// Roads without additional imagery. Uses dynamic tile service.
+        /// </summary>
+        RoadOnDemand,
 
         /// <summary>
         /// Ordnance Survey imagery.

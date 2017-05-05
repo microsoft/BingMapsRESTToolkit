@@ -191,6 +191,11 @@ namespace BingMapsRESTToolkit
         /// </summary>
         public RouteOptions RouteOptions { get; set; }
 
+        /// <summary>
+        /// Specifies the resolution of the labels on the image to retrieve.
+        /// </summary>
+        public ImageResolutionType Resolution { get; set; }
+
         #endregion
 
         #region Public Methods
@@ -280,6 +285,11 @@ namespace BingMapsRESTToolkit
             if (HighlightEntity)
             {
                 sb.Append("&he=1");
+            }
+
+            if(Resolution == ImageResolutionType.High)
+            {
+                sb.Append("&dpi=Large");
             }
 
             //Routing Parameters
