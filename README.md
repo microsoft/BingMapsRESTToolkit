@@ -25,7 +25,6 @@ Alternatively, if you are using the nuget command line:
 ## Supported Platforms ##
 
 * .NET Framework 4.5+ 
-* ASP.NET Core 1.0
 * Universal Windows Platform (UWP) 
 * Windows 10
 * Windows 8.1
