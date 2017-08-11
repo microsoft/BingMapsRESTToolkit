@@ -195,11 +195,6 @@ namespace BingMapsRESTToolkit
         /// Specifies the resolution of the labels on the image to retrieve.
         /// </summary>
         public ImageResolutionType Resolution { get; set; }
-        
-        /// <summary>
-        /// The custom map style to apply to the image.
-        /// </summary>
-        public CustomMapStyle Style { get; set; }
 
         #endregion
 
@@ -328,11 +323,6 @@ namespace BingMapsRESTToolkit
             }
             
             sb.Append(GetBaseRequestUrl());
-
-            if(Style != null)
-            {
-                sb.AppendFormat("&st={0}", Style.GetRestStyle());
-            }
 
             return sb.ToString();
         }

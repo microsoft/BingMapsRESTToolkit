@@ -197,8 +197,8 @@ namespace BingMapsRESTToolkit
         [DataMember(Name = "text", EmitDefaultValue = false)]
         public string Text { get; set; }
 
-        //[DataMember(Name = "formattedText", EmitDefaultValue = false)]
-        //public string FormattedText { get; set; }
+        [DataMember(Name = "formattedText", EmitDefaultValue = false)]
+        public string FormattedText { get; set; }
     }
 
     [DataContract]
