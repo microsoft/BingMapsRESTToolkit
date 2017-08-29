@@ -87,6 +87,10 @@ namespace BingMapsRESTToolkit
 
         #region Public Methods
 
+        /// <summary>
+        /// Returns a string representing a pushpin in the format "pp=latitude,longitude;iconStyle;label;".
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             if (Location != null)

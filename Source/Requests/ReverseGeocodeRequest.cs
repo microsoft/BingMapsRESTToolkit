@@ -65,9 +65,10 @@ namespace BingMapsRESTToolkit
         /// <returns>A request URL to perform a reverse geocode query.</returns>
         public override string GetRequestUrl()
         {
-            string url = string.Format(CultureInfo.InvariantCulture, "https://dev.virtualearth.net/REST/v1/Locations/{0:0.#####},{1:0.#####}?", 
+            string url = string.Format(CultureInfo.InvariantCulture, "{2}Locations/{0:0.#####},{1:0.#####}?", 
                 Point.Latitude, 
-                Point.Longitude);
+                Point.Longitude,
+                this.Domain);
 
             if (IncludeEntityTypes != null && IncludeEntityTypes.Count > 0)
             {

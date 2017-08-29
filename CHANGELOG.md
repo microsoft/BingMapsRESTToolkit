@@ -1,3 +1,12 @@
+## Version 1.0.6 - Coming soon ##
+
+* Add Custom Map Styles support for static images.
+* Seperate out response classes into individual files for easier management.
+
+## Version 1.0.5 - 3/22/2017 ##
+
+* Add support for Geospatial Endpoint service.
+
 ## Version 1.0.4 - 2/16/2017 ##
 
 * Added support for catching network related exceptions.

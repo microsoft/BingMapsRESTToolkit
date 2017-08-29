@@ -61,7 +61,7 @@ namespace BingMapsRESTToolkit
         }
 
         #endregion
-
+        
         #region Public Properties
 
         /// <summary>
@@ -104,6 +104,10 @@ namespace BingMapsRESTToolkit
             }
         }
 
+        /// <summary>
+        /// Returns a formatted string of the coordinate in the format "latitude,longitude", with the values rounded off to 5 decimal places.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format(CultureInfo.InvariantCulture, "{0:0.#####},{1:0.#####}", Latitude, Longitude);

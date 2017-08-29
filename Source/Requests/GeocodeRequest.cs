@@ -83,7 +83,7 @@ namespace BingMapsRESTToolkit
         /// <returns>Geocode request URL for GET request.</returns>
         public override string GetRequestUrl()
         {
-            string url = "https://dev.virtualearth.net/REST/v1/Locations";
+            string url = this.Domain + "Locations";
             
             if (!string.IsNullOrWhiteSpace(Query))
             {

@@ -74,7 +74,7 @@ namespace BingMapsRESTToolkit
                 throw new Exception("Destination value is invalid.");
             }
 
-            string url = string.Format("https://dev.virtualearth.net/REST/v1/Routes/FromMajorRoads?destination=");
+            string url = this.Domain + "Routes/FromMajorRoads?destination=";
 
             if (Destination.Coordinate != null)
             {

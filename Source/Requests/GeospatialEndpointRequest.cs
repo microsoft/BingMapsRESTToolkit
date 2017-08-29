@@ -52,7 +52,7 @@ namespace BingMapsRESTToolkit
         /// <returns>Geocode request URL for GET request.</returns>
         public override string GetRequestUrl()
         {
-            string url = "https://dev.virtualearth.net/REST/v1/GeospatialEndpoint";
+            string url = this.Domain + "GeospatialEndpoint";
 
             if (!string.IsNullOrWhiteSpace(Culture))
             {
