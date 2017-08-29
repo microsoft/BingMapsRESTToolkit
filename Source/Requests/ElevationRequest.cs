@@ -158,8 +158,8 @@ namespace BingMapsRESTToolkit
             //https://dev.virtualearth.net/REST/v1/Elevation/List?points=lat1,long1,lat2,long2,latn,longn&heights=heights&key=BingMapsKey
             //https://dev.virtualearth.net/REST/v1/Elevation/Polyline?points=lat1,long1,lat2,long2,latn,longn&heights=heights&samples=samples&key=BingMapsKey
             
-            var sb = new StringBuilder();
-            sb.Append("https://dev.virtualearth.net/REST/v1/Elevation/");
+            var sb = new StringBuilder(this.Domain);
+            sb.Append("Elevation/");
 
             string seperator = "?";
 

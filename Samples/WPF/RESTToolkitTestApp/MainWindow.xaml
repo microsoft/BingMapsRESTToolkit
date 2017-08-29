@@ -68,5 +68,10 @@
                 <Image Name="ImageBox" Stretch="None"/>
             </TabItem>
         </TabControl>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Height="35" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Button Content="Expand All" Click="ExpandTree_Clicked"/>
+            <Button Content="Collapse" Click="CollapseTree_Clicked"/>
+        </StackPanel>
     </Grid>
 </Window>

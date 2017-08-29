@@ -196,6 +196,11 @@ namespace BingMapsRESTToolkit
         /// </summary>
         public ImageResolutionType Resolution { get; set; }
 
+        /// <summary>
+        /// The custom map style to apply to the image.
+        /// </summary>
+        public string Style { get; set; }
+
         #endregion
 
         #region Public Methods
@@ -219,8 +224,8 @@ namespace BingMapsRESTToolkit
             var isQuery = !string.IsNullOrWhiteSpace(Query);
             var isRoute = (Waypoints != null && Waypoints.Count >= 2);
 
-            var sb = new StringBuilder();
-            sb.Append("https://dev.virtualearth.net/REST/v1/Imagery/Map/");
+            var sb = new StringBuilder(this.Domain);
+            sb.Append("Imagery/Map/");
 
             sb.Append(Enum.GetName(typeof(ImageryType), ImagerySet));
             
@@ -323,6 +328,16 @@ namespace BingMapsRESTToolkit
             }
             
             sb.Append(GetBaseRequestUrl());
+
+            if (!string.IsNullOrWhiteSpace(Style))
+            {
+                var s = CustomMapStyleManager.GetRestStyle(Style);
+
+                if (!string.IsNullOrWhiteSpace(s))
+                {
+                    sb.AppendFormat("&st={0}", s);
+                }
+            }
 
             return sb.ToString();
         }

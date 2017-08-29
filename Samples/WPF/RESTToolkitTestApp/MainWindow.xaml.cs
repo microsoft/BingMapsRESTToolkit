@@ -27,6 +27,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace RESTToolkitTestApp
@@ -271,27 +273,81 @@ namespace RESTToolkitTestApp
             var r = new ImageryRequest()
             {
                 CenterPoint = new Coordinate(45, -110),
-                ZoomLevel = 12,
-                ImagerySet = ImageryType.AerialWithLabels,
+                ZoomLevel = 1,
+                ImagerySet = ImageryType.RoadOnDemand,
                 Pushpins = new List<ImageryPushpin>(){
                     new ImageryPushpin(){
                         Location = new Coordinate(45, -110.01),
                         Label = "hi"
                     },
                     new ImageryPushpin(){
-                        Location = new Coordinate(45, -110.02),
+                        Location = new Coordinate(30, -100),
                         IconStyle = 3
                     },
                     new ImageryPushpin(){
-                        Location = new Coordinate(45, -110.03),
+                        Location = new Coordinate(25, -80),
                         IconStyle = 20
                     },
                     new ImageryPushpin(){
-                        Location = new Coordinate(45, -110.04),
+                        Location = new Coordinate(33, -75),
                         IconStyle = 24
                     }
                 },
-                BingMapsKey = BingMapsKey
+                BingMapsKey = BingMapsKey,
+                Style = @"{
+	                ""version"": ""1.*"",
+	                ""settings"": {
+		                ""landColor"": ""#0B334D""
+	                },
+	                ""elements"": {
+		                ""mapElement"": {
+			                ""labelColor"": ""#FFFFFF"",
+			                ""labelOutlineColor"": ""#000000""
+		                },
+		                ""political"": {
+			                ""borderStrokeColor"": ""#144B53"",
+			                ""borderOutlineColor"": ""#00000000""
+		                },
+		                ""point"": {
+			                ""iconColor"": ""#0C4152"",
+			                ""fillColor"": ""#000000"",
+			                ""strokeColor"": ""#0C4152""
+                        },
+		                ""transportation"": {
+			                ""strokeColor"": ""#000000"",
+			                ""fillColor"": ""#000000""
+		                },
+		                ""highway"": {
+			                ""strokeColor"": ""#158399"",
+			                ""fillColor"": ""#000000""
+		                },
+		                ""controlledAccessHighway"": {
+			                ""strokeColor"": ""#158399"",
+			                ""fillColor"": ""#000000""
+		                },
+		                ""arterialRoad"": {
+			                ""strokeColor"": ""#157399"",
+			                ""fillColor"": ""#000000""
+		                },
+		                ""majorRoad"": {
+			                ""strokeColor"": ""#157399"",
+			                ""fillColor"": ""#000000""
+		                },
+		                ""railway"": {
+			                ""strokeColor"": ""#146474"",
+			                ""fillColor"": ""#000000""
+		                },
+		                ""structure"": {
+			                ""fillColor"": ""#115166""
+		                },
+		                ""water"": {
+			                ""fillColor"": ""#021019""
+		                },
+		                ""area"": {
+			                ""fillColor"": ""#115166""
+		                }
+	                }
+                }"
             };
 
             ProcessImageRequest(r);           
@@ -317,7 +373,6 @@ namespace RESTToolkitTestApp
         #endregion
 
         #region Private Methods
-
 
         private async void ProcessRequest(BaseRestRequest request)
         {
@@ -373,6 +428,44 @@ namespace RESTToolkitTestApp
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ExpandTree_Clicked(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in ResultTreeView.Items)
+            {
+                DependencyObject dObject = ResultTreeView.ItemContainerGenerator.ContainerFromItem(item);
+                ((TreeViewItem)dObject).ExpandSubtree();
+            }
+        }
+
+        private void CollapseTree_Clicked(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in ResultTreeView.Items)
+            {
+                DependencyObject dObject = ResultTreeView.ItemContainerGenerator.ContainerFromItem(item);
+                CollapseTreeviewItems(((TreeViewItem)dObject));
+            }
+        }
+
+        private void CollapseTreeviewItems(TreeViewItem Item)
+        {
+            Item.IsExpanded = false;
+
+            foreach (var item in Item.Items)
+            {
+                DependencyObject dObject = ResultTreeView.ItemContainerGenerator.ContainerFromItem(item);
+
+                if (dObject != null)
+                {
+                    ((TreeViewItem)dObject).IsExpanded = false;
+
+                    if (((TreeViewItem)dObject).HasItems)
+                    {
+                        CollapseTreeviewItems(((TreeViewItem)dObject));
+                    }
+                }
             }
         }
 

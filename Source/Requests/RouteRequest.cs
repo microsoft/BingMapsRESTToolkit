@@ -74,11 +74,11 @@ namespace BingMapsRESTToolkit
                 throw new Exception("Start and end waypoints must not be ViaWaypoints.");
             }
 
-            var sb = new StringBuilder();
+            var sb = new StringBuilder(this.Domain);
 
             var TravelMode = (RouteOptions != null) ? RouteOptions.TravelMode : TravelModeType.Driving;
 
-            sb.AppendFormat("https://dev.virtualearth.net/REST/v1/Routes/{0}?", Enum.GetName(typeof(TravelModeType), TravelMode));
+            sb.AppendFormat("Routes/{0}?", Enum.GetName(typeof(TravelModeType), TravelMode));
 
             int wayCnt = 0, viaCnt = 0;
 

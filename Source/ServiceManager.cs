@@ -101,7 +101,7 @@ namespace BingMapsRESTToolkit
 
                 r.GetMetadata = false;
 
-                if (r.Pushpins != null && r.Pushpins.Count > 18)
+                if (r.Pushpins != null && (r.Pushpins.Count > 18 || r.Style != null))
                 {
                     //Make a post request when there are more than 18 pushpins as there is a risk of URL becoming too large for a GET request.
                     return await ServiceHelper.PostStringAsync(new Uri(r.GetPostRequestUrl()), r.GetPushpinsAsString(), null);

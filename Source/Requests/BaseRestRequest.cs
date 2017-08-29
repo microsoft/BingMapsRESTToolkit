@@ -23,6 +23,7 @@
 */
 
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 
 namespace BingMapsRESTToolkit
 {
@@ -31,7 +32,13 @@ namespace BingMapsRESTToolkit
     /// </summary>
     [DataContract]
     public abstract class BaseRestRequest
-    { 
+    {
+        #region Private Properties
+
+        private string _restServiceDomain = "https://dev.virtualearth.net/REST/v1/";
+
+        #endregion
+
         #region Public Properties
 
         /// <summary>
@@ -63,6 +70,20 @@ namespace BingMapsRESTToolkit
         /// An Internet Protocol version 4 (IPv4) address.
         /// </summary>
         public string UserIp { get; set; }
+
+        /// <summary>
+        /// The domain of the REST service. Default: https://dev.virtualearth.net/REST/v1/
+        /// </summary>
+        public string Domain {
+            get
+            {
+                return _restServiceDomain;
+            }
+            set
+            {
+                this._restServiceDomain = value;
+            }
+        }
 
         #endregion
 

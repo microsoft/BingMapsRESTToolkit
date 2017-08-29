@@ -42,6 +42,9 @@ namespace BingMapsRESTToolkit
 
         #region Constructor
 
+        /// <summary>
+        /// A class that defines the options that can to use when calculating a route.
+        /// </summary>
         public RouteOptions()
         {
             Optimize = RouteOptimizationType.Time;
