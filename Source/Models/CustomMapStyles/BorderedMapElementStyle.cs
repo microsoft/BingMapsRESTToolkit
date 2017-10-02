@@ -24,7 +24,7 @@
 
 using System.Runtime.Serialization;
 
-namespace BingMapsRESTToolkit.Models.CustomMapStyles
+namespace BingMapsRESTToolkit
 {
     /// <summary> 
     /// The style options that can be appliction to bordered map elements. 

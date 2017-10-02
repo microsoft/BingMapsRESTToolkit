@@ -22,7 +22,6 @@
  * THE SOFTWARE. 
 */
 
-using BingMapsRESTToolkit.Models.CustomMapStyles;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -33,16 +32,16 @@ using System.Text.RegularExpressions;
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// Custom Map style object
+    /// A static class to assit with working with Bing Maps Customer Map Styles.
     /// </summary>
     public class CustomMapStyleManager
     {
         #region Public Methods
 
         /// <summary>
-        /// Gets the 
+        /// Converts a custom JSON map style, into a style using the REST parameter format. If the style is already in the REST parameter formatter, it will be unaltered.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A style in the REST parameter formatter</returns>
         public static string GetRestStyle(string style)
         {
             if (!string.IsNullOrWhiteSpace(style) && style.Contains("{"))

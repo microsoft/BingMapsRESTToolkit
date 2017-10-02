@@ -186,9 +186,9 @@ namespace RESTToolkitTestApp
             {
                 if (p.PropertyType.IsPublic)
                 {
-                    if (p.PropertyType.IsClass || p.PropertyType.IsArray)
+                    if (p.PropertyType.IsClass || p.PropertyType.IsArray || p.PropertyType.FullName.StartsWith("System.Collections.Generic.List"))
                     {
-                        if (p.PropertyType.IsArray)
+                        if (p.PropertyType.IsArray || p.PropertyType.FullName.StartsWith("System.Collections.Generic.List"))
                         {
                             try
                             {

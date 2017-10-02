@@ -27,7 +27,7 @@ using System.Runtime.Serialization;
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// A Location response object which is reutrned when geocoding or reverse geocoding.
+    /// A Location response object which is returned when geocoding or reverse geocoding.
     /// </summary>
     [DataContract(Namespace = "http://schemas.microsoft.com/search/local/ws/rest/v1")]
     public class Location : Resource

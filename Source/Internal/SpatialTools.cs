@@ -74,7 +74,7 @@ namespace BingMapsRESTToolkit
             {
                 case DistanceUnitType.Miles:
                     return EarthRadius.Miles;
-                case DistanceUnitType.KM:
+                case DistanceUnitType.Kilometers:
                 default:
                     return EarthRadius.KM;
             }

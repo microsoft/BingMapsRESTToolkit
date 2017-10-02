@@ -22,26 +22,21 @@
  * THE SOFTWARE. 
 */
 
-using System.Runtime.Serialization;
-
 namespace BingMapsRESTToolkit
 {
-    /// <summary> 
-    /// Global style settings 
+    /// <summary>
+    /// Represents the units in which time is measured.
     /// </summary>
-    [DataContract]
-    public class SettingsStyle
+    public enum TimeUnitType
     {
-        /// <summary> 
-        /// A hex color value that all land is first flushed to before things are drawn on it. 
+        /// <summary>
+        /// Time is in seconds.
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        public string landColor { get; set; }
+        Seconds,
 
-        /// <summary> 
-        /// Specifies whether or not to draw elevation shading on the map. 
+        /// <summary>
+        /// Time is in minutes.
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        public bool? shadedReliefVisible { get; set; }
+        Minutes
     }
 }

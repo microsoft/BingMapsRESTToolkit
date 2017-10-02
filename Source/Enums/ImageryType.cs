@@ -40,6 +40,11 @@ namespace BingMapsRESTToolkit
         AerialWithLabels,
 
         /// <summary>
+        /// Aerial imagery with on-demand road overlay.
+        /// </summary>
+        AerialWithLabelsOnDemand,
+
+        /// <summary>
         /// Bird’s eye (oblique-angle) imagery
         /// </summary>
         Birdseye,
@@ -48,6 +53,16 @@ namespace BingMapsRESTToolkit
         /// Bird’s eye imagery with a road overlay.
         /// </summary>
         BirdseyeWithLabels,
+
+        /// <summary>
+        /// The second generation Bird’s eye (oblique-angle) imagery. 
+        /// </summary>
+        BirdseyeV2,
+
+        /// <summary>
+        /// The second generation Bird’s eye (oblique-angle) imagerywith a road overlay.
+        /// </summary>
+        BirdseyeV2WithLabels,
 
         /// <summary>
         /// A dark version of the road maps.
@@ -77,11 +92,6 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// Ordnance Survey imagery.
         /// </summary>
-        OrdnanceSurvey,
-
-        /// <summary>
-        /// Collins Bart imagery
-        /// </summary>
-        CollinsBart
+        OrdnanceSurvey
     }
 }

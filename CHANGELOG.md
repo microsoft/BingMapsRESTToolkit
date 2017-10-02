@@ -1,7 +1,11 @@
-## Version 1.0.6 - Coming soon ##
+## Version 1.0.6 ##
 
+* Created a .NET Standard v1.4 assembly.
 * Add Custom Map Styles support for static images.
+* Add Distance Matrix API support. Automatically determines is sync or async request is needed and monitors the request till completion. Distance matrix result class contains many help methods to make it easy to integrate into various applicaitons.
 * Seperate out response classes into individual files for easier management.
+* Add Execute method to all requests which contains custom business logic for processing each request. No need to use the ServiceManager now.
+* Add new imagery types; AerialWithLabelsOnDemand, BirdseyeV2, BirdseyeV2WithLabels, CanvasGray, CanvasDark, CanvasLight, and RoadOnDemand.
 
 ## Version 1.0.5 - 3/22/2017 ##
 

@@ -25,7 +25,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BingMapsRESTToolkit
 {
@@ -206,6 +208,47 @@ namespace BingMapsRESTToolkit
         #region Public Methods
 
         /// <summary>
+        /// Executes the request.
+        /// </summary>
+        /// <returns>A response containing the requested data.</returns>
+        public override async Task<Response> Execute()
+        {
+            return await this.Execute(null);
+        }
+
+        /// <summary>
+        /// Executes the request.
+        /// </summary>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time is sent.</param>
+        /// <returns>A response containing the requested data.</returns>
+        public override async Task<Response> Execute(Action<int> remainingTimeCallback)
+        {
+            Stream responseStream = null;
+
+            GetMetadata = true;
+
+            if (Pushpins != null && Pushpins.Count > 18)
+            {
+                //Make a post request when there are more than 18 pushpins as there is a risk of URL becoming too large for a GET request.
+                responseStream = await ServiceHelper.PostStringAsync(new Uri(GetPostRequestUrl()), GetPushpinsAsString(), null);
+            }
+            else
+            {
+                responseStream = await ServiceHelper.GetStreamAsync(new Uri(GetRequestUrl()));
+            }
+
+            if (responseStream != null)
+            {
+                var r = ServiceHelper.DeserializeStream<Response>(responseStream);
+                responseStream.Dispose();
+
+                return r;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Gets the request URL. If both a Query and Address are specified, the Query value will be used. 
         /// Throws an exception if a Query or Address value is not specified.
         /// </summary>
@@ -228,23 +271,25 @@ namespace BingMapsRESTToolkit
             sb.Append("Imagery/Map/");
 
             sb.Append(Enum.GetName(typeof(ImageryType), ImagerySet));
-            
+
             if (CenterPoint != null)
             {
-                 sb.AppendFormat(CultureInfo.InvariantCulture, "/{0:0.#####},{1:0.#####}/", CenterPoint.Latitude, CenterPoint.Longitude);
+                sb.AppendFormat(CultureInfo.InvariantCulture, "/{0:0.#####},{1:0.#####}/", CenterPoint.Latitude, CenterPoint.Longitude);
 
-                 if (zoomLevel != 0)
-                 {
-                     sb.Append(zoomLevel);
-                 }
-                 else if (HighlightEntity)
-                 {
-                     sb.Append(Enum.GetName(typeof(EntityType), EntityType));
-                 }
-                 else if (ImagerySet == ImageryType.Road || ImagerySet == ImageryType.Aerial || ImagerySet == ImageryType.AerialWithLabels)
-                 {
-                     throw new Exception("A zoom level or Entity type must be specified when when a center point is specified.");
-                 }
+                if (zoomLevel != 0)
+                {
+                    sb.Append(zoomLevel);
+                }
+                else if (HighlightEntity)
+                {
+                    sb.Append(Enum.GetName(typeof(EntityType), EntityType));
+                }
+                else if (ImagerySet == ImageryType.Road || ImagerySet == ImageryType.Aerial || ImagerySet == ImageryType.AerialWithLabels ||
+                  ImagerySet == ImageryType.RoadOnDemand || ImagerySet == ImageryType.AerialWithLabelsOnDemand || ImagerySet == ImageryType.CanvasDark ||
+                  ImagerySet == ImageryType.CanvasGray || ImagerySet == ImageryType.CanvasLight)
+                {
+                    throw new Exception("Zoom Level must be specified when a centerPoint is specified and ImagerySet is Road, Aerial, AerialWithLabels, or any variation of these (Canvas/OnDemand).");
+                }
             }
             else if (isQuery)
             {

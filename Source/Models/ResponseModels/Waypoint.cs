@@ -44,7 +44,9 @@ namespace BingMapsRESTToolkit
         [DataMember(Name = "isVia", EmitDefaultValue = false)]
         public bool IsVia { get; set; }
 
-        //TODO: What is this?
+        /// <summary>
+        /// A unique identifier for the location. 
+        /// </summary>
         [DataMember(Name = "locationIdentifier", EmitDefaultValue = false)]
         public string LocationIdentifier { get; set; }
 

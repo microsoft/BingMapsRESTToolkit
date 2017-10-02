@@ -1,11 +1,11 @@
 ![Bing Maps Logo](https://github.com/Microsoft/Bing-Maps-V8-TypeScript-Definitions/blob/master/images/BingMapsLogoTeal.png)
 
-[![NuGet](https://img.shields.io/badge/NuGet-1.0.5-blue.svg)](https://www.nuget.org/packages/BingMapsRESTToolkit)
+[![NuGet](https://img.shields.io/badge/NuGet-1.0.6-blue.svg)](https://www.nuget.org/packages/BingMapsRESTToolkit)
 [![license](https://img.shields.io/badge/license-MIT-yellow.svg)](https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/LICENSE.md)
 
 # Bing Maps REST Toolkit for .NET #
 
-This is a portable .NET class library which provides a set of tools that make it easy to access the Bing Maps REST services in .NET based apps. Take a look at the [Getting Started documentation](https://github.com/Microsoft/BingMapsRESTToolkit/wiki/Getting-Started).
+This is a portable .NET class library which provides a set of tools that make it easy to access the Bing Maps REST services in .NET based apps. Take a look at the [Getting Started documentation](https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/Docs/Getting%20Started.md).
 
 ## Features ##
 
@@ -13,6 +13,7 @@ This is a portable .NET class library which provides a set of tools that make it
 * Implements the documented [best practices for Bing Maps](https://msdn.microsoft.com/en-us/library/dn894107.aspx). For example, it automatically encodes query parameters. A commonly overlooked stepped which greatly reduces the chances of invalid queries being sent to the service.
 * Handles errors and rate limiting by catching exception and returning response with error message.
 * Automatically determines when a POST request should be made instead of a GET request.
+* Fast indexed lookups of Distance Matrix results.
 
 ## NuGet Package ##
 
@@ -25,6 +26,7 @@ Alternatively, if you are using the nuget command line:
 ## Supported Platforms ##
 
 * .NET Framework 4.5+ 
+* .NET Standard 1.4+
 * Universal Windows Platform (UWP) 
 * Windows 10
 * Windows 8.1

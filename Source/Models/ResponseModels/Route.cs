@@ -22,6 +22,7 @@
  * THE SOFTWARE. 
 */
 
+using System;
 using System.Runtime.Serialization;
 
 namespace BingMapsRESTToolkit
@@ -42,13 +43,46 @@ namespace BingMapsRESTToolkit
         /// The unit used for distance.
         /// </summary>
         [DataMember(Name = "distanceUnit", EmitDefaultValue = false)]
-        public string DistanceUnit { get; set; }
+        public string DistanceUnit
+        {
+            get
+            {
+                return EnumHelper.DistanceUnitTypeToString(DistanceUnitType);
+            }
+            set
+            {
+                DistanceUnitType = EnumHelper.DistanceUnitStringToEnum(value);
+            }
+        }
+
+
+        /// <summary>
+        /// The unit used for distance as an Enum.
+        /// </summary>
+        public DistanceUnitType DistanceUnitType { get; set; }
 
         /// <summary>
         /// The unit used for time of travel.
         /// </summary>
         [DataMember(Name = "durationUnit", EmitDefaultValue = false)]
-        public string DurationUnit { get; set; }
+        public string DurationUnit
+        {
+            get
+            {
+                return EnumHelper.TimeUnitTypeToString(TimeUnitType);
+            }
+            set
+            {
+                TimeUnitType = EnumHelper.TimeUnitStringToEnum(value);
+            }
+        }
+
+
+        /// <summary>
+        /// The unit used for time as an Enum.
+        /// </summary>
+        public TimeUnitType TimeUnitType { get; set; }
+
 
         /// <summary>
         /// The physical distance covered by the entire route. This value is not supported for the Transit travel mode.

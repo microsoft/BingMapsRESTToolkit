@@ -24,7 +24,7 @@
 
 using System.Runtime.Serialization;
 
-namespace BingMapsRESTToolkit.Models.CustomMapStyles
+namespace BingMapsRESTToolkit
 {
     /// <summary>
     /// Map Elements which can be styled.
