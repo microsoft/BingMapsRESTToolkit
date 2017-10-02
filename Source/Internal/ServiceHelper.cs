@@ -25,6 +25,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 
 namespace BingMapsRESTToolkit
@@ -205,6 +206,23 @@ namespace BingMapsRESTToolkit
             }, request);
 
             return tcs.Task;
+        }
+
+        /// <summary>
+        /// Deserializes a response stream into a Response object.
+        /// </summary>
+        /// <param name="responseStream">The response stream to deserialize.</param>
+        /// <returns>A Response object.</returns>
+        public static T DeserializeStream<T>(Stream responseStream) where T : class
+        {
+            if (responseStream != null)
+            {
+                var ser = new DataContractJsonSerializer(typeof(T));
+                var r = ser.ReadObject(responseStream) as T;
+                return r;
+            }
+
+            return null;
         }
 
         #endregion

@@ -1,0 +1,122 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <Version>1.0.6</Version>
+    <Authors>Microsoft</Authors>
+    <Company>Microsoft</Company>
+    <Description>A toolkit that makes it easy to access the Bing Maps REST services from .NET</Description>
+    <Copyright>Microsoft 2017</Copyright>
+    <PackageLicenseUrl>https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Microsoft/BingMapsRESTToolkit</PackageProjectUrl>
+    <PackageIconUrl>https://www.bing.com/sa/simg/bing_p_rr_teal_min.ico</PackageIconUrl>
+    <PackageTags>Microsoft "Bing Maps" Maps GIS Map Geospatial VB C# .NET REST</PackageTags>
+    <PackageReleaseNotes>See the changelog here: https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/CHANGELOG.md</PackageReleaseNotes>
+    <PackageId>BingMapsRESTToolkit</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\CustomMapStyleManager.cs" Link="CustomMapStyleManager.cs" />
+    <Compile Include="..\Enums\AvoidType.cs" Link="Enums\AvoidType.cs" />
+    <Compile Include="..\Enums\ConfidenceLevel.cs" Link="Enums\ConfidenceLevel.cs" />
+    <Compile Include="..\Enums\DistanceUnitType.cs" Link="Enums\DistanceUnitType.cs" />
+    <Compile Include="..\Enums\ElevationType.cs" Link="Enums\ElevationType.cs" />
+    <Compile Include="..\Enums\EntityType.cs" Link="Enums\EntityType.cs" />
+    <Compile Include="..\Enums\ImageFormatType.cs" Link="Enums\ImageFormatType.cs" />
+    <Compile Include="..\Enums\ImageResolutionType.cs" Link="Enums\ImageResolutionType.cs" />
+    <Compile Include="..\Enums\ImageryType.cs" Link="Enums\ImageryType.cs" />
+    <Compile Include="..\Enums\ManeuverType.cs" Link="Enums\ManeuverType.cs" />
+    <Compile Include="..\Enums\RouteAttributeType.cs" Link="Enums\RouteAttributeType.cs" />
+    <Compile Include="..\Enums\RouteOptimizationType.cs" Link="Enums\RouteOptimizationType.cs" />
+    <Compile Include="..\Enums\RouteTimeType.cs" Link="Enums\RouteTimeType.cs" />
+    <Compile Include="..\Enums\SeverityType.cs" Link="Enums\SeverityType.cs" />
+    <Compile Include="..\Enums\TimeUnitType.cs" Link="Enums\TimeUnitType.cs" />
+    <Compile Include="..\Enums\TrafficType.cs" Link="Enums\TrafficType.cs" />
+    <Compile Include="..\Enums\TravelModeType.cs" Link="Enums\TravelModeType.cs" />
+    <Compile Include="..\Enums\WarningType.cs" Link="Enums\WarningType.cs" />
+    <Compile Include="..\Internal\DateTimeHelper.cs" Link="Internal\DateTimeHelper.cs" />
+    <Compile Include="..\Internal\EnumHelper.cs" Link="Internal\EnumHelper.cs" />
+    <Compile Include="..\Internal\ServiceHelper.cs" Link="Internal\ServiceHelper.cs" />
+    <Compile Include="..\Internal\SpatialTools.cs" Link="Internal\SpatialTools.cs" />
+    <Compile Include="..\Models\BoundingBox.cs" Link="Models\BoundingBox.cs" />
+    <Compile Include="..\Models\Coordinate.cs" Link="Models\Coordinate.cs" />
+    <Compile Include="..\Models\CustomMapStyles\BorderedMapElementStyle.cs" Link="Models\CustomMapStyles\BorderedMapElementStyle.cs" />
+    <Compile Include="..\Models\CustomMapStyles\CustomMapStyle.cs" Link="Models\CustomMapStyles\CustomMapStyle.cs" />
+    <Compile Include="..\Models\CustomMapStyles\MapElements.cs" Link="Models\CustomMapStyles\MapElements.cs" />
+    <Compile Include="..\Models\CustomMapStyles\MapElementStyle.cs" Link="Models\CustomMapStyles\MapElementStyle.cs" />
+    <Compile Include="..\Models\CustomMapStyles\SettingsStyle.cs" Link="Models\CustomMapStyles\SettingsStyle.cs" />
+    <Compile Include="..\Models\ImageryPushpin.cs" Link="Models\ImageryPushpin.cs" />
+    <Compile Include="..\Models\PointCompression.cs" Link="Models\PointCompression.cs" />
+    <Compile Include="..\Models\ResponseModels\Address.cs" Link="Models\ResponseModels\Address.cs" />
+    <Compile Include="..\Models\ResponseModels\BirdseyeMetadata.cs" Link="Models\ResponseModels\BirdseyeMetadata.cs" />
+    <Compile Include="..\Models\ResponseModels\CompressedPointList.cs" Link="Models\ResponseModels\CompressedPointList.cs" />
+    <Compile Include="..\Models\ResponseModels\CoverageArea.cs" Link="Models\ResponseModels\CoverageArea.cs" />
+    <Compile Include="..\Models\ResponseModels\Detail.cs" Link="Models\ResponseModels\Detail.cs" />
+    <Compile Include="..\Models\ResponseModels\DistanceMatrix.cs" Link="Models\ResponseModels\DistanceMatrix.cs" />
+    <Compile Include="..\Models\ResponseModels\DistanceMatrixAsyncStatus.cs" Link="Models\ResponseModels\DistanceMatrixAsyncStatus.cs" />
+    <Compile Include="..\Models\ResponseModels\DistanceMatrixCell.cs" Link="Models\ResponseModels\DistanceMatrixCell.cs" />
+    <Compile Include="..\Models\ResponseModels\ElevationData.cs" Link="Models\ResponseModels\ElevationData.cs" />
+    <Compile Include="..\Models\ResponseModels\Generalization.cs" Link="Models\ResponseModels\Generalization.cs" />
+    <Compile Include="..\Models\ResponseModels\GeospatialEndpointResponse.cs" Link="Models\ResponseModels\GeospatialEndpointResponse.cs" />
+    <Compile Include="..\Models\ResponseModels\GeospatialService.cs" Link="Models\ResponseModels\GeospatialService.cs" />
+    <Compile Include="..\Models\ResponseModels\Hint.cs" Link="Models\ResponseModels\Hint.cs" />
+    <Compile Include="..\Models\ResponseModels\ImageryMetadata.cs" Link="Models\ResponseModels\ImageryMetadata.cs" />
+    <Compile Include="..\Models\ResponseModels\ImageryProvider.cs" Link="Models\ResponseModels\ImageryProvider.cs" />
+    <Compile Include="..\Models\ResponseModels\Instruction.cs" Link="Models\ResponseModels\Instruction.cs" />
+    <Compile Include="..\Models\ResponseModels\ItineraryItem.cs" Link="Models\ResponseModels\ItineraryItem.cs" />
+    <Compile Include="..\Models\ResponseModels\Line.cs" Link="Models\ResponseModels\Line.cs" />
+    <Compile Include="..\Models\ResponseModels\Location.cs" Link="Models\ResponseModels\Location.cs" />
+    <Compile Include="..\Models\ResponseModels\Pixel.cs" Link="Models\ResponseModels\Pixel.cs" />
+    <Compile Include="..\Models\ResponseModels\Point.cs" Link="Models\ResponseModels\Point.cs" />
+    <Compile Include="..\Models\ResponseModels\PushpinMetdata.cs" Link="Models\ResponseModels\PushpinMetdata.cs" />
+    <Compile Include="..\Models\ResponseModels\QueryParseValue.cs" Link="Models\ResponseModels\QueryParseValue.cs" />
+    <Compile Include="..\Models\ResponseModels\Resource.cs" Link="Models\ResponseModels\Resource.cs" />
+    <Compile Include="..\Models\ResponseModels\ResourceSet.cs" Link="Models\ResponseModels\ResourceSet.cs" />
+    <Compile Include="..\Models\ResponseModels\Response.cs" Link="Models\ResponseModels\Response.cs" />
+    <Compile Include="..\Models\ResponseModels\RoadShield.cs" Link="Models\ResponseModels\RoadShield.cs" />
+    <Compile Include="..\Models\ResponseModels\Route.cs" Link="Models\ResponseModels\Route.cs" />
+    <Compile Include="..\Models\ResponseModels\RouteLeg.cs" Link="Models\ResponseModels\RouteLeg.cs" />
+    <Compile Include="..\Models\ResponseModels\RoutePath.cs" Link="Models\ResponseModels\RoutePath.cs" />
+    <Compile Include="..\Models\ResponseModels\RouteSubLeg.cs" Link="Models\ResponseModels\RouteSubLeg.cs" />
+    <Compile Include="..\Models\ResponseModels\SeaLevelData.cs" Link="Models\ResponseModels\SeaLevelData.cs" />
+    <Compile Include="..\Models\ResponseModels\Shape.cs" Link="Models\ResponseModels\Shape.cs" />
+    <Compile Include="..\Models\ResponseModels\Shield.cs" Link="Models\ResponseModels\Shield.cs" />
+    <Compile Include="..\Models\ResponseModels\StaticMapMetadata.cs" Link="Models\ResponseModels\StaticMapMetadata.cs" />
+    <Compile Include="..\Models\ResponseModels\TrafficIncident.cs" Link="Models\ResponseModels\TrafficIncident.cs" />
+    <Compile Include="..\Models\ResponseModels\TransitLine.cs" Link="Models\ResponseModels\TransitLine.cs" />
+    <Compile Include="..\Models\ResponseModels\Warning.cs" Link="Models\ResponseModels\Warning.cs" />
+    <Compile Include="..\Models\ResponseModels\Waypoint.cs" Link="Models\ResponseModels\Waypoint.cs" />
+    <Compile Include="..\Models\RouteOptions.cs" Link="Models\RouteOptions.cs" />
+    <Compile Include="..\Models\SimpleAddress.cs" Link="Models\SimpleAddress.cs" />
+    <Compile Include="..\Models\SimpleWaypoint.cs" Link="Models\SimpleWaypoint.cs" />
+    <Compile Include="..\Requests\BaseImageryRestRequest.cs" Link="Requests\BaseImageryRestRequest.cs" />
+    <Compile Include="..\Requests\BaseRestRequest.cs" Link="Requests\BaseRestRequest.cs" />
+    <Compile Include="..\Requests\DistanceMatrixRequest.cs" Link="Requests\DistanceMatrixRequest.cs" />
+    <Compile Include="..\Requests\ElevationRequest.cs" Link="Requests\ElevationRequest.cs" />
+    <Compile Include="..\Requests\GeocodeRequest.cs" Link="Requests\GeocodeRequest.cs" />
+    <Compile Include="..\Requests\GeospatialEndpointRequest.cs" Link="Requests\GeospatialEndpointRequest.cs" />
+    <Compile Include="..\Requests\ImageryMetadataRequest.cs" Link="Requests\ImageryMetadataRequest.cs" />
+    <Compile Include="..\Requests\ImageryRequest.cs" Link="Requests\ImageryRequest.cs" />
+    <Compile Include="..\Requests\ReverseGeocodeRequest.cs" Link="Requests\ReverseGeocodeRequest.cs" />
+    <Compile Include="..\Requests\RouteMajorRoadsRequest.cs" Link="Requests\RouteMajorRoadsRequest.cs" />
+    <Compile Include="..\Requests\RouteRequest.cs" Link="Requests\RouteRequest.cs" />
+    <Compile Include="..\Requests\TrafficRequest.cs" Link="Requests\TrafficRequest.cs" />
+    <Compile Include="..\ServiceManager.cs" Link="ServiceManager.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Enums\" />
+    <Folder Include="Models\CustomMapStyles\" />
+    <Folder Include="Models\ResponseModels\" />
+    <Folder Include="Internal\" />
+    <Folder Include="Requests\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Net.Requests" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Json" Version="4.0.3" />
+    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.1.1" />
+    <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>

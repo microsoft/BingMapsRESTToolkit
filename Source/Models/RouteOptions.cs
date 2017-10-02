@@ -105,12 +105,12 @@ namespace BingMapsRESTToolkit
         }
 
         /// <summary>
-        /// Specifies what parameters to use to optimize the route.
+        /// Specifies what parameters to use to optimize the route. Default: Time
         /// </summary>
         public RouteOptimizationType Optimize { get; set; }
 
         /// <summary>
-        /// The mode of travel for the route. Default: Driving. 
+        /// The mode of travel for the route. Default: Driving
         /// </summary>
         public TravelModeType TravelMode { get; set; }
 
@@ -208,7 +208,7 @@ namespace BingMapsRESTToolkit
                 sb.AppendFormat("&hd={0}", heading);
             }
 
-            if (DistanceUnits != DistanceUnitType.KM)
+            if (DistanceUnits != DistanceUnitType.Kilometers)
             {
                 sb.AppendFormat("&du=mi");
             }

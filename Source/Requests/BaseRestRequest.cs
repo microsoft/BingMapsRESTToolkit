@@ -22,6 +22,7 @@
  * THE SOFTWARE. 
 */
 
+using System;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
@@ -87,12 +88,44 @@ namespace BingMapsRESTToolkit
 
         #endregion
 
+        #region Methods
+
         /// <summary>
         /// Abstract method which generates the Bing Maps REST request URL.
         /// </summary>
         /// <returns>A Bing Maps REST request URL.</returns>
         public abstract string GetRequestUrl();
 
+        /// <summary>
+        /// Executes the request.
+        /// </summary>
+        /// <returns>A response containing the requested data.</returns>
+        public virtual async Task<Response> Execute()
+        {
+            return await this.Execute(null);
+        }
+
+        /// <summary>
+        /// Executes the request.
+        /// </summary>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time is sent.</param>
+        /// <returns>A response containing the requested data.</returns>
+        public virtual async Task<Response> Execute(Action<int> remainingTimeCallback)
+        {
+            Response r = null;
+
+            using (var responseStream = await ServiceHelper.GetStreamAsync(new Uri(GetRequestUrl())))
+            {
+                r = ServiceHelper.DeserializeStream<Response>(responseStream);
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        /// Gets the base request URL.
+        /// </summary>
+        /// <returns>The base request URL.</returns>
         internal string GetBaseRequestUrl()
         {
             var url = string.Empty;
@@ -119,5 +152,7 @@ namespace BingMapsRESTToolkit
 
             return url + "&key=" + BingMapsKey + "&clientApi=CSToolkit";
         }
+
+        #endregion
     }
 }

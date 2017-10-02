@@ -32,7 +32,7 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// Distances in Kilometers.
         /// </summary>
-        KM,
+        Kilometers,
 
         /// <summary>
         /// Distances in Miles

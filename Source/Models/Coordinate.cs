@@ -67,7 +67,7 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// Latitude coordinate.
         /// </summary>
-        [DataMember(Name = "lat", EmitDefaultValue = false)]
+        [DataMember(Name = "latitude")]
         public double Latitude
         {
             get
@@ -87,7 +87,7 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// Longitude coordinate.
         /// </summary>
-        [DataMember(Name = "lon", EmitDefaultValue = false)]
+        [DataMember(Name = "longitude")]
         public double Longitude
         {
             get

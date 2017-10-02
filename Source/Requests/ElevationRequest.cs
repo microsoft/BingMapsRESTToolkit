@@ -25,7 +25,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BingMapsRESTToolkit
 {
@@ -137,6 +139,44 @@ namespace BingMapsRESTToolkit
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Executes the request.
+        /// </summary>
+        /// <returns>A response containing the requested data.</returns>
+        public override async Task<Response> Execute()
+        {
+            return await this.Execute(null);
+        }
+
+        /// <summary>
+        /// Executes the request.
+        /// </summary>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time is sent.</param>
+        /// <returns>A response containing the requested data.</returns>
+        public override async Task<Response> Execute(Action<int> remainingTimeCallback)
+        {
+            Stream responseStream = null;
+
+            if (Points != null && Points.Count > 50)
+            {
+                //Make a post request when there are more than 50 points as there is a risk of URL becoming too large for a GET request.
+                responseStream = await ServiceHelper.PostStringAsync(new Uri(GetPostRequestUrl()), GetPointsAsString(), null);
+            }
+            else
+            {
+                responseStream = await ServiceHelper.GetStreamAsync(new Uri(GetRequestUrl()));
+            }
+
+            if (responseStream != null)
+            {
+                var r = ServiceHelper.DeserializeStream<Response>(responseStream);
+                responseStream.Dispose();
+                return r;
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Gets a URL for requesting elevation data for a GET request.
@@ -255,7 +295,7 @@ namespace BingMapsRESTToolkit
                     double totalDistance = 0;
                     for (int i = 0; i < Points.Count - 1; i++)
                     {
-                        totalDistance += SpatialTools.HaversineDistance(Points[i], Points[i + 1], DistanceUnitType.KM);
+                        totalDistance += SpatialTools.HaversineDistance(Points[i], Points[i + 1], DistanceUnitType.Kilometers);
                     }
 
                     double segementLength = totalDistance / samples;
@@ -274,7 +314,7 @@ namespace BingMapsRESTToolkit
 
                         for (var i = 0; i < Points.Count - 1; i++)
                         {
-                            dist += SpatialTools.HaversineDistance(Points[i], Points[i + 1], DistanceUnitType.KM);
+                            dist += SpatialTools.HaversineDistance(Points[i], Points[i + 1], DistanceUnitType.Kilometers);
                             
                             if (dist >= travel)
                             {
@@ -288,7 +328,7 @@ namespace BingMapsRESTToolkit
                         if (dx != 0 && idx < Points.Count - 1)
                         {
                             var bearing = SpatialTools.CalculateBearing(Points[idx], Points[idx + 1]);
-                            coords.Add(SpatialTools.CalculateCoord(Points[idx], bearing, dx, DistanceUnitType.KM));
+                            coords.Add(SpatialTools.CalculateCoord(Points[idx], bearing, dx, DistanceUnitType.Kilometers));
                         }
                     }
 

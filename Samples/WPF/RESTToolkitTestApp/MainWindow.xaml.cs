@@ -28,8 +28,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace RESTToolkitTestApp
 {
@@ -39,6 +40,9 @@ namespace RESTToolkitTestApp
         
         private string BingMapsKey = System.Configuration.ConfigurationManager.AppSettings.Get("BingMapsKey");
 
+        private DispatcherTimer _timer;
+        private TimeSpan _time;
+
         #endregion
 
         #region Constructor
@@ -46,6 +50,21 @@ namespace RESTToolkitTestApp
         public MainWindow()
         {
             InitializeComponent();
+
+            _timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
+            {
+                if (_time != null)
+                {
+                    RequestProgressBarText.Text = string.Format("Time remaining: {0}", _time);
+
+                    if (_time == TimeSpan.Zero)
+                    {
+                        _timer.Stop();
+                    }
+
+                    _time = _time.Add(TimeSpan.FromSeconds(-1));
+                }
+            }, Application.Current.Dispatcher);
         }
 
         #endregion
@@ -370,6 +389,59 @@ namespace RESTToolkitTestApp
             ProcessRequest(r);
         }
 
+        /// <summary>
+        /// Demostrates how to make a Distance Matrix Request.
+        /// </summary>
+        private async void DistanceMatrixBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            var r = new DistanceMatrixRequest()
+            {
+                Origins = new List<SimpleWaypoint>()
+                {
+                    new SimpleWaypoint(47.6044, -122.3345),
+                    new SimpleWaypoint(47.6731, -122.1185),
+                    new SimpleWaypoint(47.6149, -122.1936)
+                },
+                Destinations = new List<SimpleWaypoint>()
+                {
+                    new SimpleWaypoint(45.5347, -122.6231),
+                    new SimpleWaypoint(47.4747, -122.2057)
+                },
+                BingMapsKey = BingMapsKey,
+                TimeUnits = TimeUnitType.Minutes,
+                DistanceUnits = DistanceUnitType.Miles
+            };
+
+            ProcessRequest(r);
+        }
+
+        /// <summary>
+        /// Demostrates how to make a Distance Matrix Histogram Request.
+        /// </summary>
+        private void DistanceMatrixHistogramBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            var r = new DistanceMatrixRequest()
+            {
+                Origins = new List<SimpleWaypoint>()
+                {
+                    new SimpleWaypoint(47.6044, -122.3345),
+                    new SimpleWaypoint(47.6731, -122.1185),
+                    new SimpleWaypoint(47.6149, -122.1936)
+                },
+                Destinations = new List<SimpleWaypoint>()
+                {
+                    new SimpleWaypoint(45.5347, -122.6231),
+                    new SimpleWaypoint(47.4747, -122.2057)
+                },
+                BingMapsKey = BingMapsKey,
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now.AddHours(8),
+                Resolution = 4
+            };
+
+            ProcessRequest(r);
+        }
+
         #endregion
 
         #region Private Methods
@@ -378,15 +450,27 @@ namespace RESTToolkitTestApp
         {
             try
             {
-                ProcessingTimeTbx.Text = "";
+                RequestProgressBar.Visibility = Visibility.Visible;
+                RequestProgressBarText.Text = string.Empty;
+
                 ResultTreeView.ItemsSource = null;
 
                 RequestUrlTbx.Text = request.GetRequestUrl();
 
                 var start = DateTime.Now;
 
-                //Process the request by using the ServiceManager.
-                var response = await ServiceManager.GetResponseAsync(request);
+                //Execute the request.
+                var response = await request.Execute((remainingTime) =>
+                {
+                    if (remainingTime > -1)
+                    {
+                        _time = TimeSpan.FromSeconds(remainingTime);
+
+                        RequestProgressBarText.Text = string.Format("Time remaining {0} ", _time);
+                        
+                        _timer.Start();
+                    }
+                });
 
                 var end = DateTime.Now;
 
@@ -394,8 +478,10 @@ namespace RESTToolkitTestApp
 
                 ProcessingTimeTbx.Text = string.Format(CultureInfo.InvariantCulture, "{0:0} ms", processingTime.TotalMilliseconds);
 
-                List<ObjectNode> nodes = new List<ObjectNode>();
-                nodes.Add(new ObjectNode("result", response));
+                var nodes = new List<ObjectNode>()
+                {
+                    new ObjectNode("result", response)
+                };
                 ResultTreeView.ItemsSource = nodes;
 
                 ResponseTab.IsSelected = true;
@@ -404,12 +490,18 @@ namespace RESTToolkitTestApp
             {
                 MessageBox.Show(ex.Message);
             }
+
+            _timer.Stop();
+            RequestProgressBar.Visibility = Visibility.Collapsed;
         }
 
         private async void ProcessImageRequest(BaseImageryRestRequest imageRequest)
         {
             try
             {
+                RequestProgressBar.Visibility = Visibility.Visible;
+                RequestProgressBarText.Text = string.Empty;
+
                 RequestUrlTbx.Text = imageRequest.GetRequestUrl();
 
                 //Process the request by using the ServiceManager.
@@ -429,6 +521,8 @@ namespace RESTToolkitTestApp
             {
                 MessageBox.Show(ex.Message);
             }
+
+            RequestProgressBar.Visibility = Visibility.Collapsed;
         }
 
         private void ExpandTree_Clicked(object sender, RoutedEventArgs e)

@@ -24,7 +24,6 @@
 
 using System;
 using System.IO;
-using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 
 namespace BingMapsRESTToolkit
@@ -41,51 +40,18 @@ namespace BingMapsRESTToolkit
         /// <returns>The response from the REST service.</returns>
         public static async Task<Response> GetResponseAsync(BaseRestRequest request)
         {
-            Stream responseStream = null;
-            if (request is ElevationRequest)
-            {
-                var r = request as ElevationRequest;
+            return await request.Execute(null);
+        }
 
-                if(r.Points != null && r.Points.Count > 50)
-                {
-                    //Make a post request when there are more than 50 points as there is a risk of URL becoming too large for a GET request.
-                    responseStream = await ServiceHelper.PostStringAsync(new Uri(r.GetPostRequestUrl()), r.GetPointsAsString(), null);
-                }
-                else
-                {
-                    responseStream = await ServiceHelper.GetStreamAsync(new Uri(r.GetRequestUrl()));
-                }
-            }
-            else if (request is ImageryRequest)
-            {
-                var r = request as ImageryRequest;
-
-                r.GetMetadata = true;
-
-                if (r.Pushpins != null && r.Pushpins.Count > 18)
-                {
-                    //Make a post request when there are more than 18 pushpins as there is a risk of URL becoming too large for a GET request.
-                    responseStream = await ServiceHelper.PostStringAsync(new Uri(r.GetPostRequestUrl()), r.GetPushpinsAsString(), null);
-                }
-                else
-                {
-                    responseStream = await ServiceHelper.GetStreamAsync(new Uri(r.GetRequestUrl()));
-                }
-            }
-            else
-            {
-                responseStream = await ServiceHelper.GetStreamAsync(new Uri(request.GetRequestUrl()));
-            }
-
-            if (responseStream != null)
-            {
-                var ser = new DataContractJsonSerializer(typeof(Response));
-                var r = ser.ReadObject(responseStream) as Response;
-                responseStream.Dispose();
-                return r;
-            }
-
-            return null;
+        /// <summary>
+        /// Processes a REST requests that returns data.
+        /// </summary>
+        /// <param name="request">The REST request to process.</param>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time is sent.</param>
+        /// <returns>The response from the REST service.</returns>
+        public static async Task<Response> GetResponseAsync(BaseRestRequest request, Action<int> remainingTimeCallback)
+        {
+            return await request.Execute(remainingTimeCallback);
         }
 
         /// <summary>

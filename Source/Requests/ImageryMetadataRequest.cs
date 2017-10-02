@@ -145,11 +145,13 @@ namespace BingMapsRESTToolkit
             {
                 url += string.Format(CultureInfo.InvariantCulture, "/{0:0.#####},{1:0.#####}?", CenterPoint.Latitude, CenterPoint.Longitude);
 
-                if (ImagerySet == ImageryType.Road || ImagerySet == ImageryType.Aerial || ImagerySet == ImageryType.AerialWithLabels)
+                if (ImagerySet == ImageryType.Road || ImagerySet == ImageryType.Aerial || ImagerySet == ImageryType.AerialWithLabels ||
+                    ImagerySet == ImageryType.RoadOnDemand || ImagerySet == ImageryType.AerialWithLabelsOnDemand || ImagerySet == ImageryType.CanvasDark ||
+                    ImagerySet == ImageryType.CanvasGray || ImagerySet == ImageryType.CanvasLight)
                 {
                     if (zoomLevel == 0)
                     {
-                        throw new Exception("Zoom Level must be specified when a centerPoint is specified and ImagerySet is Road, Aerial and AerialWithLabels.");
+                        throw new Exception("Zoom Level must be specified when a centerPoint is specified and ImagerySet is Road, Aerial, AerialWithLabels, or any variation of these (Canvas/OnDemand).");
                     }
                     else
                     {

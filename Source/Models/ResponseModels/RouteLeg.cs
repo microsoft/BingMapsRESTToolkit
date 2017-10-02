@@ -91,10 +91,6 @@ namespace BingMapsRESTToolkit
         [DataMember(Name = "itineraryItems", EmitDefaultValue = false)]
         public ItineraryItem[] ItineraryItems { get; set; }
 
-        //TODO: What is this?
-        [DataMember(Name = "routeRegion", EmitDefaultValue = false)]
-        public string RouteRegion { get; set; }
-
         /// <summary>
         /// Information about a segments of the route leg defined by the route leg waypoints and any intermediate via-waypoints. 
         /// For example, if the route leg has two via-waypoints in addition to start and end waypoints, there would be three (3) route sub-legs.
@@ -189,9 +185,5 @@ namespace BingMapsRESTToolkit
                 }
             }
         }
-
-        //TODO: What is the base class?
-        [DataMember(Name = "alternateVias", EmitDefaultValue = false)]
-        public object[] AlternateVias { get; set; }
     }
 }
