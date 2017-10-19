@@ -180,45 +180,42 @@ namespace BingMapsRESTToolkit
         /// <param name="waypoint">The simple waypoint to geocode.</param>
         /// <param name="baseRequest">A base request that has the information need to perform a geocode, primarily a Bing Maps key.</param>
         /// <returns>A Task in which the simple waypoint will be geocoded.</returns>
-        internal static Task TryGeocode(SimpleWaypoint waypoint, BaseRestRequest baseRequest)
+        internal static async Task TryGeocode(SimpleWaypoint waypoint, BaseRestRequest baseRequest)
         {
-            return new Task(async () =>
+            if (waypoint != null && waypoint.Coordinate == null && !string.IsNullOrEmpty(waypoint.Address))
             {
-                if (waypoint != null && waypoint.Coordinate == null && !string.IsNullOrEmpty(waypoint.Address))
+                var request = new GeocodeRequest()
                 {
-                    var request = new GeocodeRequest()
-                    {
-                        Query = waypoint.Address,
-                        MaxResults = 1,
-                        BingMapsKey = baseRequest.BingMapsKey,
-                        Culture = baseRequest.Culture,
-                        Domain = baseRequest.Domain,
-                        UserIp = baseRequest.UserIp,
-                        UserLocation = baseRequest.UserLocation,
-                        UserMapView = baseRequest.UserMapView,
-                        UserRegion = baseRequest.UserRegion
-                    };
+                    Query = waypoint.Address,
+                    MaxResults = 1,
+                    BingMapsKey = baseRequest.BingMapsKey,
+                    Culture = baseRequest.Culture,
+                    Domain = baseRequest.Domain,
+                    UserIp = baseRequest.UserIp,
+                    UserLocation = baseRequest.UserLocation,
+                    UserMapView = baseRequest.UserMapView,
+                    UserRegion = baseRequest.UserRegion
+                };
 
-                    try
-                    {
-                        var r = await ServiceManager.GetResponseAsync(request);
+                try
+                {
+                    var r = await ServiceManager.GetResponseAsync(request);
 
-                        if (r != null && r.ResourceSets != null &&
-                            r.ResourceSets.Length > 0 &&
-                            r.ResourceSets[0].Resources != null &&
-                            r.ResourceSets[0].Resources.Length > 0)
-                        {
-                            var l = r.ResourceSets[0].Resources[0] as Location;
-
-                            waypoint.Coordinate = new Coordinate(l.Point.Coordinates[0], l.Point.Coordinates[1]);
-                        }
-                    }
-                    catch
+                    if (r != null && r.ResourceSets != null &&
+                        r.ResourceSets.Length > 0 &&
+                        r.ResourceSets[0].Resources != null &&
+                        r.ResourceSets[0].Resources.Length > 0)
                     {
-                        //Do nothing.
+                        var l = r.ResourceSets[0].Resources[0] as Location;
+
+                        waypoint.Coordinate = new Coordinate(l.Point.Coordinates[0], l.Point.Coordinates[1]);
                     }
                 }
-            });
+                catch
+                {
+                    //Do nothing.
+                }
+            }
         }
 
         /// <summary>

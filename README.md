@@ -1,6 +1,6 @@
 ![Bing Maps Logo](https://github.com/Microsoft/Bing-Maps-V8-TypeScript-Definitions/blob/master/images/BingMapsLogoTeal.png)
 
-[![NuGet](https://img.shields.io/badge/NuGet-1.0.6-blue.svg)](https://www.nuget.org/packages/BingMapsRESTToolkit)
+[![NuGet](https://img.shields.io/badge/NuGet-1.0.7-blue.svg)](https://www.nuget.org/packages/BingMapsRESTToolkit)
 [![license](https://img.shields.io/badge/license-MIT-yellow.svg)](https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/LICENSE.md)
 
 # Bing Maps REST Toolkit for .NET #
@@ -14,6 +14,7 @@ This is a portable .NET class library which provides a set of tools that make it
 * Handles errors and rate limiting by catching exception and returning response with error message.
 * Automatically determines when a POST request should be made instead of a GET request.
 * Fast indexed lookups of Distance Matrix results.
+* Supports calculating routes of any size.
 
 ## NuGet Package ##
 
