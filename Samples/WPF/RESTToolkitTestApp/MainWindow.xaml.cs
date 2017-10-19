@@ -168,6 +168,68 @@ namespace RESTToolkitTestApp
         }
 
         /// <summary>
+        /// Demostrates how to make a Driving Route Request that has more than 25 waypoints.
+        /// </summary>
+        private void LongRouteBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            var r = new RouteRequest()
+            {
+                RouteOptions = new RouteOptions()
+                {
+                    Avoid = new List<AvoidType>()
+                    {
+                        AvoidType.MinimizeTolls
+                    },
+                    TravelMode = TravelModeType.Driving,
+                    DistanceUnits = DistanceUnitType.Miles,
+                    Heading = 45,
+                    RouteAttributes = new List<RouteAttributeType>()
+                    {
+                        RouteAttributeType.RoutePath
+                    },
+                    Optimize = RouteOptimizationType.TimeWithTraffic
+                },
+                Waypoints = new List<SimpleWaypoint>() //29 waypoints, more than what the routing service normally handles, so the request will break this up into two requests and merge the results.
+                {
+                    new SimpleWaypoint(47.5886, -122.336),
+                    new SimpleWaypoint(47.5553, -122.334),
+                    new SimpleWaypoint(47.5557, -122.316),
+                    new SimpleWaypoint(47.5428, -122.322),
+                    new SimpleWaypoint(47.5425, -122.341),
+                    new SimpleWaypoint(47.5538, -122.362),
+                    new SimpleWaypoint(47.5647, -122.384),
+                    new SimpleWaypoint(47.5309, -122.380),
+                    new SimpleWaypoint(47.5261, -122.351),
+                    new SimpleWaypoint(47.5137, -122.382),
+                    new SimpleWaypoint(47.5101, -122.337),
+                    new SimpleWaypoint(47.4901, -122.341),
+                    new SimpleWaypoint(47.4850, -122.320),
+                    new SimpleWaypoint(47.5024, -122.263),
+                    new SimpleWaypoint(47.4970, -122.226),
+                    new SimpleWaypoint(47.4736, -122.265),
+                    new SimpleWaypoint(47.4562, -122.287),
+                    new SimpleWaypoint(47.4452, -122.338),
+                    new SimpleWaypoint(47.4237, -122.292),
+                    new SimpleWaypoint(47.4230, -122.257),
+                    new SimpleWaypoint(47.3974, -122.249),
+                    new SimpleWaypoint(47.3765, -122.277),
+                    new SimpleWaypoint(47.3459, -122.302),
+                    new SimpleWaypoint(47.3073, -122.280),
+                    new SimpleWaypoint(47.3115, -122.228),
+                    new SimpleWaypoint(47.2862, -122.218),
+                    new SimpleWaypoint(47.2714, -122.294),
+                    new SimpleWaypoint(47.2353, -122.306),
+                    new SimpleWaypoint(47.1912, -122.408)
+                },
+                BingMapsKey = BingMapsKey
+            };
+
+            ProcessRequest(r);
+
+            RequestUrlTbx.Text = "Request broken up into multiple sub-requests.";
+        }
+
+        /// <summary>
         /// Demostrates how to make a Transit Route Request.
         /// </summary>
         private void TransitRouteBtn_Clicked(object sender, RoutedEventArgs e)
@@ -392,7 +454,7 @@ namespace RESTToolkitTestApp
         /// <summary>
         /// Demostrates how to make a Distance Matrix Request.
         /// </summary>
-        private async void DistanceMatrixBtn_Clicked(object sender, RoutedEventArgs e)
+        private void DistanceMatrixBtn_Clicked(object sender, RoutedEventArgs e)
         {
             var r = new DistanceMatrixRequest()
             {
@@ -409,7 +471,8 @@ namespace RESTToolkitTestApp
                 },
                 BingMapsKey = BingMapsKey,
                 TimeUnits = TimeUnitType.Minutes,
-                DistanceUnits = DistanceUnitType.Miles
+                DistanceUnits = DistanceUnitType.Miles,
+                TravelMode = TravelModeType.Transit
             };
 
             ProcessRequest(r);
@@ -446,6 +509,10 @@ namespace RESTToolkitTestApp
 
         #region Private Methods
 
+        /// <summary>
+        /// This method has a lot of logic that is specific to the sample. To process a request you can easily just call the Execute method on the request.
+        /// </summary>
+        /// <param name="request"></param>
         private async void ProcessRequest(BaseRestRequest request)
         {
             try
@@ -454,8 +521,6 @@ namespace RESTToolkitTestApp
                 RequestProgressBarText.Text = string.Empty;
 
                 ResultTreeView.ItemsSource = null;
-
-                RequestUrlTbx.Text = request.GetRequestUrl();
 
                 var start = DateTime.Now;
 
@@ -471,6 +536,8 @@ namespace RESTToolkitTestApp
                         _timer.Start();
                     }
                 });
+
+                RequestUrlTbx.Text = request.GetRequestUrl();
 
                 var end = DateTime.Now;
 

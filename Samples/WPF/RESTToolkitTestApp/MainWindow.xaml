@@ -27,6 +27,7 @@
                 <Button Content="Reverse Geocode" Click="ReverseGeocodeBtn_Clicked" Height="30"/>
                 <Button Content="Elevation" Click="ElevationBtn_Clicked" Height="30"/>
                 <Button Content="Route" Click="RouteBtn_Clicked" Height="30"/>
+                <Button Content="Long Route" Click="LongRouteBtn_Clicked" Height="30"/>
                 <Button Content="Transit Route" Click="TransitRouteBtn_Clicked" Height="30"/>
                 <Button Content="Traffic" Click="TrafficBtn_Clicked" Height="30"/>
                 <Button Content="Imagery Metadata" Click="ImageMetadataBtn_Clicked" Height="30"/>

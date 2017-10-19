@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
-    <Version>1.0.6</Version>
+    <Version>1.0.7</Version>
     <Authors>Microsoft</Authors>
     <Company>Microsoft</Company>
     <Description>A toolkit that makes it easy to access the Bing Maps REST services from .NET</Description>

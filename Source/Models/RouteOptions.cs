@@ -174,7 +174,7 @@ namespace BingMapsRESTToolkit
 
         #region Internal Methods
 
-        internal string GetUrlParam()
+        internal string GetUrlParam(int startIdx)
         {
             var sb = new StringBuilder();
 
@@ -198,14 +198,17 @@ namespace BingMapsRESTToolkit
                 }
             }
 
-            if (TravelMode == TravelModeType.Driving && distanceBeforeFirstTurn > 0)
+            if (startIdx == 0)
             {
-                sb.AppendFormat("&dbft={0}", distanceBeforeFirstTurn);
-            }
+                if (TravelMode == TravelModeType.Driving && distanceBeforeFirstTurn > 0)
+                {
+                    sb.AppendFormat("&dbft={0}", distanceBeforeFirstTurn);
+                }
 
-            if (heading > 0)
-            {
-                sb.AppendFormat("&hd={0}", heading);
+                if (heading > 0)
+                {
+                    sb.AppendFormat("&hd={0}", heading);
+                }
             }
 
             if (DistanceUnits != DistanceUnitType.Kilometers)
@@ -258,7 +261,7 @@ namespace BingMapsRESTToolkit
                 }
             }
 
-                if (TravelMode != TravelModeType.Walking)
+            if (TravelMode != TravelModeType.Walking)
             {
                 sb.AppendFormat("&maxSolns={0}", maxSolutions);
             }

@@ -38,6 +38,62 @@ namespace BingMapsRESTToolkit
 
         #endregion
 
+        #region Constructor
+        
+        /// <summary>
+        /// A pushpin that is rendered on a static map image.
+        /// </summary>
+        public ImageryPushpin()
+        {
+        }
+
+        /// <summary>
+        /// A pushpin that is rendered on a static map image.
+        /// </summary>
+        /// <param name="latitude">The latitude coordinate.</param>
+        /// <param name="longitude">The longitude coordinate.</param>
+        public ImageryPushpin(double latitude, double longitude): 
+            this(new Coordinate(latitude, longitude), 1, null)
+        {
+        }
+
+        /// <summary>
+        /// A pushpin that is rendered on a static map image.
+        /// </summary>
+        /// <param name="coord">The coordinate where to position the pushpin.</param>
+        public ImageryPushpin(Coordinate coord) :
+           this(coord, 1, null)
+        {
+        }
+
+
+        /// <summary>
+        /// A pushpin that is rendered on a static map image.
+        /// </summary>
+        /// <param name="latitude">The latitude coordinate.</param>
+        /// <param name="longitude">The longitude coordinate.</param>
+        /// <param name="iconStyle">The style of icon to render as a pushpin.</param>
+        /// <param name="label">The label to put on top of the pushpin.</param>
+        public ImageryPushpin(double latitude, double longitude, int iconStyle, string label): 
+            this(new Coordinate(latitude, longitude), iconStyle, label)
+        {            
+        }
+
+        /// <summary>
+        /// A pushpin that is rendered on a static map image.
+        /// </summary>
+        /// <param name="coord">The coordinate where to position the pushpin.</param>
+        /// <param name="iconStyle">The style of icon to render as a pushpin.</param>
+        /// <param name="label">The label to put on top of the pushpin.</param>
+        public ImageryPushpin(Coordinate coord, int iconStyle, string label)
+        {
+            this.label = label;
+            this.iconStyle = iconStyle;
+            this.Location = coord;
+        }
+
+        #endregion
+
         #region Public Properties
 
         /// <summary>

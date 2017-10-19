@@ -368,7 +368,7 @@ namespace BingMapsRESTToolkit
 
                 if (RouteOptions != null)
                 {
-                    sb.Append(RouteOptions.GetUrlParam());
+                    sb.Append(RouteOptions.GetUrlParam(0));
                 }                
             }
             
