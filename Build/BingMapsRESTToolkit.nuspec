@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
     <metadata>
         <id>BingMapsRESTToolkit</id>
-        <version>1.0.7</version>
+        <version>1.0.8</version>
         <title>Bing Maps REST Services Toolkit</title>
         <authors>Microsoft</authors>
         <owners>microsoft bingmaps</owners>
@@ -41,7 +41,7 @@
         </references>
     </metadata>
     <files>
-		<file src="..\Source\bin\Release\BingMapsRESTToolkit.dll" target="lib\dotnet\BingMapsRESTToolkit.dll" />
+        <file src="..\Source\bin\Release\BingMapsRESTToolkit.dll" target="lib\dotnet\BingMapsRESTToolkit.dll" />
         <file src="..\Source\bin\Release\BingMapsRESTToolkit.pdb" target="lib\dotnet\BingMapsRESTToolkit.pdb" />
         <file src="..\Source\bin\Release\BingMapsRESTToolkit.XML" target="lib\dotnet\BingMapsRESTToolkit.XML" />
         <file src="..\Source\bin\Release\BingMapsRESTToolkit.dll" target="lib\net45\BingMapsRESTToolkit.dll" />

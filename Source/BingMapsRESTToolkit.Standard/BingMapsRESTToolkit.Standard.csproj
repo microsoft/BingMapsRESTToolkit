@@ -13,6 +13,8 @@
     <PackageTags>Microsoft "Bing Maps" Maps GIS Map Geospatial VB C# .NET REST</PackageTags>
     <PackageReleaseNotes>See the changelog here: https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/CHANGELOG.md</PackageReleaseNotes>
     <PackageId>BingMapsRESTToolkit</PackageId>
+    <AssemblyVersion>1.0.8.0</AssemblyVersion>
+    <FileVersion>1.0.8.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
