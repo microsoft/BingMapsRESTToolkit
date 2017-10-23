@@ -1,3 +1,7 @@
+## Version 1.0.8
+
+* Fix stack overflow issue when calculating short routes.
+
 ## Version 1.0.7
 
 * Extended the RouteRequest class so that it can support more than 25 waypoints. It will simply break the request up into multiple sub-requests, process them, then merge the responses together.

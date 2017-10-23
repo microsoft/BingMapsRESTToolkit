@@ -91,9 +91,12 @@ namespace BingMapsRESTToolkit
         /// <returns>A response containing the requested data.</returns>
         public override async Task<Response> Execute(Action<int> remainingTimeCallback)
         {
-            if(Waypoints.Count <= batchSize)
+            if (Waypoints.Count <= batchSize)
             {
-                return await base.Execute();
+                using (var responseStream = await ServiceHelper.GetStreamAsync(new Uri(GetRequestUrl())))
+                {
+                    return ServiceHelper.DeserializeStream<Response>(responseStream);
+                }
             }
 
             //There is more waypoints than the batchSize value (default 25), break it up into multiple requests. Only allow a single route in the response and no tolerances.
