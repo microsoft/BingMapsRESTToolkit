@@ -24,6 +24,13 @@ Alternatively, if you are using the nuget command line:
 
 > PM&gt; Install-Package BingMapsRESTToolkit
 
+If you prefer to use the NuGet package manager interface, ere are the steps to add the Bing Maps REST toolkit to your project:
+
+1. In Visual Studio select Tools -> Nuget Package Manager -> Managed Nuget Packages for Solution 
+2. Select Browse tab and search for "BingMapsRESTToolkit".
+3. Select the top result from Microsoft.
+4. Check the projects you want to add it to then press install.
+
 ## Supported Platforms ##
 
 * .NET Framework 4.5+ 
