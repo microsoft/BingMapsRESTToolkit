@@ -8,7 +8,7 @@
 This is a portable .NET class library which provides a set of tools that make it easy to access the Bing Maps REST services in .NET based apps. Take a look at the [Getting Started documentation](https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/Docs/Getting%20Started.md). The Bing Maps REST Services provides the following functionality:
 
 * **Forward and reverse geocoding**
-* Route calculations for driving, walking, transit and truck
+* **Route calculations** - for driving, walking, transit and truck
 * **Distance matricies** - time and distance based matrices between a set of origins and destinations. Optionally retrieve this data over a period of time using predictive traffic data
 * **Isochrones** (drive time polygons)
 * **Snap to Road API** - snap GPS points to their closest logical point on a road. Also provides speed limit data
@@ -24,7 +24,7 @@ This is a portable .NET class library which provides a set of tools that make it
 * Automatically determines when a POST request should be made instead of a GET request.
 * Fast indexed lookups of Distance Matrix results.
 * Supports calculating driving, walking and transit routes that have more than 25 waypoints.
-* Travelling Salesmen algorithms that tie into the distance matrix API [documentation](https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/Docs/Getting%20Started.md#TravellingSalesmen). 
+* **Travelling Salesmen** algorithms that tie into the distance matrix API [documentation](https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/Docs/Getting%20Started.md#TravellingSalesmen). 
 
 ## NuGet Package ##
 
@@ -46,13 +46,7 @@ If you prefer to use the NuGet package manager interface, ere are the steps to a
 * .NET Framework 4.5+ 
 * .NET Standard 1.4+
 * Universal Windows Platform (UWP) 
-* Windows 10
-* Windows 8.1
-* Windows 8
-* Windows Phone 10
-* Windows Phone 8.1
-* Windows Phone Silverlight 8.1
-* Windows Phone Silverlight 8
+* Windows 8+
 * Xamarin.Android
 * Xamarin.iOS
 * Xamarin.iOS (Classic)
