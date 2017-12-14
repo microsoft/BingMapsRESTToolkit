@@ -23,6 +23,7 @@
 */
 
 using System;
+using System.Text;
 
 namespace BingMapsRESTToolkit
 {
@@ -83,11 +84,12 @@ namespace BingMapsRESTToolkit
         /// <returns>Geocode request URL for GET request.</returns>
         public override string GetRequestUrl()
         {
-            string url = this.Domain + "Locations";
+            var sb = new StringBuilder(this.Domain);
+            sb.Append("Locations");
             
             if (!string.IsNullOrWhiteSpace(Query))
             {
-                url += string.Format("?q={0}", Uri.EscapeDataString(Query));
+                sb.AppendFormat("?q={0}", Uri.EscapeDataString(Query));
             }
             else if (Address != null)
             {
@@ -95,31 +97,31 @@ namespace BingMapsRESTToolkit
 
                 if (!string.IsNullOrWhiteSpace(Address.AddressLine))
                 {
-                    url += string.Format("{0}addressLine={1}", seperator, Uri.EscapeDataString(Address.AddressLine));
+                    sb.AppendFormat("{0}addressLine={1}", seperator, Uri.EscapeDataString(Address.AddressLine));
                     seperator = "&";
                 }
 
                 if (!string.IsNullOrWhiteSpace(Address.Locality))
                 {
-                    url += string.Format("{0}locality={1}", seperator, Uri.EscapeDataString(Address.Locality));
+                    sb.AppendFormat("{0}locality={1}", seperator, Uri.EscapeDataString(Address.Locality));
                     seperator = "&";
                 }
 
                 if (!string.IsNullOrWhiteSpace(Address.AdminDistrict))
                 {
-                    url += string.Format("{0}adminDistrict={1}", seperator, Uri.EscapeDataString(Address.AdminDistrict));
+                    sb.AppendFormat("{0}adminDistrict={1}", seperator, Uri.EscapeDataString(Address.AdminDistrict));
                     seperator = "&";
                 }
 
                 if (!string.IsNullOrWhiteSpace(Address.PostalCode))
                 {
-                    url += string.Format("{0}postalCode={1}", seperator, Uri.EscapeDataString(Address.PostalCode));
+                    sb.AppendFormat("{0}postalCode={1}", seperator, Uri.EscapeDataString(Address.PostalCode));
                     seperator = "&";
                 }
 
                 if (!string.IsNullOrWhiteSpace(Address.CountryRegion))
                 {
-                    url += string.Format("{0}countryRegion={1}", seperator, Uri.EscapeDataString(Address.CountryRegion));
+                    sb.AppendFormat("{0}countryRegion={1}", seperator, Uri.EscapeDataString(Address.CountryRegion));
                 }
             }
             else
@@ -129,20 +131,22 @@ namespace BingMapsRESTToolkit
 
             if (IncludeIso2)
             {
-                url += "&incl=ciso2";
+                sb.Append("&incl=ciso2");
             }
 
             if (IncludeNeighborhood)
             {
-                url += "&inclnb=1";
+                sb.Append("&inclnb=1");
             }
 
             if (maxResults != 5)
             {
-                url += "&maxResults=" + maxResults;
+                sb.AppendFormat("&maxResults={0}", maxResults);
             }
 
-            return url + GetBaseRequestUrl();
+            sb.Append(GetBaseRequestUrl());
+
+            return sb.ToString();
         }
 
         #endregion

@@ -31,7 +31,6 @@ namespace BingMapsRESTToolkit
     /// <summary>
     /// An abstract class in which all REST service requests derive from.
     /// </summary>
-    [DataContract]
     public abstract class BaseRestRequest
     {
         #region Private Properties
@@ -150,7 +149,7 @@ namespace BingMapsRESTToolkit
                 url += "&uip=" + UserIp;
             }
 
-            return url + "&key=" + BingMapsKey + "&clientApi=CSToolkit";
+            return url + "&key=" + BingMapsKey + "&clientApi=" + InternalSettings.ClientApi;
         }
 
         #endregion

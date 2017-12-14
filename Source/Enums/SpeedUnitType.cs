@@ -25,28 +25,18 @@
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// The level of confidence that the geocoded location result is a match.
+    /// Unit of speed.
     /// </summary>
-    public enum ConfidenceLevel
-    {
+    public enum SpeedUnitType
+    { 
         /// <summary>
-        /// No confidence level set.
+        /// Kilometers per hour.
         /// </summary>
-        None,
+        KPH,
 
         /// <summary>
-        /// High confidence match.
+        /// Miles per hour.
         /// </summary>
-        High,
-
-        /// <summary>
-        /// Medium confidence match.
-        /// </summary>
-        Medium,
-
-        /// <summary>
-        /// Low confidence match.
-        /// </summary>
-        Low
+        MPH
     }
 }

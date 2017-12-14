@@ -55,7 +55,6 @@ namespace BingMapsRESTToolkit
             }
         }
 
-
         /// <summary>
         /// The unit used for distance as an Enum.
         /// </summary>
@@ -69,7 +68,7 @@ namespace BingMapsRESTToolkit
         {
             get
             {
-                return EnumHelper.TimeUnitTypeToString(TimeUnitType);
+                return Enum.GetName(typeof(TimeUnitType), TimeUnitType);
             }
             set
             {
@@ -77,13 +76,11 @@ namespace BingMapsRESTToolkit
             }
         }
 
-
         /// <summary>
         /// The unit used for time as an Enum.
         /// </summary>
         public TimeUnitType TimeUnitType { get; set; }
-
-
+        
         /// <summary>
         /// The physical distance covered by the entire route. This value is not supported for the Transit travel mode.
         /// </summary>

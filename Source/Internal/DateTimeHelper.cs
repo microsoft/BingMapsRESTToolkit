@@ -37,11 +37,11 @@ namespace BingMapsRESTToolkit
         /// </summary>
         /// <param name="dateTime">The DateTime to convert.</param>
         /// <returns>An OData version of the DateTime.</returns>
-        public static string ToOdataJson(DateTime dateTime)
+        internal static string ToOdataJson(DateTime dateTime)
         {
-            DateTime d1 = new DateTime(1970, 1, 1);
-            DateTime d2 = dateTime.ToUniversalTime();
-            TimeSpan ts = new TimeSpan(d2.Ticks - d1.Ticks);
+            var d1 = new DateTime(1970, 1, 1);
+            var d2 = dateTime.ToUniversalTime();
+            var ts = new TimeSpan(d2.Ticks - d1.Ticks);
             return "\\/Date(" + ts.TotalMilliseconds.ToString("#") + ")\\/";
         }
 
@@ -50,7 +50,7 @@ namespace BingMapsRESTToolkit
         /// </summary>
         /// <param name="jsonDate">OData Date to convert.</param>
         /// <returns>The converted DateTime object.</returns>
-        public static DateTime FromOdataJson(string jsonDate)
+        internal static DateTime FromOdataJson(string jsonDate)
         {
             //  /Date(1235764800000)/
             //  /Date(1467298867000-0700)/

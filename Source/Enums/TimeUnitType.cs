@@ -32,11 +32,11 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// Time is in seconds.
         /// </summary>
-        Seconds,
+        Second,
 
         /// <summary>
         /// Time is in minutes.
         /// </summary>
-        Minutes
+        Minute
     }
 }

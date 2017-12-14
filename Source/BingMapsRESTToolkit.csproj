@@ -40,7 +40,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Enums\AvoidType.cs" />
-    <Compile Include="Enums\ConfidenceLevel.cs" />
+    <Compile Include="Enums\ConfidenceLevelType.cs" />
+    <Compile Include="Enums\DimensionUnitType.cs" />
+    <Compile Include="Enums\HazardousMaterialPermitType.cs" />
+    <Compile Include="Enums\HazardousMaterialType.cs" />
     <Compile Include="Enums\ImageResolutionType.cs" />
     <Compile Include="Enums\ImageFormatType.cs" />
     <Compile Include="Enums\ImageryType.cs" />
@@ -48,13 +51,23 @@
     <Compile Include="Enums\RouteAttributeType.cs" />
     <Compile Include="Enums\RouteOptimizationType.cs" />
     <Compile Include="Enums\RouteTimeType.cs" />
+    <Compile Include="Enums\SpeedUnitType.cs" />
     <Compile Include="Enums\TimeUnitType.cs" />
     <Compile Include="Enums\TravelModeType.cs" />
     <Compile Include="Enums\SeverityType.cs" />
     <Compile Include="Enums\TrafficType.cs" />
     <Compile Include="Enums\WarningType.cs" />
+    <Compile Include="Enums\WeightUnitType.cs" />
+    <Compile Include="Extensions\TSP Resources\BaseTspAlgorithm.cs" />
+    <Compile Include="Extensions\TSP Resources\GreedyTspAlgorithm.cs" />
+    <Compile Include="Extensions\TSP Resources\GeneticTspAlgorithm.cs" />
+    <Compile Include="Extensions\TravellingSalesmen.cs" />
+    <Compile Include="Extensions\TspOptimizationType.cs" />
+    <Compile Include="Extensions\TspResult.cs" />
     <Compile Include="Internal\DateTimeHelper.cs" />
     <Compile Include="Internal\EnumHelper.cs" />
+    <Compile Include="Internal\InternalSettings.cs" />
+    <Compile Include="Models\ResponseModels\AsyncStatus.cs" />
     <Compile Include="Models\BoundingBox.cs" />
     <Compile Include="CustomMapStyleManager.cs" />
     <Compile Include="Models\CustomMapStyles\CustomMapStyle.cs" />
@@ -79,11 +92,14 @@
     <Compile Include="Models\ResponseModels\ImageryMetadata.cs" />
     <Compile Include="Models\ResponseModels\ImageryProvider.cs" />
     <Compile Include="Models\ResponseModels\Instruction.cs" />
+    <Compile Include="Models\ResponseModels\IsochroneAsyncStatus.cs" />
+    <Compile Include="Models\ResponseModels\IsochroneResponse.cs" />
     <Compile Include="Models\ResponseModels\ItineraryItem.cs" />
     <Compile Include="Models\ResponseModels\Line.cs" />
     <Compile Include="Models\ResponseModels\Location.cs" />
     <Compile Include="Models\ResponseModels\Pixel.cs" />
     <Compile Include="Models\ResponseModels\Point.cs" />
+    <Compile Include="Models\ResponseModels\Polygon.cs" />
     <Compile Include="Models\ResponseModels\PushpinMetdata.cs" />
     <Compile Include="Models\ResponseModels\QueryParseValue.cs" />
     <Compile Include="Models\ResponseModels\Resource.cs" />
@@ -97,12 +113,16 @@
     <Compile Include="Models\ResponseModels\SeaLevelData.cs" />
     <Compile Include="Models\ResponseModels\Shape.cs" />
     <Compile Include="Models\ResponseModels\Shield.cs" />
+    <Compile Include="Models\ResponseModels\SnappedPoint.cs" />
+    <Compile Include="Models\ResponseModels\SnapToRoadResponse.cs" />
     <Compile Include="Models\ResponseModels\StaticMapMetadata.cs" />
     <Compile Include="Models\ResponseModels\TrafficIncident.cs" />
     <Compile Include="Models\ResponseModels\TransitLine.cs" />
+    <Compile Include="Models\ResponseModels\TruckAsyncStatus.cs" />
     <Compile Include="Models\ResponseModels\Warning.cs" />
     <Compile Include="Models\ResponseModels\Waypoint.cs" />
     <Compile Include="Models\RouteOptions.cs" />
+    <Compile Include="Models\VehicleSpec.cs" />
     <Compile Include="Requests\DistanceMatrixRequest.cs" />
     <Compile Include="Requests\GeospatialEndpointRequest.cs" />
     <Compile Include="Requests\ImageryMetadataRequest.cs" />
@@ -115,6 +135,8 @@
     <Compile Include="Enums\ElevationType.cs" />
     <Compile Include="Enums\EntityType.cs" />
     <Compile Include="Internal\ServiceHelper.cs" />
+    <Compile Include="Requests\IsochroneRequest.cs" />
+    <Compile Include="Requests\SnapToRoadRequest.cs" />
     <Compile Include="Internal\SpatialTools.cs" />
     <Compile Include="Models\SimpleAddress.cs" />
     <Compile Include="Requests\BaseRestRequest.cs" />

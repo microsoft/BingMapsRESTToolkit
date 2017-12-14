@@ -42,6 +42,11 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// Transit mode.
         /// </summary>
-        Transit
+        Transit,
+
+        /// <summary>
+        /// Truck driving mode.
+        /// </summary>
+        Truck
     }
 }

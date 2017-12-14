@@ -2,11 +2,11 @@
 * [Running the Samples](#RunningTheSamples)
 * [Adding the Bing Maps REST Toolkit to your project](#AddingToolkitToProject)
 * [How to make a Request to the REST services](#HowToMakeARequest)
+* [Travelling Salesmen Problem](#TravellingSalesmen)
 
 The Bing Maps REST services allow you to query the raw data that powers Bing Maps. The Bing Maps REST Services Toolkit provides an easy to use .NET wrapper around these services. To keep things easy the request and response classes in this library are aligned with the structure of the [documented Bing Maps REST Services API](https://msdn.microsoft.com/en-us/library/ff701713.aspx).
 
-<a name="CreatingABingMapsKey"></a> Creating a Bing Maps key
-------------------------
+## <a name="CreatingABingMapsKey"></a> Creating a Bing Maps key
 
 To use Bing Maps in your own application you will need a Bing Maps key. All Bing Maps map controls and services use a Bing Maps key for authentication. You can get a Bing Maps key in two ways:
 
@@ -38,13 +38,11 @@ If you are an Azure user, you can create a Bing Maps key through the [Azure mark
 
 To find out about licensing options and learn about Bing Maps controls, please visit [www.microsoft.com/maps](http://www.microsoft.com/maps).
 
-<a name="RunningTheSamples"></a> Running the Samples
--------------------
+## <a name="RunningTheSamples"></a> Running the Samples
 
 Download the complete project including the samples and the source code for the Ring Maps REST toolkit. All of the samples require a Bing Maps key to work. To add your Bing Maps key to the sample, open the **App.config** file of the sample and add it to the **BingMapsKey** property. This property likely has a placeholder value of **YOUR\_BING\_MAPS\_KEY**. Once this is done, simply run the sample in debug or release mode.
 
-<a name="AddingToolkitToProject"></a> Adding the Bing Maps REST Toolkit to your project
--------------------------------------------------
+## <a name="AddingToolkitToProject"></a> Adding the Bing Maps REST Toolkit to your project
 
 There are two options for adding the Bing Maps REST toolkit to your project.
 
@@ -60,8 +58,7 @@ Alternatively, if you are using the nuget command line:
 
 Download the source code and add the BingMapsRESTToolkit project to your solution. Once this is done you can a reference to it from your main project.
 
-<a name="HowToMakeARequest"></a> How to make a Request to the REST services
-------------------------------------------
+## <a name="HowToMakeARequest"></a> How to make a Request to the REST services
 
 | Update | 
 |--------|
@@ -193,3 +190,45 @@ using (var imageStream = await ServiceManager.GetImageAsync(request))
     MyImage.Source = bitmapImage;
 }
 ```
+
+## <a name="TravellingSalesmen"></a>  Travelling Salesmen Problem
+
+This toolkit provides some classes which wrap the routing and distance matrix API's and provides solutions for the [travelling salesmen problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) (waypoint order optimization). You can optimize based on travel time, travel distance or straight line distance. When travel time/distance is specified, the distance matrix API which will generate Bing Maps transactions. For straight line distances, the haversine formula will be used to generate a matrix based on as-the-crow-flies distance between the waypoints. 
+
+The travelling salesmen functionality is exposed in two ways; 
+ - A TravellingSalesmen class which takes in a set of waypoints or a distance matrix and optimizes the waypoints. This uses a greedy algrithm when 10 or less waypoints are specified, and a genetic algorithm for larger waypoint sets. Here is an example of how to implement this:
+
+ ```C#
+ var tspResult = await TravellingSalesmen.Solve(new List<SimpleWaypoint>(){
+        new SimpleWaypoint("Seattle, WA"),
+        new SimpleWaypoint("Bellevue, WA"),
+        new SimpleWaypoint("Redmond, WA"),
+        new SimpleWaypoint("Kirkland, WA")
+    }, TspOptimizationType.TravelTime);
+
+//Do something with the results.
+ ```
+
+ - A WaypointOptimization option has been added to the RouteRequest class which, when set, will optimize the waypoints before calculating the requested route. Here is an example of how to implement this:
+
+ ```C#
+var routeRequest = new RouteRequest()
+{
+    Waypoints = new List<SimpleWaypoint>(){
+        new SimpleWaypoint("Seattle, WA"),
+        new SimpleWaypoint("Bellevue, WA"),
+        new SimpleWaypoint("Redmond, WA"),
+        new SimpleWaypoint("Kirkland, WA")
+    },
+    WaypointOptimization = TspOptimizationType.TravelTime,
+    RouteOptions = new RouteOptions()
+    {
+        TravelMode = TravelModeType.Driving
+    },
+    BingMapsKey = BingMapsKey
+};                
+
+var response = await routeRequest.Execute();
+
+//Do something with the route response which will be based on an optimized ordered set of waypoints.
+ ```

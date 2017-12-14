@@ -53,7 +53,7 @@ namespace BingMapsRESTToolkit
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(ManeuverType))
+                if (!string.IsNullOrWhiteSpace(ManeuverType))
                 {
                     try
                     {

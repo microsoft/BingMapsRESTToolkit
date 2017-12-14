@@ -36,7 +36,8 @@ namespace BingMapsRESTToolkit
     {
         #region Private Properties
 
-        private int distanceBeforeFirstTurn = 0, heading = 0, maxSolutions = 1;
+        private int distanceBeforeFirstTurn = 0, maxSolutions = 1;
+        private int? heading = null;
 
         #endregion
 
@@ -50,7 +51,6 @@ namespace BingMapsRESTToolkit
             Optimize = RouteOptimizationType.Time;
             TravelMode = TravelModeType.Driving;
             TimeType = RouteTimeType.Departure;
-            DateTime = DateTime.Now.AddMinutes(15);
         }
 
         #endregion
@@ -84,7 +84,7 @@ namespace BingMapsRESTToolkit
         /// Specifies the initial heading for the route. An integer value between 0 and 359 that represents degrees from 
         /// north where north is 0 degrees and the heading is specified clockwise from north.
         /// </summary>
-        public int Heading
+        public int? Heading
         {
             get { return heading; }
             set
@@ -119,7 +119,7 @@ namespace BingMapsRESTToolkit
         /// When calculating driving routes the route optimization type should be TimeWithTraffic. The route time will be used as the departure time.
         /// When calculating transit routes timeType can be specified. 
         /// </summary>
-        public DateTime DateTime { get; set; }
+        public DateTime? DateTime { get; set; }
 
         /// <summary>
         /// Specifies how to interpret the date and transit time value that is specified by the dateTime parameter.
@@ -170,6 +170,11 @@ namespace BingMapsRESTToolkit
             }
         }
 
+        /// <summary>
+        /// Truck routing specific vehicle attribute. 
+        /// </summary>
+        public VehicleSpec VehicleSpec { get; set; }
+
         #endregion
 
         #region Internal Methods
@@ -205,15 +210,19 @@ namespace BingMapsRESTToolkit
                     sb.AppendFormat("&dbft={0}", distanceBeforeFirstTurn);
                 }
 
-                if (heading > 0)
+                if (heading.HasValue)
                 {
-                    sb.AppendFormat("&hd={0}", heading);
+                    sb.AppendFormat("&hd={0}", heading.Value);
                 }
             }
 
-            if (DistanceUnits != DistanceUnitType.Kilometers)
+            if (DistanceUnits == DistanceUnitType.Kilometers)
             {
-                sb.AppendFormat("&du=mi");
+                sb.Append("&du=kilometer");
+            }
+            else
+            {
+                sb.Append("&du=mile");
             }
 
             if (Tolerances != null && Tolerances.Count > 0)
@@ -248,20 +257,20 @@ namespace BingMapsRESTToolkit
                 }
             }
 
-            if (DateTime != null)
+            if (DateTime != null && DateTime.HasValue)
             {
                 if (TravelMode == TravelModeType.Transit)
                 {
-                    sb.AppendFormat(DateTimeFormatInfo.InvariantInfo, "&dt={0:G}", DateTime);
+                    sb.AppendFormat(DateTimeFormatInfo.InvariantInfo, "&dt={0:G}", DateTime.Value);
                     sb.AppendFormat("&tt={0}", Enum.GetName(typeof(RouteTimeType), TimeType));
                 }
                 else if (TravelMode == TravelModeType.Driving)
                 {
-                    sb.AppendFormat(DateTimeFormatInfo.InvariantInfo, "&dt={0:G}", DateTime);
+                    sb.AppendFormat(DateTimeFormatInfo.InvariantInfo, "&dt={0:G}", DateTime.Value);
                 }
             }
 
-            if (TravelMode != TravelModeType.Walking)
+            if (TravelMode != TravelModeType.Walking && maxSolutions > 1 && maxSolutions <= 3)
             {
                 sb.AppendFormat("&maxSolns={0}", maxSolutions);
             }

@@ -46,11 +46,7 @@ namespace BingMapsRESTToolkit
         {
             get
             {
-                if (string.IsNullOrEmpty(Origin))
-                {
-                    return null;
-                }
-                else
+                if (!string.IsNullOrEmpty(Origin))
                 {
                     var latLng = Origin.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     double lat;
@@ -60,9 +56,9 @@ namespace BingMapsRESTToolkit
                     {
                         return new Coordinate(lat, lon);
                     }
+                }
 
                     return null;
-                }
             }
             set
             {
@@ -102,11 +98,7 @@ namespace BingMapsRESTToolkit
         {
             get
             {
-                if (string.IsNullOrEmpty(To))
-                {
-                    return null;
-                }
-                else
+                if (!string.IsNullOrEmpty(To))
                 {
                     var latLng = To.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     double lat;
@@ -116,9 +108,9 @@ namespace BingMapsRESTToolkit
                     {
                         return new Coordinate(lat, lon);
                     }
-
-                    return null;
                 }
+
+                return null;
             }
             set
             {
@@ -146,7 +138,7 @@ namespace BingMapsRESTToolkit
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(WarningType))
+                if (!string.IsNullOrWhiteSpace(WarningType))
                 {
                     try
                     {

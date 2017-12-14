@@ -172,6 +172,49 @@ namespace BingMapsRESTToolkit
 
         #endregion
 
+        #region Public Methods
+
+        /// <summary>
+        /// Compares two simple waypoints. Intially only concern with coordinates, but if no coordinates specified, falls back on comparing address. Ignored IsViaPoint.
+        /// </summary>
+        /// <param name="obj">Simple waypoint to compare to.</param>
+        /// <returns>A boolean indicating if the two simple waypoints are equal.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj != null && obj is SimpleWaypoint)
+            {
+                var wp = obj as SimpleWaypoint;
+
+                if((Coordinate == null && wp.Coordinate != null) || (Coordinate != null && wp.Coordinate == null))
+                {
+                    return false;
+                }
+                else if (Coordinate != null && wp.Coordinate != null)
+                {
+                    //Limit comparison to coordinates.
+                    return Coordinate.Equals(wp.Coordinate);
+                }
+                else if (string.Compare(Address, wp.Address, System.StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    //Compare address strings.
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Get hash for simple waypoint.
+        /// </summary>
+        /// <returns>Hash for simple waypoint.</returns>
+        public override int GetHashCode()
+        {
+            return string.Format("{0}|{1:0.######}|{2:0.######}", Address, Latitude, Longitude).GetHashCode();
+        }
+
+        #endregion
+
         #region Static Methods
 
         /// <summary>
@@ -224,7 +267,7 @@ namespace BingMapsRESTToolkit
         /// <param name="waypoints">A list of simple waypoints to geocode.</param>
         /// <param name="baseRequest">A base request that has the information need to perform a geocode, primarily a Bing Maps key.</param>
         /// <returns>A Task in which a list of simple waypoints will be geocoded.</returns>
-        internal static async Task GeocodeWaypoints(List<SimpleWaypoint> waypoints, BaseRestRequest baseRequest)
+        internal static async Task TryGeocodeWaypoints(List<SimpleWaypoint> waypoints, BaseRestRequest baseRequest)
         {
             var geocodeTasks = new List<Task>();
 
@@ -233,6 +276,68 @@ namespace BingMapsRESTToolkit
                 if (wp != null && wp.Coordinate == null && !string.IsNullOrEmpty(wp.Address))
                 {
                     geocodeTasks.Add(TryGeocode(wp, baseRequest));
+                }
+            }
+
+            if (geocodeTasks.Count > 0)
+            {
+                await Task.WhenAll(geocodeTasks);
+            }
+        }
+
+        /// <summary>
+        /// Tries to geocode a simple waypoint. 
+        /// </summary>
+        /// <param name="waypoint">The simple waypoint to geocode.</param>
+        /// <param name="bingMapsKey">The Bing Maps key to use when geocoding.</param>
+        /// <returns>A Task in which the simple waypoint will be geocoded.</returns>
+        internal static async Task TryGeocode(SimpleWaypoint waypoint, string bingMapsKey)
+        {
+            if (waypoint != null && waypoint.Coordinate == null && !string.IsNullOrEmpty(waypoint.Address))
+            {
+                var request = new GeocodeRequest()
+                {
+                    Query = waypoint.Address,
+                    MaxResults = 1,
+                    BingMapsKey = bingMapsKey,
+                };
+
+                try
+                {
+                    var r = await ServiceManager.GetResponseAsync(request);
+
+                    if (r != null && r.ResourceSets != null &&
+                        r.ResourceSets.Length > 0 &&
+                        r.ResourceSets[0].Resources != null &&
+                        r.ResourceSets[0].Resources.Length > 0)
+                    {
+                        var l = r.ResourceSets[0].Resources[0] as Location;
+
+                        waypoint.Coordinate = new Coordinate(l.Point.Coordinates[0], l.Point.Coordinates[1]);
+                    }
+                }
+                catch
+                {
+                    //Do nothing.
+                }
+            }
+        }
+
+        /// <summary>
+        /// Attempts to geocode a list of simple waypoints.
+        /// </summary>
+        /// <param name="waypoints">A list of simple waypoints to geocode.</param>
+        /// <param name="bingMapsKey">The Bing Maps key to use when geocoding.</param>
+        /// <returns>A Task in which a list of simple waypoints will be geocoded.</returns>
+        internal static async Task TryGeocodeWaypoints(List<SimpleWaypoint> waypoints, string bingMapsKey)
+        {
+            var geocodeTasks = new List<Task>();
+
+            foreach (var wp in waypoints)
+            {
+                if (wp != null && wp.Coordinate == null && !string.IsNullOrEmpty(wp.Address))
+                {
+                    geocodeTasks.Add(TryGeocode(wp, bingMapsKey));
                 }
             }
 

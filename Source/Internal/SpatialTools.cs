@@ -23,7 +23,6 @@
 */
 
 using System;
-using System.Collections.Generic;
 
 namespace BingMapsRESTToolkit
 {
@@ -32,58 +31,9 @@ namespace BingMapsRESTToolkit
     /// </summary>
     internal static class SpatialTools
     {
-        #region Earth Related Constants
+        #region Public Methods
 
-        /// <summary>
-        /// The approximate spherical radius of the Earth
-        /// </summary>
-        public static class EarthRadius
-        {
-            /// <summary>
-            /// Earth Radius in Kilometers
-            /// </summary>
-            public const double KM = 6378.135;
-
-            /// <summary>
-            /// Earth Radius in Meters
-            /// </summary>
-            public const double Meters = 6378135;
-
-            /// <summary>
-            /// Earth Radius in Miles
-            /// </summary>
-            public const double Miles = 3963.189;
-
-            /// <summary>
-            /// Earth Radius in Feet
-            /// </summary>
-            public const double Feet = 20925640;
-        }
-
-        #endregion
-
-        #region Earth Radius
-
-        /// <summary>
-        /// Retrieves the radius of the earth in a specific distance unit for WGS84.
-        /// </summary>
-        /// <param name="units">Unit of distance measurement.</param>
-        /// <returns>The radius of the earth in a specified distance units.</returns>
-        public static double GetEarthRadius(DistanceUnitType units)
-        {
-            switch (units)
-            {
-                case DistanceUnitType.Miles:
-                    return EarthRadius.Miles;
-                case DistanceUnitType.Kilometers:
-                default:
-                    return EarthRadius.KM;
-            }
-        }
-
-        #endregion
-
-        #region Distance Conversion
+        #region Unit Conversion
 
         /// <summary>
         /// Converts distances from miles to km or km to miles.
@@ -107,38 +57,70 @@ namespace BingMapsRESTToolkit
 
             if (toUnits == DistanceUnitType.Miles)
             {
-                distance /= 1.609344;
+                distance *= 0.62137119;
             }
 
             return distance;
         }
 
-        #endregion
-
-        #region Degree and Radian Conversions
-
         /// <summary>
-        /// Converts an angle that is in degrees to radians. Angle * (PI / 180)
+        /// Converts dimensions from meters to feet or feet to meters.
         /// </summary>
-        /// <param name="angle">An angle in degrees</param>
-        /// <returns>An angle in radians</returns>
-        public static double ToRadians(double angle)
+        /// <param name="dimension">Dimension to convert.</param>
+        /// <param name="fromUnits">The units that the dimension is in.</param>
+        /// <param name="toUnits">The units to convert the dimension to.</param>
+        /// <returns>A dimension in the specified unit of measurement.</returns>
+        public static double CovertDimension(double dimension, DimensionUnitType fromUnits, DimensionUnitType toUnits)
         {
-            return angle * (Math.PI / 180);
+            if (fromUnits == toUnits || double.IsNaN(dimension))
+            {
+                return dimension;
+            }
+
+            //Convert the distance to meters
+            if (fromUnits == DimensionUnitType.Feet)
+            {
+                dimension *= 0.3048;
+            }
+
+            if (toUnits == DimensionUnitType.Feet)
+            {
+                dimension *= 3.2808399;
+            }
+
+            return dimension;
         }
 
         /// <summary>
-        /// Converts an angle that is in radians to degress. Angle * (180 / PI)
+        /// Converts weights from kg to lbs or lbs to kg.
         /// </summary>
-        /// <param name="angle">An angle in radians</param>
-        /// <returns>An angle in degrees</returns>
-        public static double ToDegrees(double angle)
+        /// <param name="weight">Weight to convert.</param>
+        /// <param name="fromUnits">The units that the weights is in.</param>
+        /// <param name="toUnits">The units to convert the weights to.</param>
+        /// <returns>A weights in the specified unit of measurement.</returns>
+        public static double CovertWeight(double weight, WeightUnitType fromUnits, WeightUnitType toUnits)
         {
-            return angle * (180 / Math.PI);
+            if (fromUnits == toUnits || double.IsNaN(weight))
+            {
+                return weight;
+            }
+
+            //Convert the distance to kilograms
+            if (fromUnits == WeightUnitType.Pound)
+            {
+                weight *= 0.45359237;
+            }
+
+            if (toUnits == WeightUnitType.Pound)
+            {
+                weight *= 2.20462262;
+            }
+
+            return weight;
         }
 
         #endregion
-
+        
         #region Haversine Distance Calculation method
 
         /// <summary>
@@ -214,5 +196,86 @@ namespace BingMapsRESTToolkit
                 Longitude = ToDegrees(lon2)
             };
         }
+
+        #endregion
+
+        #region Internal Methods
+
+        #region Degree and Radian Conversions
+
+        /// <summary>
+        /// Converts an angle that is in degrees to radians. Angle * (PI / 180)
+        /// </summary>
+        /// <param name="angle">An angle in degrees</param>
+        /// <returns>An angle in radians</returns>
+        internal static double ToRadians(double angle)
+        {
+            return angle * (Math.PI / 180);
+        }
+
+        /// <summary>
+        /// Converts an angle that is in radians to degress. Angle * (180 / PI)
+        /// </summary>
+        /// <param name="angle">An angle in radians</param>
+        /// <returns>An angle in degrees</returns>
+        internal static double ToDegrees(double angle)
+        {
+            return angle * (180 / Math.PI);
+        }
+
+        #endregion
+
+        #region Earth Related Constants
+
+        /// <summary>
+        /// The approximate spherical radius of the Earth
+        /// </summary>
+        internal static class EarthRadius
+        {
+            /// <summary>
+            /// Earth Radius in Kilometers
+            /// </summary>
+            public const double KM = 6378.135;
+
+            /// <summary>
+            /// Earth Radius in Meters
+            /// </summary>
+            public const double Meters = 6378135;
+
+            /// <summary>
+            /// Earth Radius in Miles
+            /// </summary>
+            public const double Miles = 3963.189;
+
+            /// <summary>
+            /// Earth Radius in Feet
+            /// </summary>
+            public const double Feet = 20925640;
+        }
+
+        #endregion
+
+        #region Earth Radius
+
+        /// <summary>
+        /// Retrieves the radius of the earth in a specific distance unit for WGS84.
+        /// </summary>
+        /// <param name="units">Unit of distance measurement.</param>
+        /// <returns>The radius of the earth in a specified distance units.</returns>
+        internal static double GetEarthRadius(DistanceUnitType units)
+        {
+            switch (units)
+            {
+                case DistanceUnitType.Miles:
+                    return EarthRadius.Miles;
+                case DistanceUnitType.Kilometers:
+                default:
+                    return EarthRadius.KM;
+            }
+        }
+
+        #endregion
+
+        #endregion
     }
 }

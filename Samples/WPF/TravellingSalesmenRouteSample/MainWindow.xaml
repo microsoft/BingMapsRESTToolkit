@@ -1,0 +1,51 @@
+﻿<Window x:Class="TravellingSalesmenRouteSample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TravellingSalesmenRouteSample"
+         xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+        mc:Ignorable="d"
+        Title="Travelling Salesmen Route Sample" Height="600" Width="1000">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Margin="10,0">
+            <TextBlock Text="Input" FontWeight="Bold"/>
+            <TextBlock Text="Enter one location per line and then press solve."/>
+            <TextBox Name="InputTbx" Height="280" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True"/>
+
+            <StackPanel Orientation="Horizontal" Margin="0,10" HorizontalAlignment="Center">
+                <TextBlock Text="Waypoint Optimization: "/>
+                <ComboBox Name="TspOptimizationTypeCbx">
+                    <ComboBoxItem Content="Travel Time" Tag="TravelTime"/>
+                    <ComboBoxItem Content="Travel Distance" Tag="TravelDistance"/>
+                    <ComboBoxItem Content="Straight Line Distance" IsSelected="True" Tag="StraightLineDistance"/>
+                </ComboBox>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" Margin="0,10" HorizontalAlignment="Center">
+                <TextBlock Text="Travel Mode: "/>
+                <ComboBox Name="TravelModeTypeCbx">
+                    <ComboBoxItem Content="Driving" IsSelected="True"/>
+                    <ComboBoxItem Content="Walking"/>
+                    <ComboBoxItem Content="Transit"/>
+                    <ComboBoxItem Content="Truck"/>
+                </ComboBox>
+            </StackPanel>
+
+            <Button Content="Calculate Route" Width="100" Height="25" Click="CalculateRouteBtn_Clicked" />
+
+            <TextBlock Text="Output" FontWeight="Bold" Margin="0,10"/>
+            <TextBox Name="OutputTbx" Height="85" Grid.Column="1" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"/>
+        </StackPanel>
+
+        <m:Map Name="MyMap" Grid.Column="1"/>
+
+        <ProgressBar Grid.Column="1" Name="LoadingBar" IsIndeterminate="True" Height="25" Width="250" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed"/>
+    </Grid>
+</Window>
