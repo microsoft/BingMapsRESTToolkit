@@ -60,6 +60,12 @@ namespace BingMapsRESTToolkit
         public double TravelDuration { get; set; }
 
         /// <summary>
+        /// The portion of the total route duration which requires walking. This may occur when the travel mode is set to transit. 
+        /// </summary>
+        [DataMember(Name = "totalWalkDuration", EmitDefaultValue = false)]
+        public double TotalWalkDuration { get; set; }
+
+        /// <summary>
         /// The departure time in which this cell was calculated for. Only returned when a startTime is specified. 
         /// When an endTime is specified in the request several cells will be returned for the same origin and destination pairs, 
         /// each having a different departure time for each time interval in the generated histogram request. This string is in ISO 8601 date format.
@@ -76,21 +82,17 @@ namespace BingMapsRESTToolkit
         {
             get
             {
-                if (string.IsNullOrEmpty(DepartureTime))
-                {
-                    return null;
-                }
-                else
+                if (!string.IsNullOrEmpty(DepartureTime))
                 {
                     DateTime dt;
 
-                    if(DateTime.TryParse(DepartureTime, out dt))
+                    if (DateTime.TryParse(DepartureTime, out dt))
                     {
                         return dt;
                     }
-
-                    return null;
                 }
+
+                return null;
             }
             set
             {

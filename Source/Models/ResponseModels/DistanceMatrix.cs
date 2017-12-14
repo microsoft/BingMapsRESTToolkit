@@ -71,13 +71,13 @@ namespace BingMapsRESTToolkit
         /// The array of destinations that were used to calculate the distance matrix.
         /// </summary>
         [DataMember(Name = "destinations", EmitDefaultValue = false)]
-        public SimpleWaypoint[] Destinations { get; set; }
+        public List<SimpleWaypoint> Destinations { get; set; }
 
         /// <summary>
         /// The array of origins that were used to calculate the distance matrix.
         /// </summary>
         [DataMember(Name = "origins", EmitDefaultValue = false)]
-        public SimpleWaypoint[] Origins { get; set; }
+        public List<SimpleWaypoint> Origins { get; set; }
 
         /// <summary>
         /// Details of an error that may have occurred when processing the request.
@@ -113,6 +113,104 @@ namespace BingMapsRESTToolkit
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Retrieves the total travel distance between all waypoints indicies which represent an edge (graph/path).
+        /// </summary>
+        /// <param name="waypointIndicies">Waypoint indicies that represent the edge/path.</param>
+        /// <returns>The total travel distance between all waypoints indicies.</returns>
+        public double GetEdgeDistance(int[] waypointIndicies)
+        {
+            if(waypointIndicies.Length >= 2)
+            {
+                double distance = 0;
+                
+                for(var i = 0; i < waypointIndicies.Length - 1; i++)
+                {
+                    var d = GetDistance(waypointIndicies[i], waypointIndicies[i + 1]);
+
+                    if (d > 0)
+                    {
+                        distance += d;
+                    }
+                }
+                return distance;
+            }
+
+            return 0;
+        }
+
+        /// <summary>
+        /// Retrieves the total travel distance between all waypoints indicies which represent an edge (graph/path).
+        /// </summary>
+        /// <param name="waypointIndicies">Waypoint indicies that represent the edge/path.</param>
+        /// <param name="isRoundTrip">Indicates if the edge should be round trip and return to the first waypoint in the indicies array.</param>
+        /// <returns>The total travel distance between all waypoints indicies.</returns>
+        public double GetEdgeDistance(int[] waypointIndicies, bool isRoundTrip)
+        {
+            var distance = GetEdgeDistance(waypointIndicies);
+
+            if (isRoundTrip && waypointIndicies.Length >= 2)
+            {
+                var d = GetDistance(waypointIndicies[waypointIndicies.Length - 1], waypointIndicies[0]);
+
+                if (d > 0)
+                {
+                    distance += d;
+                }
+            }
+
+            return distance;
+        }
+
+        /// <summary>
+        /// Retrieves the total travel time between all waypoints indicies which represent an edge (graph/path).
+        /// </summary>
+        /// <param name="waypointIndicies">Waypoint indicies that represent the edge/path.</param>
+        /// <returns>The total travel time between all waypoints indicies.</returns>
+        public double GetEdgeTime(int[] waypointIndicies)
+        {
+            if (waypointIndicies.Length >= 2)
+            {
+                double time = 0;
+
+                for (var i = 0; i < waypointIndicies.Length - 1; i++)
+                {
+                    var t = GetTime(waypointIndicies[i], waypointIndicies[i + 1]);
+
+                    if (t > 0)
+                    {
+                        time += t;
+                    }
+                }
+                return time;
+            }
+
+            return 0;
+        }
+
+        /// <summary>
+        /// Retrieves the total travel time between all waypoints indicies which represent an edge (graph/path).
+        /// </summary>
+        /// <param name="waypointIndicies">Waypoint indicies that represent the edge/path.</param>
+        /// <param name="isRoundTrip">Indicates if the edge should be round trip and return to the first waypoint in the indicies array.</param>
+        /// <returns>The total travel time between all waypoints indicies.</returns>
+        public double GetEdgeTime(int[] waypointIndicies, bool isRoundTrip)
+        {
+            var time = GetEdgeTime(waypointIndicies);
+
+            if (isRoundTrip && waypointIndicies.Length >= 2)
+            {
+                var t = GetTime(waypointIndicies[waypointIndicies.Length - 1], waypointIndicies[0]);
+
+                if (t > 0)
+                {
+                    time += t;
+                }
+            }
+
+            return time;
+        }
 
         /// <summary>
         /// Retrives the distance matrix cell for a specified origin-destination pair.
@@ -356,6 +454,58 @@ namespace BingMapsRESTToolkit
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Creates a NxN distance matrix with straight line distances.
+        /// </summary>
+        /// <param name="waypoints">The waypoints to generate a matrix for.</param>
+        /// <param name="distanceUnits">The distance units to calculate the distances in.</param>
+        /// <param name="bingMapsKey">A bing maps key that can be used to geocode waypoints, if needed.</param>
+        /// <returns>A NxN distance matrix with straight line distances.</returns>
+        public static async Task<DistanceMatrix> CreateStraightLineNxNMatrix(List<SimpleWaypoint> waypoints, DistanceUnitType distanceUnits, string bingMapsKey)
+        {
+            //Ensure all the waypoints are geocoded.
+            if (waypoints == null || waypoints.Count <= 2)
+            {
+                throw new Exception("Not enough waypoints provided.");
+            }
+
+            if (!string.IsNullOrEmpty(bingMapsKey))
+            {
+                await SimpleWaypoint.TryGeocodeWaypoints(waypoints, bingMapsKey);
+            }
+
+            var numWaypoints = waypoints.Count;
+
+            var cells = new DistanceMatrixCell[numWaypoints * numWaypoints];
+
+            await Task.Run(() => Parallel.For(0, numWaypoints, i =>
+            {
+                for (var j = 0; j < numWaypoints; j++)
+                {
+                    double distance = -1;
+
+                    if (i != j && waypoints[i].Coordinate != null && waypoints[j].Coordinate != null)
+                    {
+                        distance = SpatialTools.HaversineDistance(waypoints[i].Coordinate, waypoints[j].Coordinate, distanceUnits);
+                    }
+
+                    cells[i * numWaypoints + j] = new DistanceMatrixCell()
+                    {
+                        OriginIndex = i,
+                        DestinationIndex = j,
+                        TravelDistance = distance
+                    };
+                }
+            }));
+
+            return new DistanceMatrix()
+            {
+                Origins = waypoints,
+                Destinations = waypoints,
+                Results = cells
+            };
         }
 
         #endregion

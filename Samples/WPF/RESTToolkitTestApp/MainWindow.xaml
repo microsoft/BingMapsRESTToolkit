@@ -29,6 +29,7 @@
                 <Button Content="Route" Click="RouteBtn_Clicked" Height="30"/>
                 <Button Content="Long Route" Click="LongRouteBtn_Clicked" Height="30"/>
                 <Button Content="Transit Route" Click="TransitRouteBtn_Clicked" Height="30"/>
+                <Button Content="Truck Route" Click="TruckRouteBtn_Clicked" Height="30"/>
                 <Button Content="Traffic" Click="TrafficBtn_Clicked" Height="30"/>
                 <Button Content="Imagery Metadata" Click="ImageMetadataBtn_Clicked" Height="30"/>
                 <Button Content="Static Image" Click="StaticImageBtn_Clicked" Height="30"/>
@@ -36,6 +37,8 @@
                 <Button Content="Geospatial Endpoint" Click="GeospatialEndpointBtn_Clicked" Height="30"/>
                 <Button Content="Distance Matrix" Click="DistanceMatrixBtn_Clicked" Height="30"/>
                 <Button Content="Distance Matrix Histogram" Click="DistanceMatrixHistogramBtn_Clicked" Height="30"/>
+                <Button Content="Isochrone" Click="IsochroneBtn_Clicked" Height="30"/>
+                <Button Content="Snap To Road" Click="SnapToRoadBtn_Clicked" Height="30"/>
             </StackPanel>
         </ScrollViewer>
 

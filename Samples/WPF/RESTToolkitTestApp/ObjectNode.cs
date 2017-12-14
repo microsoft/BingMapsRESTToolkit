@@ -26,6 +26,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace RESTToolkitTestApp
 {
@@ -85,6 +86,19 @@ namespace RESTToolkitTestApp
         }
 
         #endregion
+
+        /// <summary>
+        /// Takes any Object and generates an Object Tree.
+        /// </summary>
+        /// <param name="name">The name of the root node.</param>
+        /// <param name="value">The object to parse into an Object Tree.</param>
+        public static async Task<ObjectNode> ParseAsync(string name, object value)
+        {
+            return await Task.Run<ObjectNode>(() =>
+            {
+                return new ObjectNode(name, value);
+            });
+        }
 
         #region Public Properties
 

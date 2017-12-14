@@ -28,7 +28,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -246,7 +245,7 @@ namespace RESTToolkitTestApp
                         RouteAttributeType.TransitStops
                     },
                     Optimize = RouteOptimizationType.TimeAvoidClosure,
-                    DateTime = new DateTime(2016, 6, 30, 8, 0, 0, DateTimeKind.Utc),
+                    DateTime = DateTime.Now,
                     TimeType = RouteTimeType.Departure
                 },
                 Waypoints = new List<SimpleWaypoint>()
@@ -256,6 +255,60 @@ namespace RESTToolkitTestApp
                     },
                     new SimpleWaypoint(){
                         Address = "E14 3SP"
+                    }
+                },
+                BingMapsKey = BingMapsKey
+            };
+
+            ProcessRequest(r);
+        }
+
+        /// <summary>
+        /// Demostrates how to make a Truck Routing Request.
+        /// </summary>
+        private void TruckRouteBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            var r = new RouteRequest()
+            {
+                RouteOptions = new RouteOptions()
+                {
+                    Avoid = new List<AvoidType>()
+                    {
+                        AvoidType.MinimizeTolls
+                    },
+                    TravelMode = TravelModeType.Truck,
+                    DistanceUnits = DistanceUnitType.Miles,
+                    Heading = 45,
+                    RouteAttributes = new List<RouteAttributeType>()
+                    {
+                        RouteAttributeType.RoutePath
+                    },
+                    Optimize = RouteOptimizationType.Time,
+                    VehicleSpec = new VehicleSpec()
+                    {
+                        VehicleWidth = 3,
+                        VehicleHeight = 5,
+                        DimensionUnit = DimensionUnitType.Meter,
+                        VehicleWeight = 15000,
+                        WeightUnit = WeightUnitType.Pound,
+                        VehicleHazardousMaterials = new List<HazardousMaterialType>()
+                        {
+                            HazardousMaterialType.Combustable,
+                            HazardousMaterialType.Flammable
+                        }
+                    }
+                },
+                Waypoints = new List<SimpleWaypoint>()
+                {
+                    new SimpleWaypoint(){
+                        Address = "Seattle, WA"
+                    },
+                     new SimpleWaypoint(){
+                        Address = "Bellevue, WA",
+                        IsViaPoint = true
+                    },
+                    new SimpleWaypoint(){
+                        Address = "Redmond, WA"
                     }
                 },
                 BingMapsKey = BingMapsKey
@@ -470,9 +523,9 @@ namespace RESTToolkitTestApp
                     new SimpleWaypoint(47.4747, -122.2057)
                 },
                 BingMapsKey = BingMapsKey,
-                TimeUnits = TimeUnitType.Minutes,
+                TimeUnits = TimeUnitType.Minute,
                 DistanceUnits = DistanceUnitType.Miles,
-                TravelMode = TravelModeType.Transit
+                TravelMode = TravelModeType.Driving
             };
 
             ProcessRequest(r);
@@ -500,6 +553,49 @@ namespace RESTToolkitTestApp
                 StartTime = DateTime.Now,
                 EndTime = DateTime.Now.AddHours(8),
                 Resolution = 4
+            };
+
+            ProcessRequest(r);
+        }
+
+        /// <summary>
+        /// Demostrates how to make an Isochrone Request.
+        /// </summary>
+        private void IsochroneBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            var r = new IsochroneRequest()
+            {
+                Waypoint = new SimpleWaypoint("Bellevue, WA"),
+                MaxTime = 30,
+                TimeUnit = TimeUnitType.Minute,
+                DateTime = DateTime.Now.AddMinutes(15),
+                TravelMode = TravelModeType.Transit,
+                BingMapsKey = BingMapsKey
+            };
+
+            ProcessRequest(r);
+        }
+
+        /// <summary>
+        /// Demostrates how to make an Snap to Road Request.
+        /// </summary>
+        private void SnapToRoadBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            var r = new SnapToRoadRequest()
+            {
+                Points = new List<Coordinate>()
+                {
+                    new Coordinate(47.590868, -122.336729),
+                    new Coordinate(47.601604, -122.336042),
+                    new Coordinate(47.60849, -122.34241),
+                    new Coordinate(47.610568, -122.345064)
+                },
+                IncludeSpeedLimit = true,
+                IncludeTruckSpeedLimit = true,
+                Interpolate = true,
+                SpeedUnit = SpeedUnitType.MPH,
+                TravelMode = TravelModeType.Driving,
+                BingMapsKey = BingMapsKey
             };
 
             ProcessRequest(r);
@@ -545,10 +641,9 @@ namespace RESTToolkitTestApp
 
                 ProcessingTimeTbx.Text = string.Format(CultureInfo.InvariantCulture, "{0:0} ms", processingTime.TotalMilliseconds);
 
-                var nodes = new List<ObjectNode>()
-                {
-                    new ObjectNode("result", response)
-                };
+                var nodes = new List<ObjectNode>();
+                var tree = await ObjectNode.ParseAsync("result", response);
+                nodes.Add(tree);
                 ResultTreeView.ItemsSource = nodes;
 
                 ResponseTab.IsSelected = true;

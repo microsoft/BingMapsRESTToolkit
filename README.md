@@ -1,20 +1,30 @@
 ![Bing Maps Logo](https://github.com/Microsoft/Bing-Maps-V8-TypeScript-Definitions/blob/master/images/BingMapsLogoTeal.png)
 
-[![NuGet](https://img.shields.io/badge/NuGet-1.0.8-blue.svg)](https://www.nuget.org/packages/BingMapsRESTToolkit)
+[![NuGet](https://img.shields.io/badge/NuGet-1.0.9-blue.svg)](https://www.nuget.org/packages/BingMapsRESTToolkit)
 [![license](https://img.shields.io/badge/license-MIT-yellow.svg)](https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/LICENSE.md)
 
 # Bing Maps REST Toolkit for .NET #
 
-This is a portable .NET class library which provides a set of tools that make it easy to access the Bing Maps REST services in .NET based apps. Take a look at the [Getting Started documentation](https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/Docs/Getting%20Started.md).
+This is a portable .NET class library which provides a set of tools that make it easy to access the Bing Maps REST services in .NET based apps. Take a look at the [Getting Started documentation](https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/Docs/Getting%20Started.md). The Bing Maps REST Services provides the following functionality:
 
-## Features ##
+* **Forward and reverse geocoding**
+* Route calculations for driving, walking, transit and truck
+* **Distance matricies** - time and distance based matrices between a set of origins and destinations. Optionally retrieve this data over a period of time using predictive traffic data
+* **Isochrones** (drive time polygons)
+* **Snap to Road API** - snap GPS points to their closest logical point on a road. Also provides speed limit data
+* **Traffic incident data**
+* **Elevation data**
+* **Static map imagery and metadata**
+
+## Toolkit Features ##
 
 * Uses HTTPS by default.
 * Implements the documented [best practices for Bing Maps](https://msdn.microsoft.com/en-us/library/dn894107.aspx). For example, it automatically encodes query parameters. A commonly overlooked stepped which greatly reduces the chances of invalid queries being sent to the service.
 * Handles errors and rate limiting by catching exception and returning response with error message.
 * Automatically determines when a POST request should be made instead of a GET request.
 * Fast indexed lookups of Distance Matrix results.
-* Supports calculating routes of any size.
+* Supports calculating driving, walking and transit routes that have more than 25 waypoints.
+* Travelling Salesmen algorithms that tie into the distance matrix API [documentation](https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/Docs/Getting%20Started.md#TravellingSalesmen). 
 
 ## NuGet Package ##
 

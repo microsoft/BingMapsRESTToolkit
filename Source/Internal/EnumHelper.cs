@@ -22,6 +22,7 @@
  * THE SOFTWARE. 
 */
 
+
 namespace BingMapsRESTToolkit
 {
     /// <summary>
@@ -34,14 +35,14 @@ namespace BingMapsRESTToolkit
         /// </summary>
         /// <param name="dut">Distance unit to convert.</param>
         /// <returns>A string version of the distance unit.</returns>
-        public static string DistanceUnitTypeToString(DistanceUnitType dut)
+        internal static string DistanceUnitTypeToString(DistanceUnitType dut)
         {
             if(dut == DistanceUnitType.Miles)
             {
-                return "miles";
+                return "mile";
             }
 
-            return "kilometers";
+            return "kilometer";
         }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace BingMapsRESTToolkit
         /// </summary>
         /// <param name="dut">A string to convert.</param>
         /// <returns>A distance unit type.</returns>
-        public static DistanceUnitType DistanceUnitStringToEnum(string dut)
+        internal static DistanceUnitType DistanceUnitStringToEnum(string dut)
         {
             switch (dut.ToLowerInvariant())
             {
@@ -70,41 +71,126 @@ namespace BingMapsRESTToolkit
         }
 
         /// <summary>
-        /// Converts time unit type to a string.
-        /// </summary>
-        /// <param name="tut">Time unit to convert.</param>
-        /// <returns>A string version of the time unit.</returns>
-        public static string TimeUnitTypeToString(TimeUnitType tut)
-        {
-            if (tut == TimeUnitType.Minutes)
-            {
-                return "minutes";
-            }
-
-            return "seconds";
-        }
-
-        /// <summary>
         /// Converts a string into a TimeUnitType.
         /// </summary>
         /// <param name="tut">A string to convert.</param>
         /// <returns>A time unit type.</returns>
-        public static TimeUnitType TimeUnitStringToEnum(string tut)
+        internal static TimeUnitType TimeUnitStringToEnum(string tut)
         {
             switch (tut.ToLowerInvariant())
-            {
+            {                
                 case "minutes":
+                case "minute":
                 case "min":
                 case "mins":
                 case "m":
-                    return TimeUnitType.Minutes;
+                    return TimeUnitType.Minute;
                 case "seconds":
                 case "second":
                 case "secs":
                 case "sec":
                 case "s":
                 default:
-                    return TimeUnitType.Seconds;
+                    return TimeUnitType.Second;
+            }
+        }
+
+        /// <summary>
+        /// Converts a string into a ConfidenceLevelType.
+        /// </summary>
+        /// <param name="confidence">A string to convert.</param>
+        /// <returns>A confidence level type.</returns>
+        internal static ConfidenceLevelType ConfidenceLevelTypeStringToEnum(string confidence)
+        {
+            if (!string.IsNullOrWhiteSpace(confidence))
+            {
+                switch (confidence.ToLowerInvariant())
+                {
+                    case "high":
+                        return ConfidenceLevelType.High;
+                    case "medium":
+                        return ConfidenceLevelType.Medium;
+                    case "low":
+                        return ConfidenceLevelType.Low;
+                }
+            }
+
+            return ConfidenceLevelType.None;
+        }
+
+        /// <summary>
+        /// Converts a HazardousMaterialPermitType enumeration into its short form string format.
+        /// </summary>
+        /// <param name="hmpt">HazardousMaterialPermitType enumeration to convert.</param>
+        /// <returns>A HazardousMaterialPermitType enumeration convrted into its short form string format.</returns>
+        internal static string HazardousMaterialPermitTypeToString(HazardousMaterialPermitType hmpt)
+        {
+            switch (hmpt)
+            {
+                case HazardousMaterialPermitType.AllAppropriateForLoad:
+                    return "AllAppropriateForLoad";
+                case HazardousMaterialPermitType.Combustible:
+                    return "C";
+                case HazardousMaterialPermitType.Corrosive:
+                    return "Cr";
+                case HazardousMaterialPermitType.Explosive:
+                    return "E";
+                case HazardousMaterialPermitType.Flammable:
+                    return "F";
+                case HazardousMaterialPermitType.FlammableSolid:
+                    return "FS";
+                case HazardousMaterialPermitType.Gas:
+                    return "G";
+                case HazardousMaterialPermitType.Organic:
+                    return "O";
+                case HazardousMaterialPermitType.Poison:
+                    return "P";
+                case HazardousMaterialPermitType.PoisonousInhalation:
+                    return "PI";
+                case HazardousMaterialPermitType.Radioactive:
+                    return "R";
+                case HazardousMaterialPermitType.None:
+                default:
+                    return "None";
+            }
+        }
+
+        /// <summary>
+        /// Converts a HazardousMaterialType enumeration into its short form string format.
+        /// </summary>
+        /// <param name="hmt">HazardousMaterialType enumeration to convert.</param>
+        /// <returns>A HazardousMaterialType enumeration convrted into its short form string format.</returns>
+        internal static string HazardousMaterialTypeToString(HazardousMaterialType hmt)
+        {
+            switch (hmt)
+            {
+                case HazardousMaterialType.Combustable:
+                    return "C";
+                case HazardousMaterialType.Corrosive:
+                    return "Cr";
+                case HazardousMaterialType.Explosive:
+                    return "E";
+                case HazardousMaterialType.Flammable:
+                    return "F";
+                case HazardousMaterialType.FlammableSolid:
+                    return "FS";
+                case HazardousMaterialType.Gas:
+                    return "G";
+                case HazardousMaterialType.GoodsHarmfulToWater:
+                    return "WH";
+                case HazardousMaterialType.Organic:
+                    return "O";
+                case HazardousMaterialType.Other:
+                    return "Other";
+                case HazardousMaterialType.Poison:
+                    return "P";
+                case HazardousMaterialType.PoisonousInhalation:
+                    return "PI";
+                case HazardousMaterialType.Radioactive:
+                    return "R";
+                case HazardousMaterialType.None:
+                default:
+                    return "None";
             }
         }
     }

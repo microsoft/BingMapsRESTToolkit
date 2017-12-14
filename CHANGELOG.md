@@ -1,13 +1,23 @@
-## Version 1.0.8
+## Version 1.0.9 - 12/14/2017
+
+* Add support for Truck Routing API.
+* Add support for Isochrones API.
+* Add support for Snap to Road API.
+* Add Travelling Salesmen extension which includes 2 different TSP algorithms; greedy brute forcem and genetic approximation. 
+* Extended the RouteRequest class to support waypoint optimization as part of the request.
+* Added a WPF sample for the travelling salesmen which demostrates the ease of calculating a route with optimized waypoints.
+* Extended DistanceMatrix class with method to get edge/path (array of waypoint indicies to pass through) time/distance for easier analysis.
+
+## Version 1.0.8 - 10/23/2017
 
 * Fix stack overflow issue when calculating short routes.
 
-## Version 1.0.7
+## Version 1.0.7 - 10/19/2017
 
-* Extended the RouteRequest class so that it can support more than 25 waypoints. It will simply break the request up into multiple sub-requests, process them, then merge the responses together.
+* Extended the RouteRequest class so that it can support more than 25 waypoints for driving, walking and transit routes. It will simply break the request up into multiple sub-requests, process them, then merge the responses together.
 * Bug fix for Distance Matrix waypoint geocoding.
 
-## Version 1.0.6 
+## Version 1.0.6 - 10/2/2017
 
 * Created a .NET Standard v1.4 assembly.
 * Add Custom Map Styles support for static images.

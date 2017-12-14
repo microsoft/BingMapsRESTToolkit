@@ -23,7 +23,9 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
@@ -35,6 +37,20 @@ namespace BingMapsRESTToolkit
     /// </summary>
     internal class ServiceHelper
     {
+        #region Private Properties
+
+        /// <summary>
+        /// The maximium number of times the retry the status check if it fails. This will allow for possible connection issues.
+        /// </summary>
+        private const int MaxStatusCheckRetries = 3;
+
+        /// <summary>
+        /// Number of seconds to delay a retry of a status check.
+        /// </summary>
+        private const int StatusCheckRetryDelay = 10;
+
+        #endregion
+
         #region Public Methods
 
         /// <summary>
@@ -42,7 +58,7 @@ namespace BingMapsRESTToolkit
         /// </summary>
         /// <param name="url">URL that points to data to download.</param>
         /// <returns>A string with the data.</returns>
-        public static Task<string> GetStringAsync(Uri url)
+        internal static Task<string> GetStringAsync(Uri url)
         {
             var tcs = new TaskCompletionSource<string>();
 
@@ -88,7 +104,7 @@ namespace BingMapsRESTToolkit
         /// </summary>
         /// <param name="url">URL that points to data to download.</param>
         /// <returns>A stream with the data.</returns>
-        public static Task<Stream> GetStreamAsync(Uri url)
+        internal static Task<Stream> GetStreamAsync(Uri url)
         {
             var tcs = new TaskCompletionSource<Stream>();
 
@@ -130,7 +146,7 @@ namespace BingMapsRESTToolkit
         /// <param name="data">String representation of data to be posted to service.</param>
         /// <param name="contentType">The content type of the data.</param>
         /// <returns>Response stream.</returns>
-        public static Task<Stream> PostStringAsync(Uri url, string data, string contentType)
+        internal static Task<Stream> PostStringAsync(Uri url, string data, string contentType)
         {
             var tcs = new TaskCompletionSource<Stream>();
 
@@ -213,7 +229,7 @@ namespace BingMapsRESTToolkit
         /// </summary>
         /// <param name="responseStream">The response stream to deserialize.</param>
         /// <returns>A Response object.</returns>
-        public static T DeserializeStream<T>(Stream responseStream) where T : class
+        internal static T DeserializeStream<T>(Stream responseStream) where T : class
         {
             if (responseStream != null)
             {
@@ -223,6 +239,61 @@ namespace BingMapsRESTToolkit
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Makes an Async request and monitors it till completion. 
+        /// </summary>
+        /// <typeparam name="T">The type of resource to expect to be returned.</typeparam>
+        /// <param name="requestUrl">REST URL request.</param>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time is sent.</param>
+        /// <returns>A completed response for a request.</returns>
+        internal static async Task<Response> MakeAsyncGetRequest<T>(string requestUrl, Action<int> remainingTimeCallback) where T : Resource
+        {
+            Response response = null;
+
+            using (var responseStream = await ServiceHelper.GetStreamAsync(new Uri(requestUrl)))
+            {
+                response = ServiceHelper.DeserializeStream<Response>(responseStream);
+                return await ProcessAsyncResponse<T>(response, remainingTimeCallback);
+            }
+        }
+
+        /// <summary>
+        /// Makes an Async request and monitors it till completion. 
+        /// </summary>
+        /// <typeparam name="T">The type of resource to expect to be returned.</typeparam>
+        /// <param name="requestUrl">REST URL request.</param>
+        /// <param name="requestBody">The post request body.</param>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time is sent.</param>
+        /// <returns>A completed response for a request.</returns>
+        internal static async Task<Response> MakeAsyncPostRequest<T>(string requestUrl, string requestBody, Action<int> remainingTimeCallback) where T: Resource
+        {
+            Response response = null;
+
+            using (var responseStream = await ServiceHelper.PostStringAsync(new Uri(requestUrl), requestBody, "application/json"))
+            {
+                response = ServiceHelper.DeserializeStream<Response>(responseStream);
+                return await ProcessAsyncResponse<T>(response, remainingTimeCallback);
+            }
+        }
+
+        /// <summary>
+        /// Generates a unqiue hash for a list of items.
+        /// </summary>
+        /// <typeparam name="T">The type of a list. </typeparam>
+        /// <param name="sequence">The list to create a hash for.</param>
+        /// <returns>A unqiue hash for a list of items.</returns>
+        internal static int GetSequenceHashCode<T>(IList<T> sequence)
+        {
+            const int seed = 487;
+            const int modifier = 31;
+
+            unchecked
+            {
+                return sequence.Aggregate(seed, (current, item) =>
+                    (current * modifier) + item.GetHashCode());
+            }
         }
 
         #endregion
@@ -236,6 +307,159 @@ namespace BingMapsRESTToolkit
             ms.Position = 0;
             return ms;
         }
+
+        private static async Task<Response> ProcessAsyncResponse<T>(Response response, Action<int> remainingTimeCallback) where T: Resource
+        {
+            if (response != null)
+            {
+                if (response.ErrorDetails != null && response.ErrorDetails.Length > 0)
+                {
+                    throw new Exception(String.Join("", response.ErrorDetails));
+                }
+
+                if (response.ResourceSets != null && response.ResourceSets.Length > 0 && response.ResourceSets[0].Resources != null && response.ResourceSets[0].Resources.Length > 0)
+                {
+                    if (response.ResourceSets[0].Resources[0] is AsyncStatus && !string.IsNullOrEmpty((response.ResourceSets[0].Resources[0] as AsyncStatus).RequestId))
+                    {
+                        var status = response.ResourceSets[0].Resources[0] as AsyncStatus;
+
+                        status = await ServiceHelper.ProcessAsyncStatus(status, remainingTimeCallback);
+
+                        if (status != null && status.IsCompleted && !string.IsNullOrEmpty(status.ResultUrl))
+                        {
+                            try
+                            {
+                                using (var resultStream = await ServiceHelper.GetStreamAsync(new Uri(status.ResultUrl)))
+                                {
+                                    var resource = ServiceHelper.DeserializeStream<T>(resultStream);
+                                    response.ResourceSets[0].Resources[0] = resource;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new Exception("There was an issue downloading and serializing the results. Results Download URL: " + status.ResultUrl + "\r\n" + ex.Message);
+                            }
+                        }
+
+                        return response;
+                    }
+                    else if (response.ResourceSets[0].Resources[0] is AsyncStatus && !string.IsNullOrEmpty((response.ResourceSets[0].Resources[0] as AsyncStatus).ErrorMessage))
+                    {
+                        throw new Exception((response.ResourceSets[0].Resources[0] as AsyncStatus).ErrorMessage);
+                    }
+                    else if (response.ResourceSets[0].Resources[0] is Resource && !(response.ResourceSets[0].Resources[0] is AsyncStatus))
+                    {
+                        return response;
+                    }
+                }
+            }
+
+            throw new Exception("No response returned by service.");
+        }
+
+        /// <summary>
+        /// Processes an Async Status until it is completed or runs into an error.
+        /// </summary>
+        /// <param name="status">The async status to process.</param>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time is sent.</param>
+        /// <returns></returns>
+        private static async Task<AsyncStatus> ProcessAsyncStatus(AsyncStatus status, Action<int> remainingTimeCallback)
+        {
+            var statusUrl = new Uri(status.CallbackUrl);
+
+            if (status.CallbackInSeconds > 0 || !status.IsCompleted || string.IsNullOrEmpty(status.ResultUrl))
+            {
+                remainingTimeCallback?.Invoke(status.CallbackInSeconds);
+
+                //Wait remaining seconds.
+                await Task.Delay(TimeSpan.FromSeconds(status.CallbackInSeconds));
+
+                status = await ServiceHelper.MonitorAsyncStatus(statusUrl, 0, remainingTimeCallback);
+            }
+            else
+            {
+                return status;
+            }
+
+            if (status != null)
+            {
+                if (status.IsCompleted && !string.IsNullOrEmpty(status.ResultUrl))
+                {
+                    return status;
+                }
+                else if (!status.IsAccepted)
+                {
+                    throw new Exception("The request was not accepted.");
+                }
+                else if (!string.IsNullOrEmpty(status.ErrorMessage))
+                {
+                    throw new Exception(status.ErrorMessage);
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Monitors the status of an async request.
+        /// </summary>
+        /// <param name="statusUrl">The status URL for the async request.</param>
+        /// <param name="failedTries">The number of times the status check has failed consecutively.</param>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time is sent.</param>
+        /// <returns>The final async status when the request completed, had an error, or was not accepted.</returns>
+        private static async Task<AsyncStatus> MonitorAsyncStatus(Uri statusUrl, int failedTries, Action<int> remainingTimeCallback)
+        {
+            AsyncStatus status = null;
+
+            try
+            {
+                using (var rs = await ServiceHelper.GetStreamAsync(statusUrl))
+                {
+                    var r = ServiceHelper.DeserializeStream<Response>(rs);
+
+                    if (r != null)
+                    {
+                        if (r.ErrorDetails != null && r.ErrorDetails.Length > 0)
+                        {
+                            throw new Exception(r.ErrorDetails[0]);
+                        }
+                        else if (r.ResourceSets != null && r.ResourceSets.Length > 0 && r.ResourceSets[0].Resources != null && r.ResourceSets[0].Resources.Length > 0 && r.ResourceSets[0].Resources[0] is DistanceMatrixAsyncStatus)
+                        {
+                            status = r.ResourceSets[0].Resources[0] as AsyncStatus;
+
+                            if (status.CallbackInSeconds > 0)
+                            {
+                                remainingTimeCallback?.Invoke(status.CallbackInSeconds);
+
+                                //Wait remaining seconds.
+                                await Task.Delay(TimeSpan.FromSeconds(status.CallbackInSeconds));
+                                return await MonitorAsyncStatus(statusUrl, 0, remainingTimeCallback);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //Check to see how many times the status check has failed consecutively.
+                if (failedTries < MaxStatusCheckRetries)
+                {
+                    //Wait some time and try again.
+                    await Task.Delay(TimeSpan.FromSeconds(StatusCheckRetryDelay));
+                    return await MonitorAsyncStatus(statusUrl, failedTries + 1, remainingTimeCallback);
+                }
+                else
+                {
+                    status.ErrorMessage = "Failed to get status, and exceeded the maximium of " + MaxStatusCheckRetries + " retries. Error message: " + ex.Message;
+                    status.CallbackInSeconds = -1;
+                    status.IsCompleted = false;
+                }
+            }
+
+            //Should only get here is the request has completed, was not accepted or there was an error.
+            return status;
+        }
+
 
         #endregion
     }

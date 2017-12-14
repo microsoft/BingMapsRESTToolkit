@@ -22,6 +22,7 @@
  * THE SOFTWARE. 
 */
 
+using System;
 using System.Runtime.Serialization;
 
 namespace BingMapsRESTToolkit
@@ -60,7 +61,22 @@ namespace BingMapsRESTToolkit
         /// The level of confidence that the geocoded location result is a match. Can be High, Medium, Low.
         /// </summary>
         [DataMember(Name = "confidence", EmitDefaultValue = false)]
-        public string Confidence { get; set; }
+        public string Confidence
+        {
+            get
+            {
+                return Enum.GetName(typeof(ConfidenceLevelType), ConfidenceLevelType);
+            }
+            set
+            {
+                ConfidenceLevelType = EnumHelper.ConfidenceLevelTypeStringToEnum(value);
+            }
+        }
+
+        /// <summary>
+        /// The level of confidence that the geocoded location result is a match as an Enum.
+        /// </summary>
+        public ConfidenceLevelType ConfidenceLevelType { get; set; }
 
         /// <summary>
         /// One or more match code values that represent the geocoding level for each location in the response. Can be Good, Ambiguous, UpHierarchy.

@@ -30,53 +30,7 @@ namespace BingMapsRESTToolkit
     /// The status of an asynchronous distance matrix request.
     /// </summary>
     [DataContract(Namespace = "http://schemas.microsoft.com/search/local/ws/rest/v1")]
-    public class DistanceMatrixAsyncStatus : Resource
+    public class DistanceMatrixAsyncStatus : AsyncStatus
     {
-        #region Public Properties
-
-        /// <summary>
-        /// Specifies if the request is accepted. A request will not be accepted if it is not valid, is not within the 
-        /// coordinate pair limits, or if a coordinate in origins or destinations has no coverage.
-        /// </summary>
-        [DataMember(Name = "isAccepted", EmitDefaultValue = false)]
-        public bool IsAccepted { get; set; }
-
-        /// <summary>
-        /// Specifies if the request has completed.
-        /// </summary>
-        [DataMember(Name = "isCompleted", EmitDefaultValue = false)]
-        public bool IsCompleted { get; set; }
-
-        /// <summary>
-        /// A unique identifier for an asynchronous request. This can be used to retrieve the results of an asynchronous request when it has completed.
-        /// </summary>
-        [DataMember(Name = "requestId", EmitDefaultValue = false)]
-        public string RequestId { get; set; }
-
-        /// <summary>
-        /// Details of an error that may have occurred when processing the request.
-        /// </summary>
-        [DataMember(Name = "errorMessage", EmitDefaultValue = false)]
-        public string ErrorMessage { get; set; }
-
-        /// <summary>
-        /// An estimated number of seconds to wait before calling back for results when making an asynchronous request.
-        /// </summary>
-        [DataMember(Name = "callbackInSeconds", EmitDefaultValue = false)]
-        public int CallbackInSeconds { get; set; }
-
-        /// <summary>
-        /// The callback URL to use to check the status of the request.
-        /// </summary>
-        [DataMember(Name = "callbackUrl", EmitDefaultValue = false)]
-        public string CallbackUrl { get; set; }
-
-        /// <summary>
-        /// The URL where the results can be downloaded from. The result is a DistanceMatrix object in JSON form.
-        /// </summary>
-        [DataMember(Name = "resultUrl", EmitDefaultValue = false)]
-        public string ResultUrl { get; set; }
-
-        #endregion
     }
 }

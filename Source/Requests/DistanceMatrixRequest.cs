@@ -25,7 +25,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,7 +33,6 @@ namespace BingMapsRESTToolkit
     /// <summary>
     /// A request that calculates a distance matrix between origins and destinations.
     /// </summary>
-    [DataContract]
     public class DistanceMatrixRequest : BaseRestRequest
     {
         #region Private Properties
@@ -54,16 +52,6 @@ namespace BingMapsRESTToolkit
         /// </summary>
         private const double MaxTimeSpanHours = 24;
 
-        /// <summary>
-        /// The maximium number of times the retry the status check if it fails. This will allow for possible connection issues.
-        /// </summary>
-        private const int MaxStatusCheckRetries = 3;
-
-        /// <summary>
-        /// Number of seconds to delay a retry of a status check.
-        /// </summary>
-        private const int StatusCheckRetryDelay = 10;
-
         #endregion 
 
         #region Constructure
@@ -75,7 +63,7 @@ namespace BingMapsRESTToolkit
         {
             TravelMode = TravelModeType.Driving;
             DistanceUnits = DistanceUnitType.Kilometers;
-            TimeUnits = TimeUnitType.Seconds;
+            TimeUnits = TimeUnitType.Minute;
             Resolution = 1;
         }
 
@@ -124,7 +112,7 @@ namespace BingMapsRESTToolkit
         public DistanceUnitType DistanceUnits { get; set; }
 
         /// <summary>
-        /// The units to use for time. Default: Seconds.
+        /// The units to use for time. Default: Minute.
         /// </summary>
         public TimeUnitType TimeUnits { get; set; }
 
@@ -153,106 +141,25 @@ namespace BingMapsRESTToolkit
             var requestUrl = GetRequestUrl();
             var requestBody = GetPostRequestBody();
 
-            Response response = null;
+            var response = await ServiceHelper.MakeAsyncPostRequest<DistanceMatrix>(requestUrl, requestBody, remainingTimeCallback);
 
-            using (var responseStream = await ServiceHelper.PostStringAsync(new Uri(requestUrl), requestBody, "application/json"))
+            var dm = response.ResourceSets[0].Resources[0] as DistanceMatrix;
+            
+            //TODO: Overwrite origins/destinations for now as we have added support for geocoding in this library, but this is not yet supported by the Distance Matirx API.
+            dm.Origins = this.Origins;
+
+            if (this.Destinations != null)
             {
-                response = ServiceHelper.DeserializeStream<Response>(responseStream);
+                dm.Destinations = this.Destinations;
             }
 
-            if(response != null && response.ErrorDetails != null && response.ErrorDetails.Length > 0)
+            if (dm.Results != null)
             {
-                throw new Exception("Error: " + response.ErrorDetails[0]);
+                return response;
             }
-
-            if (response != null && response.ResourceSets != null && response.ResourceSets.Length > 0 && response.ResourceSets[0].Resources != null && response.ResourceSets[0].Resources.Length > 0)
+            else if (!string.IsNullOrEmpty(dm.ErrorMessage))
             {
-                if (response.ResourceSets[0].Resources[0] is DistanceMatrixAsyncStatus && !string.IsNullOrEmpty((response.ResourceSets[0].Resources[0] as DistanceMatrixAsyncStatus).RequestId))
-                {
-                    var status = response.ResourceSets[0].Resources[0] as DistanceMatrixAsyncStatus;
-                    var statusUrl = new Uri(status.CallbackUrl);
-                    //var statusUrl = new Uri(this.Domain + "Routes/DistanceMatrixAsyncCallback?requestId=" + status.RequestId + "&key=" + this.BingMapsKey);
-
-                    if (status.CallbackInSeconds > 0 || !status.IsCompleted || string.IsNullOrEmpty(status.ResultUrl))
-                    {
-                        remainingTimeCallback?.Invoke(status.CallbackInSeconds);
-
-                        //Wait remaining seconds.
-                        await Task.Delay(TimeSpan.FromSeconds(status.CallbackInSeconds));
-                        
-                        status = await MonitorAsyncStatus(statusUrl, 0, remainingTimeCallback);
-                    }
-
-                    if (status != null)
-                    {
-                        if (status.IsCompleted && !string.IsNullOrEmpty(status.ResultUrl))
-                        {
-                            try
-                            {
-                                using (var resultStream = await ServiceHelper.GetStreamAsync(new Uri(status.ResultUrl)))
-                                {
-                                    DistanceMatrix dm = ServiceHelper.DeserializeStream<DistanceMatrix>(resultStream);
-
-                                    response.ResourceSets[0].Resources[0] = dm;
-
-                                    //TODO: Overwrite origins/destinations for now as we have added support for geocoding in this library, but this is not yet supported by the Distance Matirx API.
-                                    dm.Origins = this.Origins.ToArray();
-                                    dm.Destinations = this.Destinations.ToArray();
-                                }
-                            }
-                            catch(Exception ex)
-                            {
-                                response.ResourceSets[0].Resources[0] = new DistanceMatrix()
-                                {
-                                    ErrorMessage = "There was an issue downloading and serializing the results. Results Download URL: " + status.ResultUrl
-                                };
-                            }
-                        }
-                        else if (!status.IsAccepted)
-                        {
-                            response.ResourceSets[0].Resources[0] = new DistanceMatrix()
-                            {
-                                ErrorMessage = "The request was not accepted."
-                            };
-                        }
-                        else if (!string.IsNullOrEmpty(status.ErrorMessage))
-                        {
-                            response.ResourceSets[0].Resources[0] = new DistanceMatrix()
-                            {
-                                ErrorMessage = status.ErrorMessage
-                            };
-                        }
-                    }
-
-                    return response;
-                }
-                else if (response.ResourceSets[0].Resources[0] is DistanceMatrix && (response.ResourceSets[0].Resources[0] as DistanceMatrix).Results != null)
-                {
-                    DistanceMatrix dm = response.ResourceSets[0].Resources[0] as DistanceMatrix;
-
-                    //TODO: Overwrite origins/destinations for now as we have added support for geocoding in this library, but this is not yet supported by the Distance Matirx API.
-                    dm.Origins = this.Origins.ToArray();
-                    dm.Destinations = this.Destinations.ToArray();
-
-                    if (dm.Results != null) {
-                        return response;
-                    }
-                    else if(!string.IsNullOrEmpty(dm.ErrorMessage))
-                    {
-                        var msg = "Error: " + (response.ResourceSets[0].Resources[0] as DistanceMatrix).ErrorMessage;
-                        throw new Exception(msg);
-                    }
-                }
-                else if (response.ResourceSets[0].Resources[0] is DistanceMatrixAsyncStatus && !string.IsNullOrEmpty((response.ResourceSets[0].Resources[0] as DistanceMatrixAsyncStatus).ErrorMessage))
-                {
-                    var msg = "Error: " + (response.ResourceSets[0].Resources[0] as DistanceMatrixAsyncStatus).ErrorMessage;
-                    throw new Exception(msg);
-                }
-                else if (response.ResourceSets[0].Resources[0] is DistanceMatrix && !string.IsNullOrEmpty((response.ResourceSets[0].Resources[0] as DistanceMatrix).ErrorMessage))
-                {
-                    var msg = "Error: " + (response.ResourceSets[0].Resources[0] as DistanceMatrix).ErrorMessage;
-                    throw new Exception(msg);
-                }
+                throw new Exception(dm.ErrorMessage);
             }
 
             return null;           
@@ -267,13 +174,13 @@ namespace BingMapsRESTToolkit
             //Ensure all the origins are geocoded.
             if (Origins != null)
             {
-                await SimpleWaypoint.GeocodeWaypoints(Origins, this);
+                await SimpleWaypoint.TryGeocodeWaypoints(Origins, this);
             }
 
             //Ensure all the destinations are geocoded.
             if (Destinations != null)
             {
-                await SimpleWaypoint.GeocodeWaypoints(Destinations, this);
+                await SimpleWaypoint.TryGeocodeWaypoints(Destinations, this);
             }
         }
 
@@ -289,14 +196,14 @@ namespace BingMapsRESTToolkit
 
             var dm = new DistanceMatrix()
             {
-                Origins = this.Origins.ToArray()
+                Origins = this.Origins
             };
 
             int cnt = 0;
 
             if (this.Destinations == null || this.Destinations.Count == 0)
             {
-                dm.Destinations = this.Origins.ToArray();
+                dm.Destinations = this.Origins;
                 dm.Results = new DistanceMatrixCell[this.Origins.Count * this.Origins.Count];
 
                 for (var i = 0; i < Origins.Count; i++)
@@ -316,7 +223,7 @@ namespace BingMapsRESTToolkit
             }
             else
             {
-                dm.Destinations = this.Destinations.ToArray();
+                dm.Destinations = this.Destinations;
                 dm.Results = new DistanceMatrixCell[this.Origins.Count * this.Destinations.Count];
 
                 for (var i = 0; i < Origins.Count; i++)
@@ -436,7 +343,7 @@ namespace BingMapsRESTToolkit
 
             foreach (var o in Origins)
             {
-                sb.AppendFormat("{{\"latitude\":{0:0.#####},\"longitude\":{1:0.#####}}},", o.Latitude, o.Longitude);
+                sb.AppendFormat(CultureInfo.InvariantCulture, "{{\"latitude\":{0:0.#####},\"longitude\":{1:0.#####}}},", o.Latitude, o.Longitude);
             }
 
             //Remove trailing comma.
@@ -450,7 +357,7 @@ namespace BingMapsRESTToolkit
 
                 foreach (var d in Destinations)
                 {
-                    sb.AppendFormat("{{\"latitude\":{0:0.#####},\"longitude\":{1:0.#####}}},", d.Latitude, d.Longitude);
+                    sb.AppendFormat(CultureInfo.InvariantCulture, "{{\"latitude\":{0:0.#####},\"longitude\":{1:0.#####}}},", d.Latitude, d.Longitude);
                 }
 
                 //Remove trailing comma.
@@ -461,6 +368,7 @@ namespace BingMapsRESTToolkit
 
             string mode;
 
+            //TODO: Add truck when support added in distance matirx API.
             switch (TravelMode)
             {
                 case TravelModeType.Transit:
@@ -492,12 +400,12 @@ namespace BingMapsRESTToolkit
 
             switch (TimeUnits)
             {
-                case TimeUnitType.Minutes:
-                    tu = "minutes";
+                case TimeUnitType.Minute:
+                    tu = "minute";
                     break;
-                case TimeUnitType.Seconds:
+                case TimeUnitType.Second:
                 default:
-                    tu = "seconds";
+                    tu = "second";
                     break;
             }
 
@@ -559,66 +467,6 @@ namespace BingMapsRESTToolkit
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Monitors the status of an async distance matrix request.
-        /// </summary>
-        /// <param name="statusUrl">The status URL for the async request.</param>
-        /// <param name="failedTries">The number of times the status check has failed consecutively.</param>
-        /// <param name="remainingTimeCallback">A callback function in whichthe estimated remaining time is sent.</param>
-        /// <returns>The final async status when the request completed, had an error, or was not accepted.</returns>
-        private async Task<DistanceMatrixAsyncStatus> MonitorAsyncStatus(Uri statusUrl, int failedTries, Action<int> remainingTimeCallback)
-        {
-            DistanceMatrixAsyncStatus status = null;
-
-            try
-            {
-                using (var rs = await ServiceHelper.GetStreamAsync(statusUrl))
-                {
-                    var r = ServiceHelper.DeserializeStream<Response>(rs);
-
-                    if (r != null)
-                    {
-                        if(r.ErrorDetails != null && r.ErrorDetails.Length > 0)
-                        {
-                            throw new Exception(r.ErrorDetails[0]);
-                        }
-                        else if (r.ResourceSets != null && r.ResourceSets.Length > 0 && r.ResourceSets[0].Resources != null && r.ResourceSets[0].Resources.Length > 0 && r.ResourceSets[0].Resources[0] is DistanceMatrixAsyncStatus)
-                        {
-                            status = r.ResourceSets[0].Resources[0] as DistanceMatrixAsyncStatus;
-
-                            if (status.CallbackInSeconds > 0)
-                            {
-                                remainingTimeCallback?.Invoke(status.CallbackInSeconds);
-
-                                //Wait remaining seconds.
-                                await Task.Delay(TimeSpan.FromSeconds(status.CallbackInSeconds));
-                                return await MonitorAsyncStatus(statusUrl, 0, remainingTimeCallback);
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                //Check to see how many times the status check has failed consecutively.
-                if (failedTries < MaxStatusCheckRetries)
-                {
-                    //Wait some time and try again.
-                    await Task.Delay(TimeSpan.FromSeconds(StatusCheckRetryDelay));
-                    return await MonitorAsyncStatus(statusUrl, failedTries + 1, remainingTimeCallback);
-                }
-                else 
-                {
-                    status.ErrorMessage = "Failed to get status, and exceeded the maximium of " + MaxStatusCheckRetries + " retries. Error message: " + ex.Message;
-                    status.CallbackInSeconds = -1;
-                    status.IsCompleted = false;
-                }
-            }
-
-            //Should only get here is the request has completed, was not accepted or there was an error.
-            return status;
         }
 
         #endregion

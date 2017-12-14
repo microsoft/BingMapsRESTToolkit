@@ -104,6 +104,10 @@ namespace BingMapsRESTToolkit
             }
         }
 
+        #endregion
+
+        #region Public Methods
+
         /// <summary>
         /// Returns a formatted string of the coordinate in the format "latitude,longitude", with the values rounded off to 5 decimal places.
         /// </summary>
@@ -111,6 +115,43 @@ namespace BingMapsRESTToolkit
         public override string ToString()
         {
             return string.Format(CultureInfo.InvariantCulture, "{0:0.#####},{1:0.#####}", Latitude, Longitude);
+        }
+
+        /// <summary>
+        /// Compares two coordinates. Only compares the first 6 decimal places to avoid floating point errors.
+        /// </summary>
+        /// <param name="obj">Coordinate to compare to.</param>
+        /// <returns>A boolean indicating if the two coordinates are equal.</returns>
+        public override bool Equals(object obj)
+        {
+            if(obj != null && obj is Coordinate)
+            {
+                var c = obj as Coordinate;
+
+                return Math.Round(Latitude, 6) == Math.Round(c.Latitude, 6) && Math.Round(Longitude, 6) == Math.Round(c.Longitude, 6);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Compares two coordinates. 
+        /// </summary>
+        /// <param name="c">Coordinate to compare to.</param>
+        /// <param name="decimals">The number of decimal places to compare to.</param>
+        /// <returns>A boolean indicating if the two coordinates are equal.</returns>
+        public bool Equals(Coordinate c, int decimals)
+        {
+            return Math.Round(Latitude, decimals) == Math.Round(c.Latitude, decimals) && Math.Round(Longitude, decimals) == Math.Round(c.Longitude, decimals);
+        }
+
+        /// <summary>
+        /// Get hash for coordinate.
+        /// </summary>
+        /// <returns>Hash for coordinate.</returns>
+        public override int GetHashCode()
+        {
+            return string.Format("{0:0.######}|{1:0.######}", Latitude, Longitude).GetHashCode();
         }
 
         #endregion
