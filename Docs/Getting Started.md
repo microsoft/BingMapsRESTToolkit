@@ -22,7 +22,7 @@ The [Bing Maps Account Center](http://www.bingmapsportal.com/) is the main porta
 
 -   Press the button to create a new key.
 
--   Add an application name and optionally a URL. It doesn’t matter what this is, it’s for your own information to help remember what the key is for. Set the key type to Basic, and the application type to public website. This will give you 125,000 transactions a year for free.
+-   Add an application name and optionally a URL. It doesnâ€™t matter what this is, itâ€™s for your own information to help remember what the key is for. Set the key type to Basic, and the application type to public website. This will give you 125,000 transactions a year for free.
 
 -   Now that you have a key, it can be used to access all the Bing Maps map controls and services.
 
@@ -102,7 +102,7 @@ var request = new GeocodeRequest()
 };
 
 //Process the request by using the ServiceManager.
-var response = await request.Execute(request);
+var response = await request.Execute();
 
 if(response != null && 
     response.ResourceSets != null && 
