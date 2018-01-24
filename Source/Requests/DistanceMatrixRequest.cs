@@ -116,6 +116,11 @@ namespace BingMapsRESTToolkit
         /// </summary>
         public TimeUnitType TimeUnits { get; set; }
 
+        /// <summary>
+        /// Truck routing specific vehicle attribute. 
+        /// </summary>
+        public VehicleSpec VehicleSpec { get; set; }
+
         #endregion
 
         #region Public Methods
@@ -131,35 +136,45 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// Executes the request.
         /// </summary>
-        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time is sent.</param>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time in seconds is sent.</param>
         /// <returns>A response containing the requested distance matrix.</returns>
         public override async Task<Response> Execute(Action<int> remainingTimeCallback)
         {
-            //Make sure all origins and destinations are geocoded.
-            await GeocodeWaypoints();
-            
-            var requestUrl = GetRequestUrl();
-            var requestBody = GetPostRequestBody();
-
-            var response = await ServiceHelper.MakeAsyncPostRequest<DistanceMatrix>(requestUrl, requestBody, remainingTimeCallback);
-
-            var dm = response.ResourceSets[0].Resources[0] as DistanceMatrix;
-            
-            //TODO: Overwrite origins/destinations for now as we have added support for geocoding in this library, but this is not yet supported by the Distance Matirx API.
-            dm.Origins = this.Origins;
-
-            if (this.Destinations != null)
+            if (TravelMode != TravelModeType.Truck)
             {
-                dm.Destinations = this.Destinations;
+                //Make sure all origins and destinations are geocoded.
+                await GeocodeWaypoints();
+
+                var requestUrl = GetRequestUrl();
+                var requestBody = GetPostRequestBody();
+
+                var response = await ServiceHelper.MakeAsyncPostRequest<DistanceMatrix>(requestUrl, requestBody, remainingTimeCallback);
+
+                var dm = response.ResourceSets[0].Resources[0] as DistanceMatrix;
+
+                //TODO: Overwrite origins/destinations for now as we have added support for geocoding in this library, but this is not yet supported by the Distance Matirx API.
+                dm.Origins = this.Origins;
+
+                if (this.Destinations != null)
+                {
+                    dm.Destinations = this.Destinations;
+                }
+
+                if (dm.Results != null)
+                {
+                    return response;
+                }
+                else if (!string.IsNullOrEmpty(dm.ErrorMessage))
+                {
+                    throw new Exception(dm.ErrorMessage);
+                }
             }
+            else
+            {
+                var requestUrl = GetRequestUrl();
 
-            if (dm.Results != null)
-            {
-                return response;
-            }
-            else if (!string.IsNullOrEmpty(dm.ErrorMessage))
-            {
-                throw new Exception(dm.ErrorMessage);
+                //Generate truck routing based distnace matrix by wrapping routing service.
+                return await new Extensions.TruckDistanceMatrixGenerator().Calculate(this, remainingTimeCallback);              
             }
 
             return null;           
@@ -285,16 +300,16 @@ namespace BingMapsRESTToolkit
 
             int numCoordPairs = GetNumberOfCoordinatePairs();
 
-            if (numCoordPairs > MaxCoordinatePairs)
+            if (numCoordPairs > MaxCoordinatePairs && TravelMode != TravelModeType.Truck)
             {
                 throw new Exception("The number of Origins and Destinations provided would result in a matrix that has more than 625 coordinate pairs.");
             }
 
             if (StartTime.HasValue)
             {
-                if(TravelMode != TravelModeType.Driving)
+                if(TravelMode != TravelModeType.Driving || TravelMode != TravelModeType.Truck)
                 {
-                    throw new Exception("Start time parameter can only be used with the driving travel mode.");
+                    throw new Exception("Start time parameter can only be used with the driving or truck travel mode.");
                 }
 
                 //Since start time is specified, an asynchronous request will be made which allows up to 100 coordinate pairs in the matrix (coordinate pairs).
@@ -310,7 +325,7 @@ namespace BingMapsRESTToolkit
             {
                 if(!StartTime.HasValue)
                 {
-                    throw new Exception("End time specified without a corresponding stat time.");
+                    throw new Exception("End time specified without a corresponding start time.");
                 }
 
                 var timeSpan = EndTime.Value.Subtract(StartTime.Value);
@@ -326,6 +341,11 @@ namespace BingMapsRESTToolkit
                 }
             }
             
+            if(TravelMode == TravelModeType.Truck)
+            {
+                return string.Empty;
+            }
+
             return this.Domain + "Routes/DistanceMatrix" + ((isAsyncRequest)? "Async?" : "" + "?") + GetBaseRequestUrl();
         }
 
@@ -335,6 +355,11 @@ namespace BingMapsRESTToolkit
         /// <returns></returns>
         public string GetPostRequestBody()
         {
+            if(TravelMode == TravelModeType.Truck)
+            {
+                return string.Empty;
+            }
+
             //Build the JSON object using string builder as faster than JSON serializer.
 
             var sb = new StringBuilder();
@@ -367,8 +392,7 @@ namespace BingMapsRESTToolkit
             }
 
             string mode;
-
-            //TODO: Add truck when support added in distance matirx API.
+            
             switch (TravelMode)
             {
                 case TravelModeType.Transit:
@@ -468,7 +492,7 @@ namespace BingMapsRESTToolkit
                 }
             }
         }
-
+        
         #endregion
     }
 }

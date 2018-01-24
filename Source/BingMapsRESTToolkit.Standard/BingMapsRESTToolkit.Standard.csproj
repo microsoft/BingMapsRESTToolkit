@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.4</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Version>1.0.9</Version>
     <Authors>Microsoft</Authors>
     <Company>Microsoft</Company>
@@ -52,6 +52,7 @@
     <Compile Include="..\Internal\InternalSettings.cs" Link="Internal\InternalSettings.cs" />
     <Compile Include="..\Internal\ServiceHelper.cs" Link="Internal\ServiceHelper.cs" />
     <Compile Include="..\Internal\SpatialTools.cs" Link="Internal\SpatialTools.cs" />
+    <Compile Include="..\Internal\TruckDistanceMatrixGenerator.cs" Link="Internal\TruckDistanceMatrixGenerator.cs" />
     <Compile Include="..\Models\BoundingBox.cs" Link="Models\BoundingBox.cs" />
     <Compile Include="..\Models\Coordinate.cs" Link="Models\Coordinate.cs" />
     <Compile Include="..\Models\CustomMapStyles\BorderedMapElementStyle.cs" Link="Models\CustomMapStyles\BorderedMapElementStyle.cs" />
@@ -138,9 +139,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Net.Requests" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Serialization.Json" Version="4.0.3" />
-    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.1.1" />
+    <PackageReference Include="System.Runtime.Serialization.Json" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
   </ItemGroup>
 

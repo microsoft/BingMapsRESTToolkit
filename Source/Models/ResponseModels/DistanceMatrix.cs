@@ -116,6 +116,7 @@ namespace BingMapsRESTToolkit
 
         /// <summary>
         /// Retrieves the total travel distance between all waypoints indicies which represent an edge (graph/path).
+        /// If a path between to waypoints is not routable, a large distance value will be returned.
         /// </summary>
         /// <param name="waypointIndicies">Waypoint indicies that represent the edge/path.</param>
         /// <returns>The total travel distance between all waypoints indicies.</returns>
@@ -129,9 +130,11 @@ namespace BingMapsRESTToolkit
                 {
                     var d = GetDistance(waypointIndicies[i], waypointIndicies[i + 1]);
 
-                    if (d > 0)
+                    distance += d;
+
+                    if (d < 0)
                     {
-                        distance += d;
+                        return double.MaxValue;
                     }
                 }
                 return distance;
@@ -142,6 +145,7 @@ namespace BingMapsRESTToolkit
 
         /// <summary>
         /// Retrieves the total travel distance between all waypoints indicies which represent an edge (graph/path).
+        /// If a path between to waypoints is not routable, a large distance value will be returned.
         /// </summary>
         /// <param name="waypointIndicies">Waypoint indicies that represent the edge/path.</param>
         /// <param name="isRoundTrip">Indicates if the edge should be round trip and return to the first waypoint in the indicies array.</param>
@@ -153,10 +157,11 @@ namespace BingMapsRESTToolkit
             if (isRoundTrip && waypointIndicies.Length >= 2)
             {
                 var d = GetDistance(waypointIndicies[waypointIndicies.Length - 1], waypointIndicies[0]);
+                distance += d;
 
-                if (d > 0)
+                if (d < 0)
                 {
-                    distance += d;
+                    return double.MaxValue;
                 }
             }
 
@@ -164,7 +169,8 @@ namespace BingMapsRESTToolkit
         }
 
         /// <summary>
-        /// Retrieves the total travel time between all waypoints indicies which represent an edge (graph/path).
+        /// Retrieves the total travel time between all waypoints indicies which represent an edge (graph/path). 
+        /// If a path between to waypoints is not routable, a large time value will be returned.
         /// </summary>
         /// <param name="waypointIndicies">Waypoint indicies that represent the edge/path.</param>
         /// <returns>The total travel time between all waypoints indicies.</returns>
@@ -178,9 +184,11 @@ namespace BingMapsRESTToolkit
                 {
                     var t = GetTime(waypointIndicies[i], waypointIndicies[i + 1]);
 
-                    if (t > 0)
+                    time += t;
+
+                    if (t < 0)
                     {
-                        time += t;
+                        return double.MaxValue;
                     }
                 }
                 return time;
@@ -423,7 +431,7 @@ namespace BingMapsRESTToolkit
         {
             var c = GetCell(originIdx, destinationIdx, timeIntervalIdx);
 
-            if (c != null)
+            if (c != null && c.TravelDuration >= 0)
             {
                 return c.TravelDuration;
             }
@@ -447,7 +455,14 @@ namespace BingMapsRESTToolkit
 
                 for (int i = 0; i < cells.Length; i++)
                 {
-                    times[i] = cells[i].TravelDuration;
+                    if(cells[i].TravelDuration <= 0)
+                    {
+                        times[i] = -1;
+                    }
+                    else
+                    {
+                        times[i] = cells[i].TravelDuration;
+                    }                    
                 }
 
                 return times;

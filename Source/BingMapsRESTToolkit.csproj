@@ -58,6 +58,7 @@
     <Compile Include="Enums\TrafficType.cs" />
     <Compile Include="Enums\WarningType.cs" />
     <Compile Include="Enums\WeightUnitType.cs" />
+    <Compile Include="Internal\TruckDistanceMatrixGenerator.cs" />
     <Compile Include="Extensions\TSP Resources\BaseTspAlgorithm.cs" />
     <Compile Include="Extensions\TSP Resources\GreedyTspAlgorithm.cs" />
     <Compile Include="Extensions\TSP Resources\GeneticTspAlgorithm.cs" />

@@ -109,7 +109,7 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// Executes the request. If there are more waypoints than the batchSize value (default 25), only a MaxSolutions is set to 1, and Tolerances is set to null.
         /// </summary>
-        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time is sent.</param>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time in seconds is sent.</param>
         /// <returns>A response containing the requested data.</returns>
         public override async Task<Response> Execute(Action<int> remainingTimeCallback)
         {
@@ -548,6 +548,8 @@ namespace BingMapsRESTToolkit
                     throw new Exception("Truck routes must be optimized based on time or timeWithTraffic.");
                 }
 
+                //sb.Append(",\"timeType\":\"minute\"");
+
                 if (RouteOptions.RouteAttributes != null && RouteOptions.RouteAttributes.Count > 0)
                 {
                     sb.Append(",\"routeAttributes\":\"");
@@ -598,7 +600,7 @@ namespace BingMapsRESTToolkit
                     sb.Length--;
                     sb.Append("]");
                 }
-
+                
                 if (RouteOptions.VehicleSpec != null)
                 {
                     sb.Append(",\"vehicleSpec\":{");
@@ -687,7 +689,7 @@ namespace BingMapsRESTToolkit
                             sb.Append(",");
                         }
 
-                        //Remove trailing comma.
+                        //Remove trailing comma and quote.
                         sb.Length--;
                         sb.Append("\"");
                     }

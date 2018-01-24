@@ -104,14 +104,15 @@ Abstract class that all Imagery rest requests will derive from. Inherits from th
 
 | Name           | Type                   | Description   |
 |------------|-------------|
-| origins    | List\<[SimpleWaypoint](#SimpleWaypoint)\> |**Required**. List of origins.  |
-| destinations   | List\<[SimpleWaypoint](#SimpleWaypoint)\> | **Required**. List of destinations. |
+| Origins    | List\<[SimpleWaypoint](#SimpleWaypoint)\> |**Required**. List of origins.  |
+| Destinations   | List\<[SimpleWaypoint](#SimpleWaypoint)\> | **Required**. List of destinations. |
 | TravelMode     | [TravelModeType](#TravelModeType) | **Required**. Specifies the mode of transportation to use when calculating the distance matrix. |
 | StartTime      | DateTime | **Optional for Driving**. Specifies the start or departure time of the matrix to calculate and uses predictive traffic data. |
-| endTime        | DateTime | **Optional for Driving**. If specified, a matrix based on traffic data with contain a histogram of travel times and distances for the specified resolution intervals (default is 15 minutes) between the start and end times. A start time must be specified for the request to be valid and the total time between start and end cannot be greater than 24 hours.  |
-| resolution     | int | **Optional for Driving**. The number of intervals to calculate a histogram of data for each cell where a single interval is a quarter of an hour. Can be one of the following values:<br/><br/> • **1** - 15 minutes<br/> • **2** - 30 minutes<br/> • **3** - 45 minutes<br/> • **4** - an hour<br/><br/>If start time is specified and `resolution` is not, it will default to an interval of 1 (15 minutes).<br/><br/>**Example**: resolution=2 |
-| distanceUnit   | [DistanceUnitType](#DistanceUnitType) | **Optional.** The units to use for distances in the response. |
-| timeUnit       | [TimeUnitType](#TimeUnitType) | **Optional.** The units to use for time durations in the response. |
+| EndTime        | DateTime | **Optional for Driving**. If specified, a matrix based on traffic data with contain a histogram of travel times and distances for the specified resolution intervals (default is 15 minutes) between the start and end times. A start time must be specified for the request to be valid and the total time between start and end cannot be greater than 24 hours.  |
+| Resolution     | int | **Optional for Driving**. The number of intervals to calculate a histogram of data for each cell where a single interval is a quarter of an hour. Can be one of the following values:<br/><br/> • **1** - 15 minutes<br/> • **2** - 30 minutes<br/> • **3** - 45 minutes<br/> • **4** - an hour<br/><br/>If start time is specified and `resolution` is not, it will default to an interval of 1 (15 minutes).<br/><br/>**Example**: resolution=2 |
+| DistanceUnit   | [DistanceUnitType](#DistanceUnitType) | **Optional.** The units to use for distances in the response. |
+| TimeUnit       | [TimeUnitType](#TimeUnitType) | **Optional.** The units to use for time durations in the response. |
+| VehicleSpec | [VehicleSpec](#VehicleSpec) | Truck routing specific vehicle attribute.  |
 
 ## <a name="ElevationRequest"></a> ElevationRequest Class
 
@@ -469,6 +470,13 @@ A class that defines the options that can to use when calculating a route.
 
 This is a static class that is used for processing all requests to the Bing Maps REST Services asynchronously. Note that all requests classes now have an Execute function which will retrun a Response object which can be used as an alternative.
 
+### Static Properties
+
+| Name          | Type      | Description   |
+|---------------|-----------|---------------|
+| Proxy         | IWebProxy |  Proxy settings to be used when making web requests.  |
+| QpsLimit      | int       | The number of queries per second to limit certain requests to. This is primarily used when batching multiple requests in a single process such as when geoeocidng all waypoints for the distance matrix API, or when manually generating a truck based distance matrix using the routing API.  | 
+
 ### Static Methods
 
 | Name                                                 | Return Type          | Description          |
@@ -797,10 +805,10 @@ An indexing system has been added to the DistanceMatrix class to make it easy to
 | GetDistance(int originIdx, int destinationIdx, DateTime timeInterval) | double | Retrives the travel distance for a specified origin-destination pair and time interval. Returns -1 if a cell can not be found in the results or had an error in calculation. |
 | GetDistance(int originIdx, int destinationIdx, int timeIntervalIdx) | double | Retrives the travel distance for a specified origin-destination pair and time interval. Returns -1 if a cell can not be found in the results or had an error in calculation. |
 | GetDistances(int originIdx, int destinationIdx) | double[] | Gets all travel distances for the specified origin and destination index, ordered by time (ascending). |
-| GetEdgeDistance(int[] waypointIndicies) | double | Retrieves the total travel distance between all waypoints indicies which represent an edge (graph/path). | 
-| GetEdgeDistance(int[] waypointIndicies, bool isRoundTrip) | double | Retrieves the total travel distance between all waypoints indicies which represent an edge (graph/path). | 
-| GetEdgeTime(int[] waypointIndicies) | double | Retrieves the total travel time between all waypoints indicies which represent an edge (graph/path). |
-| GetEdgeTime(int[] waypointIndicies, bool isRoundTrip) | double | Retrieves the total travel time between all waypoints indicies which represent an edge (graph/path). |
+| GetEdgeDistance(int[] waypointIndicies) | double | Retrieves the total travel distance between all waypoints indicies which represent an edge (graph/path). If a path between to waypoints is not routable, a large distance value will be returned.| 
+| GetEdgeDistance(int[] waypointIndicies, bool isRoundTrip) | double | Retrieves the total travel distance between all waypoints indicies which represent an edge (graph/path). If a path between to waypoints is not routable, a large distance value will be returned.| 
+| GetEdgeTime(int[] waypointIndicies) | double | Retrieves the total travel time between all waypoints indicies which represent an edge (graph/path). If a path between to waypoints is not routable, a large time value will be returned. |
+| GetEdgeTime(int[] waypointIndicies, bool isRoundTrip) | double | Retrieves the total travel time between all waypoints indicies which represent an edge (graph/path). If a path between to waypoints is not routable, a large time value will be returned.|
 | GetTime(int originIdx, int destinationIdx) | double | Retrives the travel time for a specified origin-destination pair. Returns -1 if a cell can not be found in the results or had an error in calculation. |
 | GetTime(int originIdx, int destinationIdx, DateTime timeInterval) | double | Retrieves the travel time for a specified origin-destination pair and time interval. Returns -1 if a cell can not be found in the results or had an error in calculation. |
 | GetTime(int originIdx, int destinationIdx, int timeIntervalIdx) | double | Retrieves the travel time for a specified origin-destination pair and time interval. Returns -1 if a cell can not be found in the results or had an error in calculation. |

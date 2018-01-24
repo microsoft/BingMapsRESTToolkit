@@ -2,6 +2,8 @@
 * [Running the Samples](#RunningTheSamples)
 * [Adding the Bing Maps REST Toolkit to your project](#AddingToolkitToProject)
 * [How to make a Request to the REST services](#HowToMakeARequest)
+* [QPS Limits](#QPSLimits)
+* [Proxies](#Proxies)
 * [Travelling Salesmen Problem](#TravellingSalesmen)
 
 The Bing Maps REST services allow you to query the raw data that powers Bing Maps. The Bing Maps REST Services Toolkit provides an easy to use .NET wrapper around these services. To keep things easy the request and response classes in this library are aligned with the structure of the [documented Bing Maps REST Services API](https://msdn.microsoft.com/en-us/library/ff701713.aspx).
@@ -191,7 +193,24 @@ using (var imageStream = await ServiceManager.GetImageAsync(request))
 }
 ```
 
-## <a name="TravellingSalesmen"></a>  Travelling Salesmen Problem
+## <a name="QPSLimits"></a> QPS Limits
+
+The Bing Maps platform allows basic accounts to generate up to 5 QPS (queries per second) and Enterprise accounts 50 QPS (enterprise accounts can upgrade to higher QPS levels). This library has a few methods which will make multiple requests to the Bing Maps platform;
+
+* The SimpleWaypoint class has a `TryGeocodeWaypoints` method which will geocode an array of SimpleWaypoints.
+* The distance matrix API only accepts coordinates as waypoints, as such the `DistanceMatrixRequest` class will geocode all waypoints automatically if needed. Additionally, the distance matrix API does not support truck routing based matricies, but this library adds support by wrapping the truck routing service and making multiple requests to it. 
+
+Since these methods can generate a lot of requests in a short period of time, a static `QpsLimit` property has been added the `ServiceManager` class which will allow you to fine tune this value as needed. By default this value is set to 5. To change this value to 50 (or some other value), add the following line of code before your request.
+
+```
+ServiceManager.QpsLimit = 50;
+```
+
+## <a name="Proxies"></a> Proxies
+
+Some networks require requests to go through a proxy. The `ServiceManager` class has a static `Proxy` property which can be used to specify web proxy settings.
+
+## <a name="TravellingSalesmen"></a> Travelling Salesmen Problem
 
 This toolkit provides some classes which wrap the routing and distance matrix API's and provides solutions for the [travelling salesmen problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem) (waypoint order optimization). You can optimize based on travel time, travel distance or straight line distance. When travel time/distance is specified, the distance matrix API which will generate Bing Maps transactions. For straight line distances, the haversine formula will be used to generate a matrix based on as-the-crow-flies distance between the waypoints. 
 

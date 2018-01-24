@@ -107,7 +107,7 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// Executes the request.
         /// </summary>
-        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time is sent.</param>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time in seconds is sent.</param>
         /// <returns>A response containing the requested data.</returns>
         public virtual async Task<Response> Execute(Action<int> remainingTimeCallback)
         {

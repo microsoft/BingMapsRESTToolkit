@@ -64,7 +64,6 @@ namespace BingMapsRESTToolkit.Extensions
         /// <param name="travelMode">The mode of transportation.</param>
         /// <param name="tspOptimization">The metric in which to base the TSP algorithm.</param>
         /// <param name="departureTime">The departure time in which to consider predictive traffic for. Only used when travel mode is driving and tsp optimiation is based on travel time or travel distance. Ignored if there is more than 10 waypoints as that would exceed limits of a distance matrix call.</param>
-        /// <param name="isRoundTrip">Indicates if the path should be round trip and return to the origin or not.</param>
         /// <param name="bingMapsKey">A bing maps key.</param>
         /// <returns>An efficient path between all waypoints based on time or distance.</returns>
         public async Task<TspResult> Solve(List<SimpleWaypoint> waypoints, TravelModeType? travelMode, TspOptimizationType? tspOptimization, DateTime? departureTime, string bingMapsKey)
@@ -95,11 +94,6 @@ namespace BingMapsRESTToolkit.Extensions
                     //Default to driving if not specified.
                     travelMode = TravelModeType.Driving;
                 }
-                else if (travelMode == TravelModeType.Truck)
-                {
-                    //Truck routes not supported for distance matrix, fall back to driving.
-                    travelMode = TravelModeType.Driving;
-                }
 
                 var distanceMatrixRequest = new DistanceMatrixRequest()
                 {
@@ -107,7 +101,9 @@ namespace BingMapsRESTToolkit.Extensions
                     BingMapsKey = bingMapsKey
                 };                
 
-                if (departureTime.HasValue && distanceMatrixRequest.TravelMode == TravelModeType.Driving && waypoints.Count <= 10)
+                if (departureTime.HasValue &&
+                    (distanceMatrixRequest.TravelMode == TravelModeType.Driving && waypoints.Count <= 10 || 
+                    distanceMatrixRequest.TravelMode == TravelModeType.Truck))
                 {
                     distanceMatrixRequest.StartTime = departureTime.Value;
                 }
@@ -161,7 +157,6 @@ namespace BingMapsRESTToolkit.Extensions
         /// </summary>
         /// <param name="waypoints">Waypoints to optimize.</param>
         /// <param name="minTour">An optimized array of waypoint indicies</param>
-        /// <param name="isRoundTrip">A boolean indicating if it is a round trip tour.</param>
         /// <returns>An optimized lis tof waypoints.</returns>
         protected List<SimpleWaypoint> GetOptimizedWaypoints(List<SimpleWaypoint> waypoints, int[] minTour)
         {
