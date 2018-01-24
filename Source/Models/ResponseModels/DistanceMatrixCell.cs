@@ -49,12 +49,14 @@ namespace BingMapsRESTToolkit
 
         /// <summary>
         /// The physical distance covered to complete a route between the origin and destination. 
+        /// When travel mode is set to transit or a path between the origin and destination can't be calculated, this value is set to -1.
         /// </summary>
         [DataMember(Name = "travelDistance", EmitDefaultValue = false)]
         public double TravelDistance { get; set; }
 
         /// <summary>
         /// The time that it takes, in minutes, to travel a corresponding TravelDistance.
+        /// If a path a path between the origin and destination can't be calculated, this value will be a negative number.
         /// </summary>
         [DataMember(Name = "travelDuration", EmitDefaultValue = false)]
         public double TravelDuration { get; set; }

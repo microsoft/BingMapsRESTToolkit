@@ -24,6 +24,7 @@
 
 using System;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace BingMapsRESTToolkit
@@ -33,6 +34,29 @@ namespace BingMapsRESTToolkit
     /// </summary>
     public static class ServiceManager
     {
+        /// <summary>
+        /// Proxy settings to use when making requests. 
+        /// </summary>
+        public static IWebProxy Proxy
+        {
+            get
+            {
+                return ServiceHelper.Proxy;
+            }
+            set
+            {
+                ServiceHelper.Proxy = value;
+            }
+        }
+
+        /// <summary>
+        /// The number of queries per second to limit certain requests to. 
+        /// This is primarily used when batching multiple requests in a single process such as when 
+        /// geoeocidng all waypoints for the distance matrix API, or when manually generating a truck 
+        /// based distance matrix using the routing API. 
+        /// </summary>
+        public static int QpsLimit = 5;
+
         /// <summary>
         /// Processes a REST requests that returns data.
         /// </summary>
@@ -47,7 +71,7 @@ namespace BingMapsRESTToolkit
         /// Processes a REST requests that returns data.
         /// </summary>
         /// <param name="request">The REST request to process.</param>
-        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time is sent.</param>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time in seconds is sent.</param>
         /// <returns>The response from the REST service.</returns>
         public static async Task<Response> GetResponseAsync(BaseRestRequest request, Action<int> remainingTimeCallback)
         {

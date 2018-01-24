@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -51,6 +52,11 @@ namespace BingMapsRESTToolkit
 
         #endregion
 
+        /// <summary>
+        /// Proxy settings to use when making requests. 
+        /// </summary>
+        public static IWebProxy Proxy { get; set; }
+
         #region Public Methods
 
         /// <summary>
@@ -63,6 +69,11 @@ namespace BingMapsRESTToolkit
             var tcs = new TaskCompletionSource<string>();
 
             var request = HttpWebRequest.Create(url);
+
+            if (ServiceManager.Proxy != null) {
+                request.Proxy = ServiceManager.Proxy;
+            }
+
             request.BeginGetResponse((a) =>
             {
                 try
@@ -109,6 +120,12 @@ namespace BingMapsRESTToolkit
             var tcs = new TaskCompletionSource<Stream>();
 
             var request = HttpWebRequest.Create(url);
+
+            if (ServiceManager.Proxy != null)
+            {
+                request.Proxy = ServiceManager.Proxy;
+            }
+
             request.BeginGetResponse((a) =>
             {
                 try
@@ -151,6 +168,11 @@ namespace BingMapsRESTToolkit
             var tcs = new TaskCompletionSource<Stream>();
 
             var request = HttpWebRequest.Create(url);
+
+            if (ServiceManager.Proxy != null)
+            {
+                request.Proxy = ServiceManager.Proxy;
+            }
 
             request.Method = "POST";
 
@@ -246,7 +268,7 @@ namespace BingMapsRESTToolkit
         /// </summary>
         /// <typeparam name="T">The type of resource to expect to be returned.</typeparam>
         /// <param name="requestUrl">REST URL request.</param>
-        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time is sent.</param>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time in seconds is sent.</param>
         /// <returns>A completed response for a request.</returns>
         internal static async Task<Response> MakeAsyncGetRequest<T>(string requestUrl, Action<int> remainingTimeCallback) where T : Resource
         {
@@ -265,7 +287,7 @@ namespace BingMapsRESTToolkit
         /// <typeparam name="T">The type of resource to expect to be returned.</typeparam>
         /// <param name="requestUrl">REST URL request.</param>
         /// <param name="requestBody">The post request body.</param>
-        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time is sent.</param>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time in seconds is sent.</param>
         /// <returns>A completed response for a request.</returns>
         internal static async Task<Response> MakeAsyncPostRequest<T>(string requestUrl, string requestBody, Action<int> remainingTimeCallback) where T: Resource
         {
@@ -296,6 +318,47 @@ namespace BingMapsRESTToolkit
             }
         }
 
+        /// <summary>
+        /// Processes an array of tasks but limits the number of queries made per second. 
+        /// </summary>
+        /// <param name="tasks">The tasks to process.</param>
+        /// <returns>A task that processes the array of tasks</returns>
+        internal static Task WhenAllTaskLimiter(List<Task> tasks)
+        {
+            return Task.Run(async () =>
+            {
+                var taskGroup = new List<Task>();
+
+                for (var i = 0; i < tasks.Count; i++)
+                {
+                    taskGroup.Add(tasks[i]);
+
+                    if (taskGroup.Count >= ServiceManager.QpsLimit)
+                    {
+                        var start = DateTime.Now;
+
+                        await Task.WhenAll(taskGroup);
+
+                        var end = DateTime.Now;
+
+                        taskGroup.Clear();
+
+                        var ellapsed = (end - start); 
+
+                        if (i != tasks.Count - 1 && ellapsed.TotalMilliseconds < 1000)
+                        {
+                            //Ensure that atleast a second has passed since the last batch of requests.
+                            await Task.Delay(1000 - (int)ellapsed.TotalMilliseconds);
+                        }
+                    }
+                }
+
+                if (taskGroup.Count > 0)
+                {
+                    await Task.WhenAll(taskGroup);
+                }
+            });
+        }
         #endregion
 
         #region Private Methods
@@ -361,7 +424,7 @@ namespace BingMapsRESTToolkit
         /// Processes an Async Status until it is completed or runs into an error.
         /// </summary>
         /// <param name="status">The async status to process.</param>
-        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time is sent.</param>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time in seconds is sent.</param>
         /// <returns></returns>
         private static async Task<AsyncStatus> ProcessAsyncStatus(AsyncStatus status, Action<int> remainingTimeCallback)
         {
@@ -405,7 +468,7 @@ namespace BingMapsRESTToolkit
         /// </summary>
         /// <param name="statusUrl">The status URL for the async request.</param>
         /// <param name="failedTries">The number of times the status check has failed consecutively.</param>
-        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time is sent.</param>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time in seconds is sent.</param>
         /// <returns>The final async status when the request completed, had an error, or was not accepted.</returns>
         private static async Task<AsyncStatus> MonitorAsyncStatus(Uri statusUrl, int failedTries, Action<int> remainingTimeCallback)
         {

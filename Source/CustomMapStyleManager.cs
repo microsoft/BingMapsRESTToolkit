@@ -158,7 +158,7 @@ namespace BingMapsRESTToolkit
                 {
                     if(style.settings != null)
                     {
-                        extractPropertyInfo("g", style.settings, styleString);
+                        ExtractPropertyInfo("g", style.settings, styleString);
                     }
 
                     if(style.elements != null)
@@ -180,7 +180,7 @@ namespace BingMapsRESTToolkit
                                         continue;
                                     }
 
-                                    extractPropertyInfo(shortName, val, styleString);
+                                    ExtractPropertyInfo(shortName, val, styleString);
                                 }
                             }
                         }
@@ -196,7 +196,7 @@ namespace BingMapsRESTToolkit
             return styleString.ToString();
         }
 
-        private static void extractPropertyInfo(string shortName, object obj, StringBuilder writer)
+        private static void ExtractPropertyInfo(string shortName, object obj, StringBuilder writer)
         {
             var prop = obj.GetType().GetRuntimeProperties();
 
@@ -226,7 +226,7 @@ namespace BingMapsRESTToolkit
                             else
                             {
                                 // otherwise, it's a color, lets get the hex value of it
-                                stringValue = getValidHexColor((string)propertyValue, false);
+                                stringValue = GetValidHexColor((string)propertyValue, false);
                             }
 
                             if (!string.IsNullOrEmpty(stringValue))
@@ -256,7 +256,7 @@ namespace BingMapsRESTToolkit
 
         private static Regex _hexRx = new Regex("^#?([A-Fa-f0-9]{8}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$");
 
-        private static string getValidHexColor(string hexColor, bool includeHash)
+        private static string GetValidHexColor(string hexColor, bool includeHash)
         {
             if (_hexRx.IsMatch(hexColor))
             {

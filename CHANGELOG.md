@@ -1,9 +1,16 @@
-## Version 1.0.9 - 12/14/2017
+## Version 1.1.0 - 
 
+* .NET Standard Library support upgraded to v2.0.
+* Static Proxy setting option added to ServiceManager.
+* Truck routing based distance matrix support added (wraps truck routing service).
+* QPS limiting setting added to ServiceManager. Used for batch geocode and truck routing calls which occur with distance matrix.
+
+## Version 1.0.9 - 12/14/2017
+ 
 * Add support for Truck Routing API.
 * Add support for Isochrones API.
 * Add support for Snap to Road API.
-* Add Travelling Salesmen extension which includes 2 different TSP algorithms; greedy brute forcem and genetic approximation. 
+* Add Travelling Salesmen extension which includes 2 different TSP algorithms; greedy brute force and genetic approximation. 
 * Extended the RouteRequest class to support waypoint optimization as part of the request.
 * Added a WPF sample for the travelling salesmen which demostrates the ease of calculating a route with optimized waypoints.
 * Extended DistanceMatrix class with method to get edge/path (array of waypoint indicies to pass through) time/distance for easier analysis.
