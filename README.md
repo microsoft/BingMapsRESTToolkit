@@ -1,6 +1,6 @@
 ![Bing Maps Logo](https://github.com/Microsoft/Bing-Maps-V8-TypeScript-Definitions/blob/master/images/BingMapsLogoTeal.png)
 
-[![NuGet](https://img.shields.io/badge/NuGet-1.1.0-blue.svg)](https://www.nuget.org/packages/BingMapsRESTToolkit)
+[![NuGet](https://img.shields.io/badge/NuGet-1.1.1-blue.svg)](https://www.nuget.org/packages/BingMapsRESTToolkit)
 [![license](https://img.shields.io/badge/license-MIT-yellow.svg)](https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/LICENSE.md)
 
 # Bing Maps REST Toolkit for .NET 
