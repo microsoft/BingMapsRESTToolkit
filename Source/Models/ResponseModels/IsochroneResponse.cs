@@ -33,6 +33,12 @@ namespace BingMapsRESTToolkit
     public class IsochroneResponse : Resource
     {
         /// <summary>
+        /// The origin point used to calculate the isochrone area.
+        /// </summary>
+        [DataMember(Name = "origin", EmitDefaultValue = false)]
+        public Coordinate Origin { get; set; }
+
+        /// <summary>
         /// The polygons that represent the isochrone area.
         /// </summary>
         [DataMember(Name = "polygons", EmitDefaultValue = false)]

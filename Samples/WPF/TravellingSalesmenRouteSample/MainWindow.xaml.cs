@@ -54,8 +54,6 @@ namespace TravellingSalesmenRouteSample
             var tspOptimization = (TspOptimizationType)Enum.Parse(typeof(TspOptimizationType), (string)(TspOptimizationTypeCbx.SelectedItem as ComboBoxItem).Tag);
             try
             {
-
-
                 //Calculate a route between the waypoints so we can draw the path on the map. 
                 var routeRequest = new RouteRequest()
                 {

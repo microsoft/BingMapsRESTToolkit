@@ -39,12 +39,21 @@ namespace BingMapsRESTToolkit
     {
         #region Private Properties
 
+        /// <summary>
+        /// The maximium number of waypoints that can be in a single request. If the batchSize is smaller than the number of waypoints, 
+        /// when the request is executed, it will break the request up into multiple requests. Must by between 2 and 25. Default: 25.
+        /// </summary>
         private int batchSize = 25;
 
         /// <summary>
         /// Hash values used to quickly check if any thing needed for waypoint optimization has changed since the last travelling salesmen calculation.
         /// </summary>
         private int waypointsHash;
+
+        /// <summary>
+        /// A hash code value that represents the last waypointed optimized results. This is used to determine if waypoint optimization has already 
+        /// been done in a previous requests or if it needs to be calculated again.
+        /// </summary>
         private string optimizationOptionHash;
 
         #endregion
@@ -88,7 +97,7 @@ namespace BingMapsRESTToolkit
         /// If less than 10 waypoints, brute force is used, for more than 10 waypoints, a genetic algorithm is used. 
         /// Ignores IsViaPoint on waypoints and makes them waypoints.
         /// Default: false
-        /// Warning: If travel time or travel distance is used, a standard Bing Maps key will need to be required, not a session key, as the distance matrix API will be used to process the waypoints.
+        /// Warning: If travel time or travel distance is used, a standard Bing Maps key will be required, not a session key, as the distance matrix API will be used to process the waypoints.
         /// This can generate a lot of billable transactions.
         /// </summary>
         public TspOptimizationType? WaypointOptimization { get; set; }
@@ -156,22 +165,29 @@ namespace BingMapsRESTToolkit
 
             var requestUrl = GetRequestUrl();
 
-            if (RouteOptions != null && RouteOptions.TravelMode == TravelModeType.Truck)
-            {
-                var requestBody = GetTruckPostRequestBody();
+            int startIdx = 0;
+            int endIdx = 0;
 
-                response = await ServiceHelper.MakeAsyncPostRequest<Route>(requestUrl, requestBody, remainingTimeCallback);
+            if (Waypoints.Count <= batchSize)
+            {
+                if (RouteOptions != null && RouteOptions.TravelMode == TravelModeType.Truck)
+                {
+                    var requestBody = GetTruckPostRequestBody(startIdx, out endIdx);
+
+                    response = await ServiceHelper.MakeAsyncPostRequest(requestUrl, requestBody, remainingTimeCallback);
+                }
+                else
+                {
+                    remainingTimeCallback?.Invoke(1);
+
+                    using (var responseStream = await ServiceHelper.GetStreamAsync(new Uri(requestUrl)))
+                    {
+                        response = ServiceHelper.DeserializeStream<Response>(responseStream);
+                    }
+                }
             }
             else
             {
-                if (Waypoints.Count <= batchSize)
-                {
-                    using (var responseStream = await ServiceHelper.GetStreamAsync(new Uri(requestUrl)))
-                    {
-                        return ServiceHelper.DeserializeStream<Response>(responseStream);
-                    }
-                }
-
                 //There is more waypoints than the batchSize value (default 25), break it up into multiple requests. Only allow a single route in the response and no tolerances.
                 if (RouteOptions != null)
                 {
@@ -196,67 +212,82 @@ namespace BingMapsRESTToolkit
                     throw new Exception("Start and end waypoints must not be ViaWaypoints.");
                 }
 
-                int startIdx = 0;
-                int endIdx = 0;
-
                 var requestUrls = new List<string>();
+                var requestBodies = new List<string>();
 
                 while (endIdx < Waypoints.Count - 1)
                 {
-                    requestUrls.Add(GetRequestUrl(startIdx, out endIdx));
+                    if (RouteOptions != null && RouteOptions.TravelMode == TravelModeType.Truck)
+                    {
+                        requestUrls.Add(requestUrl);
+                        requestBodies.Add(GetTruckPostRequestBody(startIdx, out endIdx));
+                    }
+                    else
+                    {
+                        requestUrls.Add(GetRequestUrl(startIdx, out endIdx));
+                        requestBodies.Add(null);
+                    }
+
                     startIdx = endIdx - 1;
                 }
 
-                var routes = new Route[requestUrls.Count];
-                Response errorResponse = null;
-
-                Parallel.For(0, requestUrls.Count, (i) =>
+                if (remainingTimeCallback != null)
                 {
-                    try
+                    int batchProcessingTime = (int)Math.Ceiling((double)requestUrls.Count / (double)ServiceManager.QpsLimit);
+
+                    if (RouteOptions != null && RouteOptions.TravelMode == TravelModeType.Truck)
                     {
-                        //Make the call synchronously as we are in a parrallel for loop and need this to block, otherwise the for loop will exist before the async code has completed.
-                        using (var responseStream = ServiceHelper.GetStreamAsync(new Uri(requestUrls[i])).GetAwaiter().GetResult())
-                        {
-                            var r = ServiceHelper.DeserializeStream<Response>(responseStream);
-
-                            if (r != null)
-                            {
-                                if (r.ErrorDetails != null && r.ErrorDetails.Length > 0)
-                                {
-                                    errorResponse = r;
-                                }
-                                else if (r.ResourceSets != null && r.ResourceSets.Length > 0 &&
-                                    r.ResourceSets[0].Resources != null && r.ResourceSets[0].Resources.Length > 0)
-                                {
-                                    routes[i] = r.ResourceSets[0].Resources[0] as Route;
-                                }
-                            }
-
-                            if (i == 0)
-                            {
-                                response = r;
-                            }
-                        }
+                        //Use an average of 4 seconds per batch for processing truck routes as multiplier for the processing time.
+                        //Other routes typically take less than a second and as such 1 second is used for those but isn't needed as a multiplier.
+                        batchProcessingTime *= 4;
                     }
-                    catch (Exception ex)
-                    {
-                        errorResponse = new Response()
-                        {
-                            ErrorDetails = new string[]
-                            {
-                            ex.Message
-                            }
-                        };
-                    }
-                });
 
-                //If any of the responses failed to process, do not merge results, return the error info. 
-                if (errorResponse != null)
-                {
-                    return errorResponse;
+                    remainingTimeCallback(batchProcessingTime);
                 }
 
-                response.ResourceSets[0].Resources[0] = await MergeRoutes(routes);
+                var routes = new Route[requestUrls.Count];
+                var routeTasks = new List<Task>();
+
+                for (var i = 0; i < routes.Length; i++)
+                {
+                    routeTasks.Add(CalculateRoute(requestUrls[i], requestBodies[i], i, routes));
+                }
+
+                if (routeTasks.Count > 0)
+                {
+                    await ServiceHelper.WhenAllTaskLimiter(routeTasks);
+                }
+
+                try
+                {
+                    response = new Response()
+                    {
+                        StatusCode = 200,
+                        StatusDescription = "OK",
+                        ResourceSets = new ResourceSet[]
+                        {
+                                new ResourceSet()
+                                {
+                                    Resources = new Resource[]
+                                    {
+                                        await MergeRoutes(routes)
+                                    }
+                                }
+                        }
+                    };
+                }
+                catch (Exception ex)
+                {
+                    return new Response()
+                    {
+                        StatusCode = 500,
+                        StatusDescription = "Error",
+                        ErrorDetails = new string[]
+                        {
+                                ex.Message
+                        }
+                    };
+                }
             }
 
             return response;
@@ -282,10 +313,8 @@ namespace BingMapsRESTToolkit
             {
                 throw new Exception("Start and end waypoints must not be ViaWaypoints.");
             }
-
-            int endIdx;
-
-            return GetRequestUrl(0, out endIdx);
+            
+            return GetRequestUrl(0, out int endIdx);
         }
 
         #endregion
@@ -295,8 +324,8 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// Generates a route REST request 
         /// </summary>
-        /// <param name="startIdx"></param>
-        /// <param name="endIdx"></param>
+        /// <param name="startIdx">The starting index for the request when breaking waypoints up into a batch.</param>
+        /// <param name="endIdx">The last waypoint index that was in the request.</param>
         /// <returns></returns>
         private string GetRequestUrl(int startIdx, out int endIdx)
         {
@@ -306,10 +335,14 @@ namespace BingMapsRESTToolkit
 
             var TravelMode = (RouteOptions != null) ? RouteOptions.TravelMode : TravelModeType.Driving;
 
-            sb.AppendFormat("Routes/{0}?", Enum.GetName(typeof(TravelModeType), TravelMode));
-
-            if (TravelMode != TravelModeType.Truck)
+            if (TravelMode == TravelModeType.Truck)
             {
+                sb.Append("Routes/TruckAsync?");
+            }
+            else
+            { 
+                sb.AppendFormat("Routes/{0}?", Enum.GetName(typeof(TravelModeType), TravelMode));
+
                 int wayCnt = 0, viaCnt = 0;
 
                 for (int i = startIdx; i < Waypoints.Count; i++)
@@ -448,6 +481,10 @@ namespace BingMapsRESTToolkit
                             mergedRoute.TravelDuration += routes[i].TravelDuration;
                             mergedRoute.TravelDurationTraffic += routes[i].TravelDurationTraffic;
                         }
+                        else
+                        {
+                            throw new Exception("An error occured when calculating one of the route segments.");
+                        }
                     }
 
                     return mergedRoute;
@@ -460,42 +497,51 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// Gets a POST body for a truck route request.
         /// </summary>
+        /// <param name="startIdx">The starting index for the request when breaking waypoints up into a batch.</param>
+        /// <param name="endIdx">The last waypoint index that was in the request.</param>
         /// <returns>A POST body for a truck route request.</returns>
-        private string GetTruckPostRequestBody()
+        private string GetTruckPostRequestBody(int startIdx, out int endIdx)
         {
+            endIdx = Waypoints.Count;
+
             var sb = new StringBuilder();
 
             sb.Append("{");
 
-            if (Waypoints.Count > 25)
-            {
-                throw new Exception("More than 25 waypoints or viaWaypoints specified.");
-            }
-
             sb.Append("\"waypoints\":[");
 
-            foreach (var wp in Waypoints)
+            int wayCnt = 0;
+
+            for (int i = startIdx; i < Waypoints.Count; i++)
             {
-                if (wp.Coordinate != null)
+                if (Waypoints[i].Coordinate != null)
                 {
-                    sb.AppendFormat("{{\"latitude\":{0:0.#####},\"longitude\":{1:0.#####}", wp.Latitude, wp.Longitude);
+                    sb.AppendFormat("{{\"latitude\":{0:0.#####},\"longitude\":{1:0.#####}", Waypoints[i].Latitude, Waypoints[i].Longitude);
                 }
-                else if (!string.IsNullOrWhiteSpace(wp.Address))
+                else if (!string.IsNullOrWhiteSpace(Waypoints[i].Address))
                 {
-                    sb.AppendFormat("{{\"address\":\"{0}\"", wp.Address);
+                    sb.AppendFormat("{{\"address\":\"{0}\"", Waypoints[i].Address);
                 }
                 else
                 {
                     throw new Exception("Invalid waypoint, an Address or Coordinate must be specified.");
                 }
-
-                if (wp.IsViaPoint)
+                
+                if (Waypoints[i].IsViaPoint)
                 {
                     sb.Append(",\"isViaPoint\":true},");
                 }
                 else
                 {
+                    wayCnt++;
                     sb.Append("},");
+                }
+
+                //Only allow up to the batchSize waypoints in a request.
+                if (wayCnt == batchSize)
+                {
+                    endIdx = i;
+                    break;
                 }
             }
 
@@ -555,7 +601,7 @@ namespace BingMapsRESTToolkit
                     sb.Append(",\"routeAttributes\":\"");
 
                     //Route summaries only supported, but other route attributes try to do something similar, so have them short circuit to this option.
-                    if(RouteOptions.RouteAttributes.Contains(RouteAttributeType.RouteSummariesOnly) || RouteOptions.RouteAttributes.Contains(RouteAttributeType.All) || RouteOptions.RouteAttributes.Contains(RouteAttributeType.ExcludeItinerary))
+                    if (RouteOptions.RouteAttributes.Contains(RouteAttributeType.RouteSummariesOnly) || RouteOptions.RouteAttributes.Contains(RouteAttributeType.All) || RouteOptions.RouteAttributes.Contains(RouteAttributeType.ExcludeItinerary))
                     {
                         sb.Append("routeSummariesOnly,");
                     }
@@ -575,7 +621,7 @@ namespace BingMapsRESTToolkit
                     sb.Append(",\"distanceUnit\":\"kilometer\"");
                 }
                 else
-                { 
+                {
                     sb.Append(",\"distanceUnit\":\"mile\"");
                 }
 
@@ -600,13 +646,13 @@ namespace BingMapsRESTToolkit
                     sb.Length--;
                     sb.Append("]");
                 }
-                
+
                 if (RouteOptions.VehicleSpec != null)
                 {
                     sb.Append(",\"vehicleSpec\":{");
                     sb.AppendFormat("\"dimensionUnit\":\"{0}\"", Enum.GetName(typeof(DimensionUnitType), RouteOptions.VehicleSpec.DimensionUnit).ToLowerInvariant());
                     sb.AppendFormat(",\"weightUnit\":\"{0}\"", Enum.GetName(typeof(WeightUnitType), RouteOptions.VehicleSpec.WeightUnit).ToLowerInvariant());
-                    
+
                     if (RouteOptions.VehicleSpec.VehicleAvoidCrossWind)
                     {
                         sb.Append(",\"vehicleAvoidCrossWind\":true");
@@ -702,6 +748,50 @@ namespace BingMapsRESTToolkit
 
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Calculates a route use a request URL and adds it to an array of route results. This is used when batching multiple route calls together when supporting long routes that have more than 25 waypoints.
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="idx"></param>
+        /// <param name="routes"></param>
+        /// <returns></returns>
+        private Task CalculateRoute(string requestUrl, string body, int idx, Route[] routes)
+        {
+            return Task.Run(() =>
+            {
+                try
+                {
+                    Response r = null;
+
+                    //Make the call synchronously as we are in a parrallel for loop and need this to block, otherwise the for loop will exist before the async code has completed.
+
+                    if (!string.IsNullOrEmpty(body))
+                    {
+                        r = ServiceHelper.MakeAsyncPostRequest(requestUrl, body, null).GetAwaiter().GetResult();
+                    }
+                    else
+                    {
+                        using (var responseStream = ServiceHelper.GetStreamAsync(new Uri(requestUrl)).GetAwaiter().GetResult())
+                        {
+                            r = ServiceHelper.DeserializeStream<Response>(responseStream);
+                        }
+                    }
+
+                    if (r != null && r.ErrorDetails == null && r.ResourceSets != null && r.ResourceSets.Length > 0 &&
+                        r.ResourceSets[0].Resources != null && r.ResourceSets[0].Resources.Length > 0)
+                    {
+                        routes[idx] = r.ResourceSets[0].Resources[0] as Route;
+                        return;
+                    }
+
+                }
+                catch { }
+
+                routes[idx] = null;
+            });
+        }
+
 
         #endregion
     }

@@ -262,7 +262,43 @@ namespace BingMapsRESTToolkit
 
             return null;
         }
+        
+        /// <summary>
+        /// Makes an Async request and monitors it to completion. 
+        /// </summary>
+        /// <param name="requestUrl">REST URL request.</param>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time in seconds is sent.</param>
+        /// <returns>A completed response for a request.</returns>
+        internal static async Task<Response> MakeAsyncGetRequest(string requestUrl, Action<int> remainingTimeCallback)
+        {
+            Response response = null;
 
+            using (var responseStream = await ServiceHelper.GetStreamAsync(new Uri(requestUrl)))
+            {
+                response = ServiceHelper.DeserializeStream<Response>(responseStream);
+                return await ProcessAsyncResponse(response, remainingTimeCallback);
+            }
+        }
+        
+        /// <summary>
+        /// Makes an Async request and monitors it to completion. 
+        /// </summary>
+        /// <param name="requestUrl">REST URL request.</param>
+        /// <param name="requestBody">The post request body.</param>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time in seconds is sent.</param>
+        /// <returns>A completed response for a request.</returns>
+        internal static async Task<Response> MakeAsyncPostRequest(string requestUrl, string requestBody, Action<int> remainingTimeCallback)
+        {
+            Response response = null;
+
+            using (var responseStream = await ServiceHelper.PostStringAsync(new Uri(requestUrl), requestBody, "application/json"))
+            {
+                response = ServiceHelper.DeserializeStream<Response>(responseStream);
+                return await ProcessAsyncResponse(response, remainingTimeCallback);
+            }
+        }
+
+        //TODO: this is temporary until distance matrix Async response updated.
         /// <summary>
         /// Makes an Async request and monitors it till completion. 
         /// </summary>
@@ -281,6 +317,7 @@ namespace BingMapsRESTToolkit
             }
         }
 
+        //TODO: this is temporary until distance matrix Async response updated.
         /// <summary>
         /// Makes an Async request and monitors it till completion. 
         /// </summary>
@@ -371,6 +408,55 @@ namespace BingMapsRESTToolkit
             return ms;
         }
 
+        private static async Task<Response> ProcessAsyncResponse(Response response, Action<int> remainingTimeCallback)
+        {
+            if (response != null)
+            {
+                if (response.ErrorDetails != null && response.ErrorDetails.Length > 0)
+                {
+                    throw new Exception(String.Join("", response.ErrorDetails));
+                }
+
+                if (response.ResourceSets != null && response.ResourceSets.Length > 0 && response.ResourceSets[0].Resources != null && response.ResourceSets[0].Resources.Length > 0)
+                {
+                    if (response.ResourceSets[0].Resources[0] is AsyncStatus && !string.IsNullOrEmpty((response.ResourceSets[0].Resources[0] as AsyncStatus).RequestId))
+                    {
+                        var status = response.ResourceSets[0].Resources[0] as AsyncStatus;
+
+                        status = await ServiceHelper.ProcessAsyncStatus(status, remainingTimeCallback);
+
+                        if (status != null && status.IsCompleted && !string.IsNullOrEmpty(status.ResultUrl))
+                        {
+                            try
+                            {
+                                using (var resultStream = await ServiceHelper.GetStreamAsync(new Uri(status.ResultUrl)))
+                                {
+                                    return ServiceHelper.DeserializeStream<Response>(resultStream);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new Exception("There was an issue downloading and serializing the results. Results Download URL: " + status.ResultUrl + "\r\n" + ex.Message);
+                            }
+                        }
+
+                        return response;
+                    }
+                    else if (response.ResourceSets[0].Resources[0] is AsyncStatus && !string.IsNullOrEmpty((response.ResourceSets[0].Resources[0] as AsyncStatus).ErrorMessage))
+                    {
+                        throw new Exception((response.ResourceSets[0].Resources[0] as AsyncStatus).ErrorMessage);
+                    }
+                    else if (response.ResourceSets[0].Resources[0] is Resource && !(response.ResourceSets[0].Resources[0] is AsyncStatus))
+                    {
+                        return response;
+                    }
+                }
+            }
+
+            throw new Exception("No response returned by service.");
+        }
+
+        //TODO: this is temporary until distance matrix Async response updated.
         private static async Task<Response> ProcessAsyncResponse<T>(Response response, Action<int> remainingTimeCallback) where T: Resource
         {
             if (response != null)
@@ -486,11 +572,11 @@ namespace BingMapsRESTToolkit
                         {
                             throw new Exception(r.ErrorDetails[0]);
                         }
-                        else if (r.ResourceSets != null && r.ResourceSets.Length > 0 && r.ResourceSets[0].Resources != null && r.ResourceSets[0].Resources.Length > 0 && r.ResourceSets[0].Resources[0] is DistanceMatrixAsyncStatus)
+                        else if (r.ResourceSets != null && r.ResourceSets.Length > 0 && r.ResourceSets[0].Resources != null && r.ResourceSets[0].Resources.Length > 0 && r.ResourceSets[0].Resources[0] is AsyncStatus)
                         {
                             status = r.ResourceSets[0].Resources[0] as AsyncStatus;
 
-                            if (status.CallbackInSeconds > 0)
+                            if (!status.IsCompleted && status.CallbackInSeconds > 0)
                             {
                                 remainingTimeCallback?.Invoke(status.CallbackInSeconds);
 
@@ -513,16 +599,18 @@ namespace BingMapsRESTToolkit
                 }
                 else
                 {
-                    status.ErrorMessage = "Failed to get status, and exceeded the maximium of " + MaxStatusCheckRetries + " retries. Error message: " + ex.Message;
-                    status.CallbackInSeconds = -1;
-                    status.IsCompleted = false;
+                    status = new AsyncStatus()
+                    {
+                        ErrorMessage = "Failed to get status, and exceeded the maximium of " + MaxStatusCheckRetries + " retries. Error message: " + ex.Message,
+                        CallbackInSeconds = -1,
+                        IsCompleted = false
+                    };
                 }
             }
 
             //Should only get here is the request has completed, was not accepted or there was an error.
             return status;
         }
-
 
         #endregion
     }

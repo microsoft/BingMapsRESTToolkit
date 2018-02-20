@@ -164,10 +164,10 @@ namespace BingMapsRESTToolkit
                 {
                     return response;
                 }
-                else if (!string.IsNullOrEmpty(dm.ErrorMessage))
-                {
-                    throw new Exception(dm.ErrorMessage);
-                }
+                //else if (!string.IsNullOrEmpty(dm.ErrorMessage))
+                //{
+                //    throw new Exception(dm.ErrorMessage);
+                //}
             }
             else
             {
@@ -307,7 +307,7 @@ namespace BingMapsRESTToolkit
 
             if (StartTime.HasValue)
             {
-                if(TravelMode != TravelModeType.Driving || TravelMode != TravelModeType.Truck)
+                if(TravelMode != TravelModeType.Driving && TravelMode != TravelModeType.Truck)
                 {
                     throw new Exception("Start time parameter can only be used with the driving or truck travel mode.");
                 }

@@ -82,8 +82,8 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// Details of an error that may have occurred when processing the request.
         /// </summary>
-        [DataMember(Name = "errorMessage", EmitDefaultValue = false)]
-        public string ErrorMessage { get; set; }
+       // [DataMember(Name = "errorMessage", EmitDefaultValue = false)]
+       // public string ErrorMessage { get; set; }
 
         /// <summary>
         /// Array of distance matrix cell results containing information for each coordinate pair and time interval.
@@ -481,9 +481,9 @@ namespace BingMapsRESTToolkit
         public static async Task<DistanceMatrix> CreateStraightLineNxNMatrix(List<SimpleWaypoint> waypoints, DistanceUnitType distanceUnits, string bingMapsKey)
         {
             //Ensure all the waypoints are geocoded.
-            if (waypoints == null || waypoints.Count <= 2)
+            if (waypoints == null || waypoints.Count < 2)
             {
-                throw new Exception("Not enough waypoints provided.");
+                throw new Exception("Not enough Waypoints specified.");
             }
 
             if (!string.IsNullOrEmpty(bingMapsKey))

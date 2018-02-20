@@ -1,4 +1,12 @@
-## Version 1.1.0 - 
+## Version 1.1.2 - 2/20/2016
+
+* Modified Truck Routing and Isochrone requests modified to use Async requests when appropriate. 
+* Added new Origin property to IsochroneResponse class.
+* Extended the RouteRequest class so that it can support more than 25 waypoints for truck routes. It will simply break the request up into multiple sub-requests, process them, then merge the responses together. Tolerances are ignored. 
+* Added static methods to the SimpleWaypoint class for easy geocoding individual and a list of SimpleWaypoints.
+* Fix TSP optimized waypoint ordering for routes with less than 10 waypoints such that the first waypoint doesn't change.
+
+## Version 1.1.1 - 2/1/2018
 
 * .NET Standard Library support upgraded to v2.0.
 * Static Proxy setting option added to ServiceManager.
@@ -21,7 +29,7 @@
 
 ## Version 1.0.7 - 10/19/2017
 
-* Extended the RouteRequest class so that it can support more than 25 waypoints for driving, walking and transit routes. It will simply break the request up into multiple sub-requests, process them, then merge the responses together.
+* Extended the RouteRequest class so that it can support more than 25 waypoints for driving, walking and transit routes. It will simply break the request up into multiple sub-requests, process them, then merge the responses together. Tolerances are ignored. 
 * Bug fix for Distance Matrix waypoint geocoding.
 
 ## Version 1.0.6 - 10/2/2017
