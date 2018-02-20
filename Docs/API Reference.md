@@ -515,6 +515,13 @@ A simple waypoint class that can be used to calculate a route.
 
 > SimpleWaypoint(double latitude, double longitude) 
 
+| Name            | Return Type | Description                                                   |
+|-----------------|-------------|---------------------------------------------------------------|
+| TryGeocode(SimpleWaypoint waypoint, string bingMapsKey) | Task | Tries to geocode a simple waypoint.  |
+| TryGeocode(SimpleWaypoint waypoint, BaseRestRequest baseRequest) | Task | Tries to geocode a simple waypoint.  |
+| TryGeocodeWaypoints(List\<SimpleWaypoint\> waypoints, string bingMapsKey) | Task      | Attempts to geocode a list of simple waypoints. |
+| TryGeocodeWaypoints(List\<SimpleWaypoint\> waypoints, BaseRestRequest baseRequest) | Task      | Attempts to geocode a list of simple waypoints. |
+
 ### Properties
 
 | Name       | Type       | Description   |

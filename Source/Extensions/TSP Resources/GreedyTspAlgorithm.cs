@@ -53,7 +53,7 @@ namespace BingMapsRESTToolkit.Extensions
 
                 double minWeight = double.MaxValue;
                 double weight;
-                int[] minTour = tour;
+                int[] minTour = (int[])tour.Clone();
 
                 while (NextPermutation(tour))
                 {

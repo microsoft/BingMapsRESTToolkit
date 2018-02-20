@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
     <Authors>Microsoft</Authors>
     <Company>Microsoft</Company>
     <Description>A toolkit that makes it easy to access the Bing Maps REST services from .NET</Description>
@@ -13,8 +13,8 @@
     <PackageTags>Microsoft "Bing Maps" Maps GIS Map Geospatial VB C# .NET REST</PackageTags>
     <PackageReleaseNotes>See the changelog here: https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/CHANGELOG.md</PackageReleaseNotes>
     <PackageId>BingMapsRESTToolkit</PackageId>
-    <AssemblyVersion>1.1.1.0</AssemblyVersion>
-    <FileVersion>1.1.1.0</FileVersion>
+    <AssemblyVersion>1.1.2.0</AssemblyVersion>
+    <FileVersion>1.1.2.0</FileVersion>
     <AssemblyName>BingMapsRESTToolkit</AssemblyName>
     <RootNamespace>BingMapsRESTToolkit</RootNamespace>
   </PropertyGroup>
@@ -81,7 +81,6 @@
     <Compile Include="..\Models\ResponseModels\ImageryMetadata.cs" Link="Models\ResponseModels\ImageryMetadata.cs" />
     <Compile Include="..\Models\ResponseModels\ImageryProvider.cs" Link="Models\ResponseModels\ImageryProvider.cs" />
     <Compile Include="..\Models\ResponseModels\Instruction.cs" Link="Models\ResponseModels\Instruction.cs" />
-    <Compile Include="..\Models\ResponseModels\IsochroneAsyncStatus.cs" Link="Models\ResponseModels\IsochroneAsyncStatus.cs" />
     <Compile Include="..\Models\ResponseModels\IsochroneResponse.cs" Link="Models\ResponseModels\IsochroneResponse.cs" />
     <Compile Include="..\Models\ResponseModels\ItineraryItem.cs" Link="Models\ResponseModels\ItineraryItem.cs" />
     <Compile Include="..\Models\ResponseModels\Line.cs" Link="Models\ResponseModels\Line.cs" />
@@ -98,6 +97,7 @@
     <Compile Include="..\Models\ResponseModels\Route.cs" Link="Models\ResponseModels\Route.cs" />
     <Compile Include="..\Models\ResponseModels\RouteLeg.cs" Link="Models\ResponseModels\RouteLeg.cs" />
     <Compile Include="..\Models\ResponseModels\RoutePath.cs" Link="Models\ResponseModels\RoutePath.cs" />
+    <Compile Include="..\Models\ResponseModels\RouteProxyAsyncResult.cs" Link="Models\ResponseModels\RouteProxyAsyncResult.cs" />
     <Compile Include="..\Models\ResponseModels\RouteSubLeg.cs" Link="Models\ResponseModels\RouteSubLeg.cs" />
     <Compile Include="..\Models\ResponseModels\SeaLevelData.cs" Link="Models\ResponseModels\SeaLevelData.cs" />
     <Compile Include="..\Models\ResponseModels\Shape.cs" Link="Models\ResponseModels\Shape.cs" />
@@ -107,7 +107,6 @@
     <Compile Include="..\Models\ResponseModels\StaticMapMetadata.cs" Link="Models\ResponseModels\StaticMapMetadata.cs" />
     <Compile Include="..\Models\ResponseModels\TrafficIncident.cs" Link="Models\ResponseModels\TrafficIncident.cs" />
     <Compile Include="..\Models\ResponseModels\TransitLine.cs" Link="Models\ResponseModels\TransitLine.cs" />
-    <Compile Include="..\Models\ResponseModels\TruckAsyncStatus.cs" Link="Models\ResponseModels\TruckAsyncStatus.cs" />
     <Compile Include="..\Models\ResponseModels\Warning.cs" Link="Models\ResponseModels\Warning.cs" />
     <Compile Include="..\Models\ResponseModels\Waypoint.cs" Link="Models\ResponseModels\Waypoint.cs" />
     <Compile Include="..\Models\RouteOptions.cs" Link="Models\RouteOptions.cs" />

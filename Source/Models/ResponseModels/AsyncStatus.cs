@@ -31,8 +31,7 @@ namespace BingMapsRESTToolkit
     /// </summary>
     [DataContract(Namespace = "http://schemas.microsoft.com/search/local/ws/rest/v1")]
     [KnownType(typeof(DistanceMatrixAsyncStatus))]
-    [KnownType(typeof(IsochroneAsyncStatus))]
-    [KnownType(typeof(TruckAsyncStatus))]
+    [KnownType(typeof(RouteProxyAsyncResult))]
     public class AsyncStatus: Resource
     {
 

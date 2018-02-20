@@ -93,7 +93,7 @@
     <Compile Include="Models\ResponseModels\ImageryMetadata.cs" />
     <Compile Include="Models\ResponseModels\ImageryProvider.cs" />
     <Compile Include="Models\ResponseModels\Instruction.cs" />
-    <Compile Include="Models\ResponseModels\IsochroneAsyncStatus.cs" />
+    <Compile Include="Models\ResponseModels\RouteProxyAsyncResult.cs" />
     <Compile Include="Models\ResponseModels\IsochroneResponse.cs" />
     <Compile Include="Models\ResponseModels\ItineraryItem.cs" />
     <Compile Include="Models\ResponseModels\Line.cs" />
@@ -119,7 +119,6 @@
     <Compile Include="Models\ResponseModels\StaticMapMetadata.cs" />
     <Compile Include="Models\ResponseModels\TrafficIncident.cs" />
     <Compile Include="Models\ResponseModels\TransitLine.cs" />
-    <Compile Include="Models\ResponseModels\TruckAsyncStatus.cs" />
     <Compile Include="Models\ResponseModels\Warning.cs" />
     <Compile Include="Models\ResponseModels\Waypoint.cs" />
     <Compile Include="Models\RouteOptions.cs" />

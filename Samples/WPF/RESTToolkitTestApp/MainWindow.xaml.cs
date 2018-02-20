@@ -520,7 +520,7 @@ namespace RESTToolkitTestApp
                 Destinations = new List<SimpleWaypoint>()
                 {
                     new SimpleWaypoint(45.5347, -122.6231),
-                    new SimpleWaypoint(47.4747, -122.2057)
+                    new SimpleWaypoint(47.4747, -122.2057),
                 },
                 BingMapsKey = BingMapsKey,
                 TimeUnits = TimeUnitType.Minute,
@@ -566,10 +566,10 @@ namespace RESTToolkitTestApp
             var r = new IsochroneRequest()
             {
                 Waypoint = new SimpleWaypoint("Bellevue, WA"),
-                MaxTime = 30,
+                MaxTime = 60,
                 TimeUnit = TimeUnitType.Minute,
                 DateTime = DateTime.Now.AddMinutes(15),
-                TravelMode = TravelModeType.Transit,
+                TravelMode = TravelModeType.Driving,
                 BingMapsKey = BingMapsKey
             };
 
@@ -640,6 +640,7 @@ namespace RESTToolkitTestApp
                 var processingTime = end - start;
 
                 ProcessingTimeTbx.Text = string.Format(CultureInfo.InvariantCulture, "{0:0} ms", processingTime.TotalMilliseconds);
+                RequestProgressBar.Visibility = Visibility.Collapsed;
 
                 var nodes = new List<ObjectNode>();
                 var tree = await ObjectNode.ParseAsync("result", response);

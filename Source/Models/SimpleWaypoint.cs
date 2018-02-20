@@ -228,8 +228,7 @@ namespace BingMapsRESTToolkit
 
             await TryGeocode(waypoint, request);
         }
-
-
+        
         /// <summary>
         /// Tries to geocode a simple waypoint. 
         /// </summary>
@@ -294,7 +293,6 @@ namespace BingMapsRESTToolkit
 
             if (geocodeTasks.Count > 0)
             {
-                //await Task.WhenAll(geocodeTasks);
                 await ServiceHelper.WhenAllTaskLimiter(geocodeTasks);
             }
         }

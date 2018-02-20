@@ -1,6 +1,6 @@
 ![Bing Maps Logo](https://github.com/Microsoft/Bing-Maps-V8-TypeScript-Definitions/blob/master/images/BingMapsLogoTeal.png)
 
-[![NuGet](https://img.shields.io/badge/NuGet-1.1.1-blue.svg)](https://www.nuget.org/packages/BingMapsRESTToolkit)
+[![NuGet](https://img.shields.io/badge/NuGet-1.1.2-blue.svg)](https://www.nuget.org/packages/BingMapsRESTToolkit)
 [![license](https://img.shields.io/badge/license-MIT-yellow.svg)](https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/LICENSE.md)
 
 # Bing Maps REST Toolkit for .NET 
@@ -51,13 +51,6 @@ If you prefer to use the NuGet package manager interface, ere are the steps to a
 * Xamarin.Android
 * Xamarin.iOS
 * Xamarin.iOS (Classic)
-
-## TODO
-
-Here are some tasks that are being considered:
-
-* Add QPS limiting to SimpleWaypoint batch geocoding.
-* Consider wrapping truck routing service to generate truck based distance matrices.
 
 ## Contributing
 

@@ -30,7 +30,7 @@ namespace BingMapsRESTToolkit
     /// The status of an asynchronous distance matrix request.
     /// </summary>
     [DataContract(Namespace = "http://schemas.microsoft.com/search/local/ws/rest/v1")]
-    public class IsochroneAsyncStatus : AsyncStatus
+    public class RouteProxyAsyncResult : AsyncStatus
     {
     }
 }

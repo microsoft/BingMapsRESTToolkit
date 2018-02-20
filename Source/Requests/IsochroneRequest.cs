@@ -114,12 +114,7 @@ namespace BingMapsRESTToolkit
         {
             var requestUrl = GetRequestUrl();
 
-            //TODO: change to async when supported
-            using (var responseStream = await ServiceHelper.GetStreamAsync(new Uri(GetRequestUrl())))
-            {
-                return ServiceHelper.DeserializeStream<Response>(responseStream);
-            }
-            //return await ServiceHelper.MakeAsyncGetRequest<IsochroneResponse>(requestUrl, remainingTimeCallback);
+            return await ServiceHelper.MakeAsyncGetRequest(requestUrl, remainingTimeCallback);
         }
 
         /// <summary>
@@ -130,9 +125,7 @@ namespace BingMapsRESTToolkit
         {
             var sb = new StringBuilder(this.Domain);
 
-            //TODO: change to async when supported
-            sb.Append("Routes/Isochrones");
-            //sb.Append("Routes/IsochronesAsync");
+            sb.Append("Routes/IsochronesAsync");
 
             //Truck mode is not supported, so fall back to driving. 
             if (TravelMode == TravelModeType.Truck)
@@ -161,16 +154,15 @@ namespace BingMapsRESTToolkit
             }
 
             if(MaxTime > 0)
-            {
-                //TODO: Verify limits
-                //if(TimeUnit == TimeUnitType.Second && MaxTime > 7200)
-                //{
-                //    throw new Exception("MaxTime value must be <= 7200 seconds.");
-                //}
-                //else if(TimeUnit == TimeUnitType.Minute && MaxTime > 120)
-                //{
-                //    throw new Exception("MaxTime value must be <= 120 minutes.");
-                //}
+            {            
+                if (TimeUnit == TimeUnitType.Second && MaxTime > 3600)
+                {
+                    throw new Exception("MaxTime value must be <= 3600 seconds.");
+                }
+                else if (TimeUnit == TimeUnitType.Minute && MaxTime > 60)
+                {
+                    throw new Exception("MaxTime value must be <= 60 minutes.");
+                }
 
                 sb.AppendFormat("&maxTime={0}&timeUnit={1}", MaxTime, Enum.GetName(typeof(TimeUnitType), TimeUnit));
                                
