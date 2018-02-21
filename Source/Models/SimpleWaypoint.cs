@@ -23,6 +23,7 @@
 */
 
 using System.Collections.Generic;
+using System.Globalization;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
@@ -210,7 +211,7 @@ namespace BingMapsRESTToolkit
         /// <returns>Hash for simple waypoint.</returns>
         public override int GetHashCode()
         {
-            return string.Format("{0}|{1:0.######}|{2:0.######}", Address, Latitude, Longitude).GetHashCode();
+            return string.Format(CultureInfo.InvariantCulture, "{0}|{1:0.######}|{2:0.######}", Address, Latitude, Longitude).GetHashCode();
         }
 
         /// <summary>

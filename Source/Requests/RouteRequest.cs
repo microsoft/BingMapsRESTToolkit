@@ -516,7 +516,7 @@ namespace BingMapsRESTToolkit
             {
                 if (Waypoints[i].Coordinate != null)
                 {
-                    sb.AppendFormat("{{\"latitude\":{0:0.#####},\"longitude\":{1:0.#####}", Waypoints[i].Latitude, Waypoints[i].Longitude);
+                    sb.AppendFormat(CultureInfo.InvariantCulture, "{{\"latitude\":{0:0.#####},\"longitude\":{1:0.#####}", Waypoints[i].Latitude, Waypoints[i].Longitude);
                 }
                 else if (!string.IsNullOrWhiteSpace(Waypoints[i].Address))
                 {
@@ -752,10 +752,11 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// Calculates a route use a request URL and adds it to an array of route results. This is used when batching multiple route calls together when supporting long routes that have more than 25 waypoints.
         /// </summary>
-        /// <param name="requestUrl"></param>
-        /// <param name="idx"></param>
-        /// <param name="routes"></param>
-        /// <returns></returns>
+        /// <param name="requestUrl">The request URL.</param>
+        /// <param name="body">The JSON POST body.</param>
+        /// <param name="idx">The route index in the batch.</param>
+        /// <param name="routes">The arrary in which the batch route results are stored.</param>
+        /// <returns>A task for calculating a route as part of a batch.</returns>
         private Task CalculateRoute(string requestUrl, string body, int idx, Route[] routes)
         {
             return Task.Run(() =>

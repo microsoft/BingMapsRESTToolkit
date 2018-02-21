@@ -81,11 +81,8 @@ namespace BingMapsRESTToolkit.Extensions
                 numBatches = Math.Ceiling((double)(request.Destinations.Count * request.Origins.Count) / (double)ServiceManager.QpsLimit);
             }
 
-            if (remainingTimeCallback != null)
-            {
-                //Assume an average processing time of 2 seconds per batch.
-                remainingTimeCallback((int)Math.Round(numBatches * 2));
-            }
+            //Assume an average processing time of 2 seconds per batch.
+            remainingTimeCallback?.Invoke((int)Math.Round(numBatches * 2));
 
             MatrixCells = new List<DistanceMatrixCell>();
             
