@@ -1,4 +1,8 @@
-## Version 1.1.2 - 2/20/2016
+## Version 1.1.3 - 2/21/2018
+
+* Fix globalization issue with coordinate to string conversion in route and imagery requests.
+
+## Version 1.1.2 - 2/20/2018
 
 * Modified Truck Routing and Isochrone requests modified to use Async requests when appropriate. 
 * Added new Origin property to IsochroneResponse class.

@@ -151,7 +151,7 @@ namespace BingMapsRESTToolkit
         /// <returns>Hash for coordinate.</returns>
         public override int GetHashCode()
         {
-            return string.Format("{0:0.######}|{1:0.######}", Latitude, Longitude).GetHashCode();
+            return string.Format(CultureInfo.InvariantCulture, "{0:0.######}|{1:0.######}", Latitude, Longitude).GetHashCode();
         }
 
         #endregion
