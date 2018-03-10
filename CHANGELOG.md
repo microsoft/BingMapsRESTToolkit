@@ -1,3 +1,6 @@
+
+* Async support added to SnapToRoadRequest, thus allowing up to 1,000 points to be snapped in a single request.
+
 ## Version 1.1.3 - 2/21/2018
 
 * Fix globalization issue with coordinate to string conversion in route and imagery requests.

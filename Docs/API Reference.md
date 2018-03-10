@@ -245,6 +245,7 @@ Requests a that requests an isochrone (drive time polygon). Inherits from the Ba
 | DistanceUnits | [DistanceUnitType](#DistanceUnitType) | The units in which the maxTime value is specified. |                                                                              
 | MaxDistance | double | The maximum travel distance in the specified distance units in which the isochrone polygon is generated. Cannot be set when maxTime is set. |
 | MaxTime | double | The maximum travel time in the specified time units in which the isochrone polygon is generated. Cannot be set when maxDistance is set. Maximum value is 120 minutes. |
+| Optimize                | [RouteOptimizationType](#RouteOptimizationType)          | Specifies what parameters to use to optimize the isochrone route. One of the following values:<br/><br/>• distance: The route is calculated to minimize the distance. Traffic information is not used. Use with maxDistance.<br/>• time [default]: The route is calculated to minimize the time. Traffic information is not used. Use with maxTime.<br/>• timeWithTraffic: The route is calculated to minimize the time and uses current or predictive traffic information depending on if a dateTime value is specified. Use with maxTime. |
 | TimeUnit | [TimeUnitType](#TimeUnitType) | The units in which the maxTime value is specified. Default: **Seconds** |
 | TravelMode | [TravelModeType](#TravelModeType) | The mode of travel for the route. Default: Driving.  |
 | Waypoint | [SimplyWaypoint](#SimplyWaypoint) | The point around which the isochrone will be calculated. |

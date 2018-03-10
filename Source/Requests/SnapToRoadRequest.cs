@@ -35,6 +35,27 @@ namespace BingMapsRESTToolkit
     /// </summary>
     public class SnapToRoadRequest : BaseRestRequest
     {
+        #region Private Properties
+
+        //TODO: Update max points in the future as these may increase. Monitor documentation.
+
+        /// <summary>
+        /// Maximum number of points supported in an asynchronous Snap to road request.
+        /// </summary>
+        private int maxAsyncPoints = 1000; 
+
+        /// <summary>
+        /// Maximum number of points supported in a synchronous Snap to road request.
+        /// </summary>
+        private int maxSyncPoints = 100;
+
+        /// <summary>
+        /// The maximium distance in KM allowed between points.
+        /// </summary>
+        private double maxDistanceKmBetweenPoints = 2.5;
+
+        #endregion
+
         #region Constructor 
 
         /// <summary>
@@ -105,25 +126,22 @@ namespace BingMapsRESTToolkit
 
             return await ServiceHelper.MakeAsyncPostRequest<Route>(requestUrl, requestBody, remainingTimeCallback);
         }
-
-
+        
         /// <summary>
         /// Gets the request URL to perform a query to snap points to roads. This method will only generate an post URL. 
         /// </summary>
         /// <returns>A request URL to perform a query to snap points to roads.</returns>
         public override string GetRequestUrl()
         {
-            if (Points == null)
+            //https://dev.virtualearth.net/REST/v1/Routes/SnapToRoad?key=BingMapsKey
+
+            if (Points == null || Points.Count < 1)
             {
                 throw new Exception("Points not specified.");
             }
-            else if (Points.Count < 1)
+            else if (Points.Count > maxAsyncPoints)
             {
-                throw new Exception("Not enough Points specified.");
-            }
-            else if (Points.Count > 100)
-            {
-                throw new Exception("More than 100 Points specified.");
+                throw new Exception(string.Format("More than {0} Points specified.", maxAsyncPoints));
             }
 
             if(TravelMode == TravelModeType.Transit)
@@ -131,7 +149,20 @@ namespace BingMapsRESTToolkit
                 throw new Exception("Transit is not supported by SnapToRoad API.");
             }
 
-            //https://dev.virtualearth.net/REST/v1/Routes/SnapToRoad?key=BingMapsKey
+            for(int i = 1; i < Points.Count; i++)
+            {
+                var d = SpatialTools.HaversineDistance(Points[i - 1], Points[i], DistanceUnitType.Kilometers);
+                if (d > maxDistanceKmBetweenPoints)
+                {
+                    throw new Exception(string.Format("The distance between point {0} and point {1} is greater than {2} kilometers.", i-1, i, maxDistanceKmBetweenPoints));
+                }
+            }
+            
+            if(Points.Count > maxSyncPoints)
+            {
+                //Make an async request.
+                return this.Domain + "Routes/SnapToRoadAsync?key=" + this.BingMapsKey;
+            }
 
             return this.Domain + "Routes/SnapToRoad?key=" + this.BingMapsKey;
         }
