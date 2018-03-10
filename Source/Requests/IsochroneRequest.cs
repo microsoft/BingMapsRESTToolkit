@@ -23,7 +23,6 @@
 */
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +41,7 @@ namespace BingMapsRESTToolkit
         /// </summary>
         public IsochroneRequest(): base()
         {
+            Optimize = RouteOptimizationType.Time;
             TimeUnit = TimeUnitType.Second;
             DistanceUnit = DistanceUnitType.Kilometers;
             TravelMode = TravelModeType.Driving;
@@ -65,6 +65,14 @@ namespace BingMapsRESTToolkit
         /// The maximum travel distance in the specified distance units in which the isochrone polygon is generated. Cannot be set when maxTime is set.
         /// </summary>
         public double MaxDistance { get; set; }
+
+        /// <summary>
+        /// Specifies what parameters to use to optimize the isochrone route. One of the following values:
+        /// • distance: The route is calculated to minimize the distance. Traffic information is not used. Use with maxDistance.
+        /// • time [default]: The route is calculated to minimize the time. Traffic information is not used. Use with maxTime.
+        /// • timeWithTraffic: The route is calculated to minimize the time and uses current or predictive traffic information depending on if a dateTime value is specified. Use with maxTime.
+        /// </summary>
+        public RouteOptimizationType Optimize { get; set; }
 
         /// <summary>
         /// The units in which the maxTime value is specified. Default: Seconds
@@ -171,8 +179,11 @@ namespace BingMapsRESTToolkit
                     sb.AppendFormat(DateTimeFormatInfo.InvariantInfo, "&dt={0:G}", DateTime.Value);
                 }
 
-                //TODO: in the future expose the optimize option and add support for timeWithTraffic.
-                sb.AppendFormat("&optimize={0}", Enum.GetName(typeof(RouteOptimizationType), RouteOptimizationType.Time));
+                //Can only optimize based on time or time with traffic when generating time based isochrones.
+                if(Optimize != RouteOptimizationType.Time && Optimize != RouteOptimizationType.TimeWithTraffic)
+                {
+                    Optimize = RouteOptimizationType.Time;
+                }
             }
             else if (MaxDistance > 0)
             {
@@ -182,12 +193,19 @@ namespace BingMapsRESTToolkit
                 }
 
                 sb.AppendFormat("&maxDistance={0}&distanceUnit={1}", MaxDistance, EnumHelper.DistanceUnitTypeToString(DistanceUnit));
-                sb.AppendFormat("&optimize={0}", Enum.GetName(typeof(RouteOptimizationType), RouteOptimizationType.Distance));
+
+                //Can only optimize based on distance when generating distance based isochrones.
+                if (Optimize != RouteOptimizationType.Distance)
+                {
+                    Optimize = RouteOptimizationType.Distance;
+                }
             }
             else
             {
                 throw new Exception("A max time or distance must be specified.");
             }
+
+            sb.AppendFormat("&optimize={0}", Enum.GetName(typeof(RouteOptimizationType), Optimize));
 
             //TODO: uncomment when/if avoid is supported.
             //if (TravelMode == TravelModeType.Driving)

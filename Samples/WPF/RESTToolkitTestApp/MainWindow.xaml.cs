@@ -586,6 +586,7 @@ namespace RESTToolkitTestApp
                 Points = new List<Coordinate>()
                 {
                     new Coordinate(47.590868, -122.336729),
+                    new Coordinate(47.594994, -122.334263),
                     new Coordinate(47.601604, -122.336042),
                     new Coordinate(47.60849, -122.34241),
                     new Coordinate(47.610568, -122.345064)
