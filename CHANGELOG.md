@@ -1,5 +1,8 @@
+## Version 1.1.4 - 3/9/2018
 
 * Async support added to SnapToRoadRequest, thus allowing up to 1,000 points to be snapped in a single request.
+* Added additional check of Snap to Road requests to ensure distance between points is less than 2.5KM to align with documented limit.
+* Add Optimize option to IsochroneRequests.
 
 ## Version 1.1.3 - 2/21/2018
 
