@@ -23,7 +23,7 @@ This is a portable .NET class library which provides a set of tools that make it
 * Handles errors and rate limiting by catching exception and returning response with error message.
 * Automatically determines when a POST request should be made instead of a GET request.
 * Fast indexed lookups of Distance Matrix results.
-* Supports calculating driving, walking and transit routes that have more than 25 waypoints.
+* Supports calculating driving, truck, walking and transit routes that have more than 25 waypoints.
 * **Travelling Salesmen** algorithms that tie into the distance matrix API [documentation](https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/Docs/Getting%20Started.md#TravellingSalesmen). 
 * **Truck routing based Distance Matricies** - The Bing Maps distance matric API does not support truck routing based matricies. This library adds support for this by wrapping the truck routing API. 
 
