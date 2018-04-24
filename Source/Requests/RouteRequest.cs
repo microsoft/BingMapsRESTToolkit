@@ -123,7 +123,7 @@ namespace BingMapsRESTToolkit
         public override async Task<Response> Execute(Action<int> remainingTimeCallback)
         {
             Response response = null;
-            
+
             if (WaypointOptimization != null && WaypointOptimization.HasValue && Waypoints.Count >= 2)
             {
                 var wpHash = ServiceHelper.GetSequenceHashCode<SimpleWaypoint>(Waypoints);
@@ -148,9 +148,9 @@ namespace BingMapsRESTToolkit
                 }
                 else
                 {
-                    optionHash += "|" + Enum.GetName(typeof(RouteTimeType), RouteTimeType.Departure); 
+                    optionHash += "|" + Enum.GetName(typeof(RouteTimeType), RouteTimeType.Departure);
                 }
-                
+
                 //Check to see if the waypoints have changed since they were last optimized. 
                 if (waypointsHash != wpHash || string.Compare(optimizationOptionHash, optionHash) != 0)
                 {
@@ -313,7 +313,7 @@ namespace BingMapsRESTToolkit
             {
                 throw new Exception("Start and end waypoints must not be ViaWaypoints.");
             }
-            
+
             return GetRequestUrl(0, out int endIdx);
         }
 
@@ -340,7 +340,7 @@ namespace BingMapsRESTToolkit
                 sb.Append("Routes/TruckAsync?");
             }
             else
-            { 
+            {
                 sb.AppendFormat("Routes/{0}?", Enum.GetName(typeof(TravelModeType), TravelMode));
 
                 int wayCnt = 0, viaCnt = 0;
@@ -440,18 +440,21 @@ namespace BingMapsRESTToolkit
                             //Loop through each leg and offset path indicies to align with merged path.
                             for (var j = 0; j < routes[i].RouteLegs.Length; j++)
                             {
-                                for (var k = 0; k < routes[i].RouteLegs[j].ItineraryItems.Length; k++)
+                                if (routes[i].RouteLegs[j].ItineraryItems != null)
                                 {
-                                    for (var l = 0; l < routes[i].RouteLegs[j].ItineraryItems[k].Details.Length; l++)
+                                    for (var k = 0; k < routes[i].RouteLegs[j].ItineraryItems.Length; k++)
                                     {
-                                        for (var m = 0; m < routes[i].RouteLegs[j].ItineraryItems[k].Details[l].EndPathIndices.Length; m++)
+                                        for (var l = 0; l < routes[i].RouteLegs[j].ItineraryItems[k].Details.Length; l++)
                                         {
-                                            routes[i].RouteLegs[j].ItineraryItems[k].Details[l].EndPathIndices[m] += routePathOffset;
-                                        }
+                                            for (var m = 0; m < routes[i].RouteLegs[j].ItineraryItems[k].Details[l].EndPathIndices.Length; m++)
+                                            {
+                                                routes[i].RouteLegs[j].ItineraryItems[k].Details[l].EndPathIndices[m] += routePathOffset;
+                                            }
 
-                                        for (var m = 0; m < routes[i].RouteLegs[j].ItineraryItems[k].Details[l].StartPathIndices.Length; m++)
-                                        {
-                                            routes[i].RouteLegs[j].ItineraryItems[k].Details[l].StartPathIndices[m] += routePathOffset;
+                                            for (var m = 0; m < routes[i].RouteLegs[j].ItineraryItems[k].Details[l].StartPathIndices.Length; m++)
+                                            {
+                                                routes[i].RouteLegs[j].ItineraryItems[k].Details[l].StartPathIndices[m] += routePathOffset;
+                                            }
                                         }
                                     }
                                 }
@@ -526,7 +529,7 @@ namespace BingMapsRESTToolkit
                 {
                     throw new Exception("Invalid waypoint, an Address or Coordinate must be specified.");
                 }
-                
+
                 if (Waypoints[i].IsViaPoint)
                 {
                     sb.Append(",\"isViaPoint\":true},");
