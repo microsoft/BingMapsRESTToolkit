@@ -131,7 +131,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Enums\" />
     <Folder Include="Extensions\TSP Resources\" />
     <Folder Include="Models\CustomMapStyles\" />
     <Folder Include="Models\ResponseModels\" />

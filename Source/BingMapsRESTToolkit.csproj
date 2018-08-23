@@ -39,6 +39,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Enums\AutosuggestEntityType.cs" />
+    <Compile Include="Enums\AutosuggestLocationType.cs" />
     <Compile Include="Enums\AvoidType.cs" />
     <Compile Include="Enums\ConfidenceLevelType.cs" />
     <Compile Include="Enums\DimensionUnitType.cs" />
@@ -119,10 +121,12 @@
     <Compile Include="Models\ResponseModels\StaticMapMetadata.cs" />
     <Compile Include="Models\ResponseModels\TrafficIncident.cs" />
     <Compile Include="Models\ResponseModels\TransitLine.cs" />
+    <Compile Include="Models\CircularView.cs" />
     <Compile Include="Models\ResponseModels\Warning.cs" />
     <Compile Include="Models\ResponseModels\Waypoint.cs" />
     <Compile Include="Models\RouteOptions.cs" />
     <Compile Include="Models\VehicleSpec.cs" />
+    <Compile Include="Requests\AutosuggestRequest.cs" />
     <Compile Include="Requests\DistanceMatrixRequest.cs" />
     <Compile Include="Requests\GeospatialEndpointRequest.cs" />
     <Compile Include="Requests\ImageryMetadataRequest.cs" />

@@ -57,6 +57,11 @@ namespace BingMapsRESTToolkit
         public BoundingBox UserMapView { get; set; }
 
         /// <summary>
+        ///  The circular geographic region that corresponds to the current viewport. 
+        /// </summary>
+        public CircularView UserCircularMapView {get; set; }
+
+        /// <summary>
         /// The user’s current position.
         /// </summary>
         public Coordinate UserLocation { get; set; }
