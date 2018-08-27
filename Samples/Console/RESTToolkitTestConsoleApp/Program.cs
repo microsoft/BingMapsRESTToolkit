@@ -3,10 +3,17 @@ using System;
 
 namespace RESTToolkitTestConsoleApp
 {
-    class Program
+    class Tests
     {
-        static void Main(string[] args)
+
+        public void AutoSuggestText()
         {
+
+        }
+
+        public void GeoCodeTest()
+        {
+            Console.WriteLine("Running Geocode Test");
             var r = ServiceManager.GetResponseAsync(new GeocodeRequest()
             {
                 BingMapsKey = System.Configuration.ConfigurationManager.AppSettings.Get("BingMapsKey"),
@@ -30,5 +37,17 @@ namespace RESTToolkitTestConsoleApp
 
             Console.ReadLine();
         }
+    }
+
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Tests tests = new Tests();
+            tests.GeoCodeTest();
+        }
+
+        
     }
 }

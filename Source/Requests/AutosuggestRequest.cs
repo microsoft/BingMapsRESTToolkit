@@ -5,12 +5,13 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BingMapsRESTToolkit.Requests
+namespace BingMapsRESTToolkit
 {
     class AutosuggestRequest : BaseRestRequest
     {
 
         #region Private Properties
+
         private const int max_maxResults = 10;
 
         #endregion
@@ -29,7 +30,7 @@ namespace BingMapsRESTToolkit.Requests
             this.Culture = "en-US";
             this.UserRegion = "US";
             this.CountryFilter = null;
-            this.query = "";
+            this.Query = "";
             
         }
 
@@ -37,17 +38,15 @@ namespace BingMapsRESTToolkit.Requests
 
         #region Public Properties
 
-        public Coordinate UserLocation { get; set; }
-
-        public string UserRegion { get; set; }
-
-        public String CountryFilter { get; set; }
+        public string CountryFilter { get; set; }
 
         public List<BingMapsRESTToolkit.Enums.AutosuggestEntityType> IncludeEntityTypes {get; set;}
 
         public BingMapsRESTToolkit.Enums.AutosuggestLocationType AutoLocation { get; set; }
 
-        public string query { get; set; }
+        public string Query { get; set; }
+
+        public int? MaxResults { get; set; }
 
         #endregion
 
@@ -77,10 +76,12 @@ namespace BingMapsRESTToolkit.Requests
 
         public override string GetRequestUrl()
         {
-            if (this.query == "")
+            if (this.Query == "")
                 throw new Exception("Empty Query in Autosuggest REST Request");
             
-            string queryStr = string.Format("q={0}", this.query);
+            string queryStr = string.Format("q={0}", this.Query);
+
+            string maxStr = string.Format("maxRes={0}", (max_maxResults < MaxResults) ? max_maxResults : MaxResults);
 
             string locStr = null;
 
@@ -107,6 +108,7 @@ namespace BingMapsRESTToolkit.Requests
                 locStr,
                 inclEntityStr,
                 cultureStr,
+                maxStr,
                 string.Format("key={0}", BingMapsKey)
             };
 

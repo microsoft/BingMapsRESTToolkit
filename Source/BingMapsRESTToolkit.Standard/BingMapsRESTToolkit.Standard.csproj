@@ -17,10 +17,13 @@
     <FileVersion>1.1.4.0</FileVersion>
     <AssemblyName>BingMapsRESTToolkit</AssemblyName>
     <RootNamespace>BingMapsRESTToolkit</RootNamespace>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Include="..\CustomMapStyleManager.cs" Link="CustomMapStyleManager.cs" />
+    <Compile Include="..\Enums\AutosuggestEntityType.cs" Link="Enums\AutosuggestEntityType.cs" />
+    <Compile Include="..\Enums\AutosuggestLocationType.cs" Link="Enums\AutosuggestLocationType.cs" />
     <Compile Include="..\Enums\AvoidType.cs" Link="Enums\AvoidType.cs" />
     <Compile Include="..\Enums\ConfidenceLevelType.cs" Link="Enums\ConfidenceLevelType.cs" />
     <Compile Include="..\Enums\DimensionUnitType.cs" Link="Enums\DimensionUnitType.cs" />
@@ -62,6 +65,7 @@
     <Compile Include="..\Models\CustomMapStyles\MapElements.cs" Link="Models\CustomMapStyles\MapElements.cs" />
     <Compile Include="..\Models\CustomMapStyles\MapElementStyle.cs" Link="Models\CustomMapStyles\MapElementStyle.cs" />
     <Compile Include="..\Models\CustomMapStyles\SettingsStyle.cs" Link="Models\CustomMapStyles\SettingsStyle.cs" />
+    <Compile Include="..\Models\CircularView.cs" Link="Models\CircularView.cs" />
     <Compile Include="..\Models\ImageryPushpin.cs" Link="Models\ImageryPushpin.cs" />
     <Compile Include="..\Models\PointCompression.cs" Link="Models\PointCompression.cs" />
     <Compile Include="..\Models\ResponseModels\Address.cs" Link="Models\ResponseModels\Address.cs" />
@@ -113,6 +117,7 @@
     <Compile Include="..\Models\SimpleAddress.cs" Link="Models\SimpleAddress.cs" />
     <Compile Include="..\Models\SimpleWaypoint.cs" Link="Models\SimpleWaypoint.cs" />
     <Compile Include="..\Models\VehicleSpec.cs" Link="Models\VehicleSpec.cs" />
+    <Compile Include="..\Requests\AutosuggestRequest.cs" Link="Requests\AutosuggestRequest.cs" />
     <Compile Include="..\Requests\BaseImageryRestRequest.cs" Link="Requests\BaseImageryRestRequest.cs" />
     <Compile Include="..\Requests\BaseRestRequest.cs" Link="Requests\BaseRestRequest.cs" />
     <Compile Include="..\Requests\DistanceMatrixRequest.cs" Link="Requests\DistanceMatrixRequest.cs" />
