@@ -87,13 +87,13 @@ namespace BingMapsRESTToolkit
 
             switch(AutoLocation)
             {
-                case .AutosuggestLocationType.userCircularMapView:
+                case AutosuggestLocationType.userCircularMapView:
                     locStr = string.Format("ucmv={0}", this.UserCircularMapView.ToString());
                     break;
-                case .AutosuggestLocationType.userMapView:
+                case AutosuggestLocationType.userMapView:
                     locStr = string.Format("umv={0}", this.UserMapView.ToString());
                     break;
-                case .AutosuggestLocationType.userLocation:
+                case AutosuggestLocationType.userLocation:
                     locStr = string.Format("ul={0}", this.UserLocation.ToString());
                     break;
             }
@@ -133,13 +133,13 @@ namespace BingMapsRESTToolkit
             {
                 switch(entity_type)
                 {
-                    case .AutosuggestEntityType.Address:
+                    case AutosuggestEntityType.Address:
                         vals.Add("Address");
                         break;
-                    case .AutosuggestEntityType.LocalBusiness:
+                    case AutosuggestEntityType.LocalBusiness:
                         vals.Add("Business");
                         break;
-                    case .AutosuggestEntityType.Place:
+                    case AutosuggestEntityType.Place:
                         vals.Add("Place");
                         break;
                 }

@@ -29,6 +29,7 @@ namespace BingMapsRESTToolkit
             _DistanceUnitType = DistanceUnitType.Kilometers;
             Radius = .25;
             Top = 20;
+            VerbosePlaceNames = false;
         }
 
         #endregion
@@ -174,7 +175,22 @@ namespace BingMapsRESTToolkit
 
         public override string GetRequestUrl()
         {
-            throw new NotImplementedException();
+            string pointStr = string.Format("LocationRecog/{0}?", CenterPoint.ToString());
+
+            List<string> param_list = new List<string>
+            {
+                string.Format("r={0}", Radius.ToString()),
+                string.Format("top={0}", Top.ToString()),
+                string.Format("distanceUnit={0}", DistanceUnitTypeInput),
+                string.Format("verboseplacenames={0}", VerbosePlaceNames.ToString().ToLower()),
+                string.Format("key={0}", BingMapsKey.ToString()),
+                string.Format("includeEntityTypes={0}", IncludeEntityTypes)
+            };
+
+            if (this.DateTimeInput != null)
+                param_list.Add(string.Format("dateTime={0}", this.DateTimeInput.ToString()));
+            
+            return this.Domain + pointStr + string.Join("&", param_list);
         }
 
         #endregion
