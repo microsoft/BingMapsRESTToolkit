@@ -49,6 +49,7 @@
     <Compile Include="Enums\ImageResolutionType.cs" />
     <Compile Include="Enums\ImageFormatType.cs" />
     <Compile Include="Enums\ImageryType.cs" />
+    <Compile Include="Enums\LocationRecogEntityTypes.cs" />
     <Compile Include="Enums\ManeuverType.cs" />
     <Compile Include="Enums\RouteAttributeType.cs" />
     <Compile Include="Enums\RouteOptimizationType.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Enums\EntityType.cs" />
     <Compile Include="Internal\ServiceHelper.cs" />
     <Compile Include="Requests\IsochroneRequest.cs" />
+    <Compile Include="Requests\LocationRecogRequest.cs" />
     <Compile Include="Requests\SnapToRoadRequest.cs" />
     <Compile Include="Internal\SpatialTools.cs" />
     <Compile Include="Models\SimpleAddress.cs" />

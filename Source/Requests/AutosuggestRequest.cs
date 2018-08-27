@@ -20,12 +20,12 @@ namespace BingMapsRESTToolkit
 
         public AutosuggestRequest()
         {
-            this.AutoLocation = Enums.AutosuggestLocationType.userLocation;
-            this.IncludeEntityTypes = new List<Enums.AutosuggestEntityType>()
+            this.AutoLocation = AutosuggestLocationType.userLocation;
+            this.IncludeEntityTypes = new List<AutosuggestEntityType>()
                 {
-                    BingMapsRESTToolkit.Enums.AutosuggestEntityType.Address,
-                    BingMapsRESTToolkit.Enums.AutosuggestEntityType.LocalBusiness,
-                    BingMapsRESTToolkit.Enums.AutosuggestEntityType.Place,
+                    AutosuggestEntityType.Address,
+                    AutosuggestEntityType.LocalBusiness,
+                    AutosuggestEntityType.Place,
                 };
             this.Culture = "en-US";
             this.UserRegion = "US";
@@ -40,9 +40,9 @@ namespace BingMapsRESTToolkit
 
         public string CountryFilter { get; set; }
 
-        public List<BingMapsRESTToolkit.Enums.AutosuggestEntityType> IncludeEntityTypes {get; set;}
+        public List<AutosuggestEntityType> IncludeEntityTypes {get; set;}
 
-        public BingMapsRESTToolkit.Enums.AutosuggestLocationType AutoLocation { get; set; }
+        public AutosuggestLocationType AutoLocation { get; set; }
 
         public string Query { get; set; }
 
@@ -77,7 +77,7 @@ namespace BingMapsRESTToolkit
         public override string GetRequestUrl()
         {
             if (this.Query == "")
-                throw new Exception("Empty Query in Autosuggest REST Request");
+                throw new Exception("Empty Query value in Autosuggest REST Request");
             
             string queryStr = string.Format("q={0}", this.Query);
 
@@ -87,13 +87,13 @@ namespace BingMapsRESTToolkit
 
             switch(AutoLocation)
             {
-                case Enums.AutosuggestLocationType.userCircularMapView:
+                case .AutosuggestLocationType.userCircularMapView:
                     locStr = string.Format("ucmv={0}", this.UserCircularMapView.ToString());
                     break;
-                case Enums.AutosuggestLocationType.userMapView:
+                case .AutosuggestLocationType.userMapView:
                     locStr = string.Format("umv={0}", this.UserMapView.ToString());
                     break;
-                case Enums.AutosuggestLocationType.userLocation:
+                case .AutosuggestLocationType.userLocation:
                     locStr = string.Format("ul={0}", this.UserLocation.ToString());
                     break;
             }
@@ -112,6 +112,12 @@ namespace BingMapsRESTToolkit
                 string.Format("key={0}", BingMapsKey)
             };
 
+            if (CountryFilter != null)
+            {
+                string country_filterStr = string.Format("cf={0}", CountryFilter.ToString());
+                param_list.Add(country_filterStr);
+            }
+
             return this.Domain + "Autosuggest?" + string.Join("&", param_list);
         }
 
@@ -127,13 +133,13 @@ namespace BingMapsRESTToolkit
             {
                 switch(entity_type)
                 {
-                    case Enums.AutosuggestEntityType.Address:
+                    case .AutosuggestEntityType.Address:
                         vals.Add("Address");
                         break;
-                    case Enums.AutosuggestEntityType.LocalBusiness:
+                    case .AutosuggestEntityType.LocalBusiness:
                         vals.Add("Business");
                         break;
-                    case Enums.AutosuggestEntityType.Place:
+                    case .AutosuggestEntityType.Place:
                         vals.Add("Place");
                         break;
                 }

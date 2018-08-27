@@ -28,7 +28,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BingMapsRESTToolkit.Enums
+namespace BingMapsRESTToolkit
 {
     /// <summary>
     /// Enum for the Type of Location/Region used in REST Autosuggest Calls

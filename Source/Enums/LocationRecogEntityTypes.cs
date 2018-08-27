@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace BingMapsRESTToolkit
 {
-    public enum AutosuggestEntityType
+    public enum LocationRecogEntityTypes
     {
-        Address,
-        Place,
-        LocalBusiness
+        BusinessAndPOI,
+        NaturalPOI,
+        Address
     }
 }
