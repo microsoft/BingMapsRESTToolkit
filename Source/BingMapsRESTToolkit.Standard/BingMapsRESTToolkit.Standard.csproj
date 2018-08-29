@@ -36,6 +36,8 @@
     <Compile Include="..\Enums\ImageResolutionType.cs" Link="Enums\ImageResolutionType.cs" />
     <Compile Include="..\Enums\ImageryType.cs" Link="Enums\ImageryType.cs" />
     <Compile Include="..\Enums\ManeuverType.cs" Link="Enums\ManeuverType.cs" />
+    <Compile Include="..\Enums\LocationRecogEntityTypes.cs" Link="Enums\LocationRecogEntityTypes.cs" />
+    
     <Compile Include="..\Enums\RouteAttributeType.cs" Link="Enums\RouteAttributeType.cs" />
     <Compile Include="..\Enums\RouteOptimizationType.cs" Link="Enums\RouteOptimizationType.cs" />
     <Compile Include="..\Enums\RouteTimeType.cs" Link="Enums\RouteTimeType.cs" />
@@ -132,6 +134,7 @@
     <Compile Include="..\Requests\RouteRequest.cs" Link="Requests\RouteRequest.cs" />
     <Compile Include="..\Requests\SnapToRoadRequest.cs" Link="Requests\SnapToRoadRequest.cs" />
     <Compile Include="..\Requests\TrafficRequest.cs" Link="Requests\TrafficRequest.cs" />
+    <Compile Include="..\Requests\LocationRecogRequest.cs" Link="Requests\LocationRecogRequest.cs" />
     <Compile Include="..\ServiceManager.cs" Link="ServiceManager.cs" />
   </ItemGroup>
 
