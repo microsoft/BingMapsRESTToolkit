@@ -81,6 +81,7 @@
     <Compile Include="Models\CustomMapStyles\MapElementStyle.cs" />
     <Compile Include="Models\CustomMapStyles\SettingsStyle.cs" />
     <Compile Include="Models\ImageryPushpin.cs" />
+    <Compile Include="Models\ResponseModels\AutosuggestResource.cs" />
     <Compile Include="Models\ResponseModels\BirdseyeMetadata.cs" />
     <Compile Include="Models\ResponseModels\BusinessInfoEntity.cs" />
     <Compile Include="Models\ResponseModels\CompressedPointList.cs" />

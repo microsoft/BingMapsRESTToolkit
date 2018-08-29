@@ -126,7 +126,8 @@
     <Compile Include="..\Models\ResponseModels\ConvertedTimeResource.cs" Link="Models\ResponseModels\ConvertedTimeResource.cs" />
     <Compile Include="..\Models\ResponseModels\TimeZoneResponse.cs" Link="Models\ResponseModels\TimeZoneResponse.cs" />
     <Compile Include="..\Models\ResponseModels\RESTTimeZone.cs" Link="Models\ResponseModels\RESTTimeZone.cs" />
-
+    <Compile Include="..\Models\ResponseModels\AutosuggestResource.cs" Link="Models\ResponseModels\AutosuggestResource.cs" />
+    
 
 
     <Compile Include="..\Models\RouteOptions.cs" Link="Models\RouteOptions.cs" />
@@ -149,6 +150,12 @@
     <Compile Include="..\Requests\SnapToRoadRequest.cs" Link="Requests\SnapToRoadRequest.cs" />
     <Compile Include="..\Requests\TrafficRequest.cs" Link="Requests\TrafficRequest.cs" />
     <Compile Include="..\Requests\LocationRecogRequest.cs" Link="Requests\LocationRecogRequest.cs" />
+
+    <Compile Include="..\Requests\ConvertTimeZoneRequest.cs" Link="Requests\ConvertTimeZoneRequest.cs" />
+    <Compile Include="..\Requests\ListTimeZonesRequest.cs" Link="Requests\ListTimeZonesRequest.cs" />
+    <Compile Include="..\Requests\FindTimeZoneRequest.cs" Link="Requests\FindTimeZoneRequest.cs" />
+    
+
     <Compile Include="..\ServiceManager.cs" Link="ServiceManager.cs" />
   </ItemGroup>
 

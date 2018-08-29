@@ -1,4 +1,28 @@
-﻿using System;
+﻿/*
+ * Copyright(c) 2018 Microsoft Corporation. All rights reserved. 
+ * 
+ * This code is licensed under the MIT License (MIT). 
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal 
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do 
+ * so, subject to the following conditions: 
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software. 
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE. 
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +31,9 @@ using System.IO;
 
 namespace BingMapsRESTToolkit
 {
+    /// <summary>
+    /// Location Recog Request: Given a pair of location coordinates (latitude, longitude), the Location Recognition API returns a list of entities ranked by their proximity to that location.
+    /// </summary>
     public class LocationRecogRequest : BaseRestRequest
     {
 
@@ -131,6 +158,9 @@ namespace BingMapsRESTToolkit
             }
         }
 
+        /// <summary>
+        /// The Max number of Entities returned
+        /// </summary>
         public int Top
         {
             get
@@ -175,6 +205,9 @@ namespace BingMapsRESTToolkit
             }
         }
 
+        /// <summary>
+        /// Whether Returned names should be verbose
+        /// </summary>
         public bool VerbosePlaceNames { get; set; } 
 
         #endregion

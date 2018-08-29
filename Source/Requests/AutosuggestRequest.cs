@@ -1,4 +1,28 @@
-﻿using System;
+﻿/*
+ * Copyright(c) 2018 Microsoft Corporation. All rights reserved. 
+ * 
+ * This code is licensed under the MIT License (MIT). 
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal 
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+ * of the Software, and to permit persons to whom the Software is furnished to do 
+ * so, subject to the following conditions: 
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software. 
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE. 
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -7,7 +31,30 @@ using System.Threading.Tasks;
 
 namespace BingMapsRESTToolkit
 {
-    class AutosuggestRequest : BaseRestRequest
+
+    public class CoordWithRadius : Coordinate
+    {
+        /// <summary>
+        /// Radius in Meters
+        /// </summary>
+        public int Radius { get; set; }
+
+        /// <summary>
+        /// Default Constuctor
+        /// </summary>
+        public CoordWithRadius() : base()
+        {
+        }
+
+        /// <summary>
+        /// Return Comma-separated list of Lat,Lon,Radius
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() => string.Format("{0},{1},{2}", Latitude.ToString(), Longitude.ToString(), Radius.ToString());
+    }
+
+
+    public class AutosuggestRequest : BaseRestRequest
     {
 
         #region Private Properties
@@ -20,23 +67,25 @@ namespace BingMapsRESTToolkit
 
         public AutosuggestRequest()
         {
-            this.AutoLocation = AutosuggestLocationType.userLocation;
-            this.IncludeEntityTypes = new List<AutosuggestEntityType>()
+            AutoLocation = AutosuggestLocationType.userLocation;
+            IncludeEntityTypes = new List<AutosuggestEntityType>()
                 {
                     AutosuggestEntityType.Address,
                     AutosuggestEntityType.LocalBusiness,
                     AutosuggestEntityType.Place,
                 };
-            this.Culture = "en-US";
-            this.UserRegion = "US";
-            this.CountryFilter = null;
-            this.Query = "";
-            
+            Culture = "en-US";
+            UserRegion = "US";
+            CountryFilter = null;
+            Query = "";
+            UserLoc = null;
         }
 
         #endregion
 
         #region Public Properties
+
+        public CoordWithRadius UserLoc { get; set; } 
 
         public string CountryFilter { get; set; }
 
@@ -54,7 +103,7 @@ namespace BingMapsRESTToolkit
 
         public override Task<Response> Execute()
         {
-            return this.Execute(null);
+            return Execute(null);
         }
 
         public override async Task<Response> Execute(Action<int> remainingTimeCallback)
@@ -76,10 +125,10 @@ namespace BingMapsRESTToolkit
 
         public override string GetRequestUrl()
         {
-            if (this.Query == "")
+            if (Query == "")
                 throw new Exception("Empty Query value in Autosuggest REST Request");
             
-            string queryStr = string.Format("q={0}", this.Query);
+            string queryStr = string.Format("q={0}", Uri.EscapeDataString(Query));
 
             string maxStr = string.Format("maxRes={0}", (max_maxResults < MaxResults) ? max_maxResults : MaxResults);
 
@@ -88,13 +137,15 @@ namespace BingMapsRESTToolkit
             switch(AutoLocation)
             {
                 case AutosuggestLocationType.userCircularMapView:
-                    locStr = string.Format("ucmv={0}", this.UserCircularMapView.ToString());
+                    locStr = string.Format("ucmv={0}", UserCircularMapView.ToString());
                     break;
                 case AutosuggestLocationType.userMapView:
-                    locStr = string.Format("umv={0}", this.UserMapView.ToString());
+                    locStr = string.Format("umv={0}", UserMapView.ToString());
                     break;
                 case AutosuggestLocationType.userLocation:
-                    locStr = string.Format("ul={0}", this.UserLocation.ToString());
+                    if (UserLoc == null)
+                        throw new Exception("User Location is Requred");
+                    locStr = string.Format("ul={0}", UserLoc.ToString());
                     break;
             }
 
@@ -118,7 +169,7 @@ namespace BingMapsRESTToolkit
                 param_list.Add(country_filterStr);
             }
 
-            return this.Domain + "Autosuggest?" + string.Join("&", param_list);
+            return Domain + "Autosuggest?" + string.Join("&", param_list);
         }
 
         #endregion

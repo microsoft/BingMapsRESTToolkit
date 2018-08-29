@@ -28,33 +28,54 @@ using System.Runtime.Serialization;
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// Local Business Resoruce, used by Location Recognition
+    /// Autosuggest Resource Enity: Used for `Place`, `Address`, and `LocalBusiness`
     /// </summary>
-    [DataContract(Namespace = "http://schemas.microsoft.com/search/local/ws/rest/v1")]
-    public class LocalBusiness
+    [DataContract]
+    public class AutosuggestEntityResource : Resource
+    {
+
+        /// <summary>
+        /// Address of the Entity
+        /// </summary>
+        [DataMember(Name ="address", EmitDefaultValue = false)]
+        public Address EntityAddress { get; set; }
+    }
+
+    [DataContract(Name= "LocalBusiness")]
+    public class AutoSuggestLocalBusinessResource : AutosuggestEntityResource
     {
         /// <summary>
-        /// Busisness Address `Address` Resource
+        /// Name of Entity
         /// </summary>
-        [DataMember(Name = "businessAddress", EmitDefaultValue = false)]
-        public Address BusinessAddress { get; set; }
+        [DataMember(Name = "name", EmitDefaultValue = false)]
+        public string Name { get; set; }
+    }
 
+    [DataContract(Name = "Place")]
+    public class AutoSuggestPlaceResource : AutosuggestEntityResource
+    {
         /// <summary>
-        /// Resource just for Location Recog, `BusinessInfoEntity`
+        /// Name of Entity
         /// </summary>
-        [DataMember(Name = "businessInfo", EmitDefaultValue = false)]
-        public BusinessInfoEntity BusinessInfo { get; set; }
+        [DataMember(Name = "name", EmitDefaultValue = false)]
+        public string Name { get; set; }
+    }
 
-        /// <summary>
-        /// Type of business entity representing the primary nature of business of the entity. Refer to the Business Entity Types table below for a full list of supported types
-        /// </summary>
-        [DataMember(Name = "type", EmitDefaultValue = false)]
-        public string Type { get; set; }
+    [DataContract(Name = "Address")]
+    public class AutosuggestAddressResource : AutosuggestEntityResource
+    {
+    }
 
+    /// <summary>
+    /// Resource returned by Autosuggest API
+    /// </summary>
+    [DataContract(Name ="Autosuggest", Namespace ="http://schemas.microsoft.com/search/local/ws/rest/v1")]
+    public class AutosuggestResource : Resource
+    {
         /// <summary>
-        /// List of types which represent the secondary nature of business of the entity
+        /// List if Autosuggest Entities
         /// </summary>
-        [DataMember(Name = "otherTypes", EmitDefaultValue = false)]
-        public string[] OhterTypes { get; set; }
+        [DataMember(Name ="value")]
+        public AutosuggestEntityResource[] Value { get; set; }
     }
 }

@@ -50,7 +50,23 @@ namespace RESTToolkitTestConsoleApp
 
         public void AutoSuggestTest()
         {
+            Console.WriteLine("Running Autosuggest Test");
+            CoordWithRadius ul = new CoordWithRadius() { Latitude = 47.668697, Longitude = -122.376373, Radius = 5 };
+        
+            var request = new AutosuggestRequest()
+            {
+                BingMapsKey = _ApiKey,
+                Query = "El Bur",
+                UserLoc = ul
+            };
+            Console.WriteLine(request.GetRequestUrl());
+            var resources = GetResourcesFromRequest(request);
+            var entities = (resources[0] as AutosuggestResource);
 
+            foreach (var entity in entities.Value)
+                Console.Write($"Entity of type {entity.Type} returned.");
+
+            Console.ReadLine();
         }
 
         public void ConvertTimeZoneTest()
@@ -198,6 +214,7 @@ namespace RESTToolkitTestConsoleApp
             tests.FindTimeZoneTest();
             tests.ConvertTimeZoneTest();
             tests.ListTimeZoneTest();
+            tests.AutoSuggestTest();
         }
     }
 }
