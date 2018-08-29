@@ -37,6 +37,7 @@
     <Compile Include="..\Enums\ImageryType.cs" Link="Enums\ImageryType.cs" />
     <Compile Include="..\Enums\ManeuverType.cs" Link="Enums\ManeuverType.cs" />
     <Compile Include="..\Enums\LocationRecogEntityTypes.cs" Link="Enums\LocationRecogEntityTypes.cs" />
+    <Compile Include="..\Enums\TimeZoneStandardType.cs" Link="Enums\TimeZoneStandardType.cs" />
     
     <Compile Include="..\Enums\RouteAttributeType.cs" Link="Enums\RouteAttributeType.cs" />
     <Compile Include="..\Enums\RouteOptimizationType.cs" Link="Enums\RouteOptimizationType.cs" />
@@ -120,6 +121,11 @@
     <Compile Include="..\Models\ResponseModels\LocationRecog.cs" Link="Models\ResponseModels\LocationRecog.cs" />
     <Compile Include="..\Models\ResponseModels\LocalBusiness.cs" Link="Models\ResponseModels\LocalBusiness.cs" />
     <Compile Include="..\Models\ResponseModels\BusinessInfoEntity.cs" Link="Models\ResponseModels\BusinessInfoEntity.cs" />
+
+    <Compile Include="..\Models\ResponseModels\DstRuleResource.cs" Link="Models\ResponseModels\DstRuleResource.cs" />
+    <Compile Include="..\Models\ResponseModels\ConvertedTimeResource.cs" Link="Models\ResponseModels\ConvertedTimeResource.cs" />
+    <Compile Include="..\Models\ResponseModels\TimeZoneResponse.cs" Link="Models\ResponseModels\TimeZoneResponse.cs" />
+    <Compile Include="..\Models\ResponseModels\RESTTimeZone.cs" Link="Models\ResponseModels\RESTTimeZone.cs" />
 
 
 

@@ -43,6 +43,8 @@ namespace BingMapsRESTToolkit
     [KnownType(typeof(IsochroneResponse))]
     [KnownType(typeof(SnapToRoadResponse))]
     [KnownType(typeof(LocationRecog))]
+    [KnownType(typeof(TimeZoneResponse))]
+    [KnownType(typeof(RESTTimeZone))]
     public class Resource
     {
         /// <summary>

@@ -56,6 +56,7 @@
     <Compile Include="Enums\RouteTimeType.cs" />
     <Compile Include="Enums\SpeedUnitType.cs" />
     <Compile Include="Enums\TimeUnitType.cs" />
+    <Compile Include="Enums\TimeZoneStandardType.cs" />
     <Compile Include="Enums\TravelModeType.cs" />
     <Compile Include="Enums\SeverityType.cs" />
     <Compile Include="Enums\TrafficType.cs" />
@@ -83,11 +84,13 @@
     <Compile Include="Models\ResponseModels\BirdseyeMetadata.cs" />
     <Compile Include="Models\ResponseModels\BusinessInfoEntity.cs" />
     <Compile Include="Models\ResponseModels\CompressedPointList.cs" />
+    <Compile Include="Models\ResponseModels\ConvertedTimeResource.cs" />
     <Compile Include="Models\ResponseModels\CoverageArea.cs" />
     <Compile Include="Models\ResponseModels\Detail.cs" />
     <Compile Include="Models\ResponseModels\DistanceMatrix.cs" />
     <Compile Include="Models\ResponseModels\DistanceMatrixCell.cs" />
     <Compile Include="Models\ResponseModels\DistanceMatrixAsyncStatus.cs" />
+    <Compile Include="Models\ResponseModels\DstRuleResource.cs" />
     <Compile Include="Models\ResponseModels\ElevationData.cs" />
     <Compile Include="Models\ResponseModels\Generalization.cs" />
     <Compile Include="Models\ResponseModels\GeospatialEndpointResponse.cs" />
@@ -124,6 +127,8 @@
     <Compile Include="Models\ResponseModels\SnappedPoint.cs" />
     <Compile Include="Models\ResponseModels\SnapToRoadResponse.cs" />
     <Compile Include="Models\ResponseModels\StaticMapMetadata.cs" />
+    <Compile Include="Models\ResponseModels\RESTTimeZone.cs" />
+    <Compile Include="Models\ResponseModels\TimeZoneResponse.cs" />
     <Compile Include="Models\ResponseModels\TrafficIncident.cs" />
     <Compile Include="Models\ResponseModels\TransitLine.cs" />
     <Compile Include="Models\CircularView.cs" />
@@ -132,7 +137,9 @@
     <Compile Include="Models\RouteOptions.cs" />
     <Compile Include="Models\VehicleSpec.cs" />
     <Compile Include="Requests\AutosuggestRequest.cs" />
+    <Compile Include="Requests\ConvertTimeZoneRequest.cs" />
     <Compile Include="Requests\DistanceMatrixRequest.cs" />
+    <Compile Include="Requests\FindTimeZoneRequest.cs" />
     <Compile Include="Requests\GeospatialEndpointRequest.cs" />
     <Compile Include="Requests\ImageryMetadataRequest.cs" />
     <Compile Include="Requests\ImageryRequest.cs" />
@@ -145,6 +152,7 @@
     <Compile Include="Enums\EntityType.cs" />
     <Compile Include="Internal\ServiceHelper.cs" />
     <Compile Include="Requests\IsochroneRequest.cs" />
+    <Compile Include="Requests\ListTimeZonesRequest.cs" />
     <Compile Include="Requests\LocationRecogRequest.cs" />
     <Compile Include="Requests\SnapToRoadRequest.cs" />
     <Compile Include="Internal\SpatialTools.cs" />

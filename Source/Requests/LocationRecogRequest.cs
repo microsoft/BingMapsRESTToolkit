@@ -179,7 +179,6 @@ namespace BingMapsRESTToolkit
 
         #endregion
 
-
         #region Public Methods
 
         public override string GetRequestUrl()
@@ -209,8 +208,8 @@ namespace BingMapsRESTToolkit
                 string.Format("includeEntityTypes={0}", IncludeEntityTypes)
             };
 
-            if (this.DateTimeInput != null)
-                param_list.Add(string.Format("dateTime={0}", this.DateTimeInput.ToString()));
+            if (DateTimeInput.HasValue)
+                param_list.Add(string.Format("dateTime={0}", DateTimeHelper.GetUTCString(DateTimeInput.Value)));
             
             return this.Domain + pointStr + string.Join("&", param_list);
         }

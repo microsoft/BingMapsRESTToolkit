@@ -28,14 +28,19 @@ using System.Runtime.Serialization;
 
 namespace BingMapsRESTToolkit
 {
+    /// <summary>
+    /// Used by AutoSuggest API, for a Circular Screen Search Area
+    /// </summary>
     [DataContract]
     public class CircularView
     {
-        CircularView()
-        {
-        }
-
-        CircularView(float latitude, float longitude, int radius)
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
+        /// <param name="latitude">Latitude of point</param>
+        /// <param name="longitude">Longitude of point</param>
+        /// <param name="radius">Radius, in meters</param>
+        CircularView(double latitude, double longitude, int radius)
         {
             if (radius >= 0)
                 this.radius = radius;
@@ -46,15 +51,22 @@ namespace BingMapsRESTToolkit
             this.coords.Longitude = longitude;
         }
 
+        /// <summary>
+        /// To String used for exporting Coords to URL parameter
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return string.Format(CultureInfo.InvariantCulture, "{0:0.#####},{1:0.#####},{2}", coords.Latitude, coords.Longitude, radius);
         }
 
+        /// <summary>
+        /// The Locaiton of Circular Region
+        /// </summary>
         public Coordinate coords { get; set; }
 
         /// <summary>
-        /// Radius (Meters)
+        /// Radius (Meters) of Circular Region
         /// </summary>
         public int radius { get; set; }
 
