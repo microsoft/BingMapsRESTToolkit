@@ -81,6 +81,7 @@
     <Compile Include="Models\CustomMapStyles\SettingsStyle.cs" />
     <Compile Include="Models\ImageryPushpin.cs" />
     <Compile Include="Models\ResponseModels\BirdseyeMetadata.cs" />
+    <Compile Include="Models\ResponseModels\BusinessInfoEntity.cs" />
     <Compile Include="Models\ResponseModels\CompressedPointList.cs" />
     <Compile Include="Models\ResponseModels\CoverageArea.cs" />
     <Compile Include="Models\ResponseModels\Detail.cs" />
@@ -96,6 +97,9 @@
     <Compile Include="Models\ResponseModels\ImageryMetadata.cs" />
     <Compile Include="Models\ResponseModels\ImageryProvider.cs" />
     <Compile Include="Models\ResponseModels\Instruction.cs" />
+    <Compile Include="Models\ResponseModels\LocalBusiness.cs" />
+    <Compile Include="Models\ResponseModels\LocationRecog.cs" />
+    <Compile Include="Models\ResponseModels\NaturalPOIAtLocationEntity.cs" />
     <Compile Include="Models\ResponseModels\RouteProxyAsyncResult.cs" />
     <Compile Include="Models\ResponseModels\IsochroneResponse.cs" />
     <Compile Include="Models\ResponseModels\ItineraryItem.cs" />

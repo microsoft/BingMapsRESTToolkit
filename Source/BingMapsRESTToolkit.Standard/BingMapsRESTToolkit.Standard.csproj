@@ -115,6 +115,14 @@
     <Compile Include="..\Models\ResponseModels\TransitLine.cs" Link="Models\ResponseModels\TransitLine.cs" />
     <Compile Include="..\Models\ResponseModels\Warning.cs" Link="Models\ResponseModels\Warning.cs" />
     <Compile Include="..\Models\ResponseModels\Waypoint.cs" Link="Models\ResponseModels\Waypoint.cs" />
+
+    <Compile Include="..\Models\ResponseModels\NaturalPOIAtLocationEntity.cs" Link="Models\ResponseModels\NaturalPOIAtLocationEntity.cs" />
+    <Compile Include="..\Models\ResponseModels\LocationRecog.cs" Link="Models\ResponseModels\LocationRecog.cs" />
+    <Compile Include="..\Models\ResponseModels\LocalBusiness.cs" Link="Models\ResponseModels\LocalBusiness.cs" />
+    <Compile Include="..\Models\ResponseModels\BusinessInfoEntity.cs" Link="Models\ResponseModels\BusinessInfoEntity.cs" />
+
+
+
     <Compile Include="..\Models\RouteOptions.cs" Link="Models\RouteOptions.cs" />
     <Compile Include="..\Models\SimpleAddress.cs" Link="Models\SimpleAddress.cs" />
     <Compile Include="..\Models\SimpleWaypoint.cs" Link="Models\SimpleWaypoint.cs" />

@@ -11,34 +11,76 @@ namespace BingMapsRESTToolkit
     {
 
         #region Private Properties
+        /// <summary>
+        /// Constant Max value for Top param: 20
+        /// </summary>
+        private const int MaxTop = 20;
 
-        private readonly int MaxTop = 20;
-        private readonly double maxRadKilo = 2.0;
+        /// <summary>
+        /// Constant Max distance for Radius in KM : 2 KM
+        /// </summary>
+        private const double maxRadKilo = 2.0;
+
+        /// <summary>
+        /// Constant Max distance for Radius in Miles : Using built-in distance converter
+        /// </summary>
         private readonly double maxRadMile = SpatialTools.ConvertDistance(2.0, DistanceUnitType.Kilometers, DistanceUnitType.Miles);
+
+        /// <summary>
+        /// Radius value
+        /// </summary>
+        private double _Radius;
+
+        /// <summary>
+        /// Top value
+        /// </summary>
+        private int _Top;
+
+        /// <summary>
+        /// List of LocationRecog EntityType Enums
+        /// </summary>
+        private List<LocationRecogEntityTypes> _IncludeEntityTypes;
 
         #endregion
 
         #region Constructor
 
+        /// <summary>
+        /// Constructor with default values
+        /// </summary>
         public LocationRecogRequest() : base()
         {
-            DistanceUnits = DistanceUnitType.Kilometers;
-            Radius = 0.25;
-            Top = 20;
+            DistanceUnits = DistanceUnitType.Kilometers; 
             VerbosePlaceNames = false;
-            IncludeEntityTypes = "businessAndPOI";
+            _IncludeEntityTypes = new List<LocationRecogEntityTypes>() { LocationRecogEntityTypes.BusinessAndPOI };
+            _Radius = 0.25;
+            _Top = 10;
         }
 
         #endregion
 
         #region Public Properties
 
+        /// <summary>
+        /// Location Recog at this point (lat,lon)
+        /// </summary>
         public Coordinate CenterPoint { get; set; }
 
+        /// <summary>
+        /// Optional DateTime parameter.
+        /// </summary>
         public DateTime? DateTimeInput { get; set; }
 
+        /// <summary>
+        /// Library `DistanceUnitType` Enum, either `Kilometers` or `Miles`
+        /// </summary>
         public DistanceUnitType DistanceUnits { get; set; }
 
+        /// <summary>
+        /// Consumer-facing IncludeEntity Types: 
+        ///     - setter with value as comma-separated string, e.g. "Address, NaturalPoi".
+        ///     - getter as comma-separated string, all lower-case and trimmed, e.g. "address,naturalpoi".
+        /// </summary>
         public string IncludeEntityTypes
         {
             get
@@ -85,7 +127,7 @@ namespace BingMapsRESTToolkit
                 }
 
           
-                this._IncludeEntityTypes = _types;
+                _IncludeEntityTypes = _types;
             }
         }
 
@@ -93,12 +135,12 @@ namespace BingMapsRESTToolkit
         {
             get
             {
-                return this.Top;
+                return _Top;
             }
 
             set
             {
-                this.Top = (value > MaxTop) ? MaxTop : value;
+                _Top = (value >= MaxTop) ? MaxTop : value;
             }
         }
 
@@ -110,39 +152,30 @@ namespace BingMapsRESTToolkit
         {
             get
             {
-                return Radius;
+                return _Radius;
             }
             set
             {
-                if (ValidateRadius(value))
-                    Radius = value;
+                double rad = (double)value;
+                switch (DistanceUnits)
+                {
+                    case DistanceUnitType.Kilometers:
+                        if (0 <= rad && rad <= maxRadKilo)
+                            _Radius = rad;
+                        else
+                            throw new Exception($"The maximum radius is {maxRadKilo} KM but {rad} KM was entered.");
+                        break;
+                    case DistanceUnitType.Miles:
+                        if (0 <= rad && rad <= maxRadMile)
+                            _Radius = rad;
+                        else
+                            throw new Exception($"The maximum radius is {maxRadMile} Miles but {rad} Miles was entered.");
+                        break;
+                }
             }
         }
 
         public bool VerbosePlaceNames { get; set; } 
-
-        #endregion
-
-        #region Private Methods
-
-        private bool ValidateRadius(double rad)
-        {
-            switch(_DistanceUnitType)
-            {
-                case DistanceUnitType.Kilometers:
-                    if (0 <= rad && rad <= maxRadKilo)
-                        return true;
-                    else
-                        throw new Exception($"The maximum radius is {maxRadKilo} KM but {rad} KM was entered.");
-                case DistanceUnitType.Miles:
-                    if (0 <= rad && rad <= maxRadMile)
-                        return true;
-                    else
-                        throw new Exception($"The maximum radius is {maxRadMile} Miles but {rad} Miles was entered.");
-            }
-
-            return false;
-        }
 
         #endregion
 

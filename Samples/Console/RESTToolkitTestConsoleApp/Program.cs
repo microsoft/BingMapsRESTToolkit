@@ -17,7 +17,7 @@ namespace RESTToolkitTestConsoleApp
                 r.ResourceSets[0].Resources.Length > 0))
 
                 throw new Exception("No results found.");
-            
+
             return r.ResourceSets[0].Resources;
         }
 
@@ -30,23 +30,40 @@ namespace RESTToolkitTestConsoleApp
         {
             Console.WriteLine("Running Location Recognition Test");
 
-            var cpoint = new Coordinate(47.668915, -122.375789);
+            Coordinate cpoint = new Coordinate(47.668915, -122.375789);
 
             Console.WriteLine("coord: {0}", cpoint.ToString());
 
-            var request = new LocationRecogRequest();
-            request.BingMapsKey = _ApiKey;
-            request.CenterPoint = cpoint;
+            var request = new LocationRecogRequest() { BingMapsKey = _ApiKey, CenterPoint = cpoint };
+
+            Console.WriteLine("constructed!");
 
             Console.WriteLine(request.GetRequestUrl());
 
             var resources = GetResourcesFromRequest(request);
 
-            foreach (var resource in resources)
-            {
-                Console.WriteLine(resource);
-            }
+            var r = (resources[0] as LocationRecog);
 
+            if (r.AddressOfLocation.Length > 0)
+                Console.WriteLine($"Address:\n{r.AddressOfLocation.ToString()}");
+
+            if (r.BusinessAtLocation != null)
+            {
+                foreach (LocalBusiness business in r.BusinessAtLocation)
+                {
+                    Console.WriteLine($"Business:\n{business.BusinessInfo.EntityName}");
+                }
+            }
+            
+            if (r.NaturalPOIAtLocation != null)
+            {
+                foreach (NaturalPOIAtLocationEntity poi in r.NaturalPOIAtLocation)
+                {
+                    Console.WriteLine($"POI:\n{poi.EntityName}");
+                }
+            }
+            
+                
             Console.ReadLine();
 
         }
@@ -61,7 +78,7 @@ namespace RESTToolkitTestConsoleApp
             };
 
             var resources = GetResourcesFromRequest(request);
-            
+
             foreach (var resource in resources)
             {
                 Console.WriteLine((resource as Location).Name);
@@ -71,7 +88,6 @@ namespace RESTToolkitTestConsoleApp
         }
     }
 
-
     class Program
     {
         static void Main(string[] args)
@@ -80,7 +96,5 @@ namespace RESTToolkitTestConsoleApp
             tests.GeoCodeTest();
             tests.LocationRecogTest();
         }
-
-        
     }
 }

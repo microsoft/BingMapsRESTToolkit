@@ -42,6 +42,7 @@ namespace BingMapsRESTToolkit
     [KnownType(typeof(DistanceMatrixAsyncStatus))]
     [KnownType(typeof(IsochroneResponse))]
     [KnownType(typeof(SnapToRoadResponse))]
+    [KnownType(typeof(LocationRecog))]
     public class Resource
     {
         /// <summary>
