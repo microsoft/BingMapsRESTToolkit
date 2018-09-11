@@ -1,4 +1,4 @@
-# Table of contents 
+u# Table of contents 
 
 * [Request Classes](#RequestClasses)
     - [Base Classes](#base-classes)
@@ -11,7 +11,7 @@
     - [Locations API](#locations-api)
         - [GeocodeRequest Class](#GeocodeRequest)
         - [ReverseGeocodeRequest Class](#ReverseGeocodeRequest)
-        - [LocationRecogRequest Class](#LocationRecogReqest)
+        - [LocationRecogRequest Class](#LocationRecogRequest)
     - [Routes API](#routes-api)
         - [DistanceMatrixRequest Class](#DistanceMatrixRequest)
         - [IsochroneRequest Class](#IsochroneRequest)
@@ -230,7 +230,7 @@ Geocodes a query to its coordinates. Inherits from the BaseRestRequest class.
 
 | Name                | Type          | Description         |
 |---------------------|---------------|---------------------|
-|` Address`             | [SimpleAddress](#SimpleAddress) | The Address to geocode.    |
+|` Address`             | [`SimpleAddress`](#SimpleAddress) | The Address to geocode.    |
 | `IncludeIso2`         | `bool`           | When you specified the two-letter ISO country code is included for addresses in the response. |
 | `IncludeNeighborhood` | `bool`           | Specifies to include the neighborhood in the response when it is available.                   |
 | `MaxResults`          | `int`           | Specifies the maximum number of locations to return in the response.                          |
@@ -288,37 +288,37 @@ The [Location Recognition API](https://msdn.microsoft.com/en-us/library/mt847173
 |`Radius`| `double`| Maximum search radius, from `0` to `2` kilometers. |
 |`VerbosePlaceNames`| `bool`| Whether to include verbose entity names.| 
 
-# Routes API
+## Routes API
 
-## <a name="DistanceMatrixRequest"></a> Distance Matrix Request
+### <a name="DistanceMatrixRequest"></a> Distance Matrix Request
 
  A request that calculates a distance matrix between origins and destinations. Inherits from the BaseRestRequest class.
 
-### Methods
+#### Methods
 
 | Name                      | Return Type            | Description    |
 |---------------------------|------------------------|----------------|
 |`Execute()`       | `Task<Response>` | Executes the request.                                        |
 |` Execute(Action<int> remainingTimeCallback)` | `Task<Response>` | Executes the request.             |
-| GeocodeWaypoints() | Task | Geocodes the origins and destinations.  |
-| GetEuclideanDistanceMatrix() | Task\<[DistanceMatrix](#DistanceMatrix)\> | Calculates a Distance Matrix for the origins and destinations based on the euclidean distance (straight line/as the crow flies). This calculation only uses; Origins, Destinations, and Distance Units properties from the request and only calculates travel distance. |
-| GetNumberOfCoordinatePairs()       | `int`                 | Returns the number of coordinate pairs that would be in the resulting matrix based on the number of origins and destinations in the request. |
-| GetPostRequestBody()       | `string`                 | Returns a JSON string object representing the request. |
+| `GeocodeWaypoints()` | `Task` | Geocodes the origins and destinations.  |
+| `GetEuclideanDistanceMatrix()` | `Task<DistanceMatrix>` | Calculates a Distance Matrix for the origins and destinations based on the euclidean distance (straight line/as the crow flies). This calculation only uses; Origins, Destinations, and Distance Units properties from the request and only calculates travel distance. |
+| `GetNumberOfCoordinatePairs()`       | `int`                 | Returns the number of coordinate pairs that would be in the resulting matrix based on the number of origins and destinations in the request. |
+| `GetPostRequestBody()`       | `string`                 | Returns a JSON string object representing the request. |
 | `GetRequestUrl()`           | `string`                 | Gets the request URL to perform a query for a distance matrix when using POST. |
 
 #### Properties
 
 | Name           | Type                   | Description   |
 |------------|-------------|---|
-| Origins    | List\<[SimpleWaypoint](#SimpleWaypoint)\> |**Required**. List of origins.  |
-| Destinations   | List\<[SimpleWaypoint](#SimpleWaypoint)\> | **Required**. List of destinations. |
-| TravelMode     | [TravelModeType](#TravelModeType) | **Required**. Specifies the mode of transportation to use when calculating the distance matrix. |
-| StartTime      | DateTime | **Optional for Driving**. Specifies the start or departure time of the matrix to calculate and uses predictive traffic data. |
-| EndTime        | DateTime | **Optional for Driving**. If specified, a matrix based on traffic data with contain a histogram of travel times and distances for the specified resolution intervals (default is 15 minutes) between the start and end times. A start time must be specified for the request to be valid and the total time between start and end cannot be greater than 24 hours.  |
-| Resolution     | `int` | **Optional for Driving**. The number of intervals to calculate a histogram of data for each cell where a single interval is a quarter of an hour. Can be one of the following values:<br/><br/> - **1** - 15 minutes<br/> - **2** - 30 minutes<br/> - **3** - 45 minutes<br/> - **4** - an hour<br/><br/>If start time is specified and `resolution` is not, it will default to an interval of 1 (15 minutes).<br/><br/>**Example**: resolution=2 |
-| DistanceUnit   | [DistanceUnitType](#DistanceUnitType) | **Optional.** The units to use for distances in the response. |
-| TimeUnit       | [TimeUnitType](#TimeUnitType) | **Optional.** The units to use for time durations in the response. |
-| VehicleSpec | [VehicleSpec](#VehicleSpec) | Truck routing specific vehicle attribute.  |
+| `Origins`    | `List<SimpleWaypoint>` |**Required**. List of origins.  |
+| `Destinations`| `List<SimpleWaypoint>` | **Required**. List of destinations. |
+| `TravelMode`  | [`TravelModeType`](#TravelModeType) | **Required**. Specifies the mode of transportation to use when calculating the distance matrix. |
+| `StartTime`  | `DateTime` | **Optional for Driving**. Specifies the start or departure time of the matrix to calculate and uses predictive traffic data. |
+| `EndTime` | `DateTime` | **Optional for Driving**. If specified, a matrix based on traffic data with contain a histogram of travel times and distances for the specified resolution intervals (default is 15 minutes) between the start and end times. A start time must be specified for the request to be valid and the total time between start and end cannot be greater than 24 hours.  |
+| `Resolution`     | `int` | **Optional for Driving**. The number of intervals to calculate a histogram of data for each cell where a single interval is a quarter of an hour. Can be one of the following values:<br/><br/> - **1** - 15 minutes<br/> - **2** - 30 minutes<br/> - **3** - 45 minutes<br/> - **4** - an hour<br/><br/>If start time is specified and `resolution` is not, it will default to an interval of 1 (15 minutes).<br/><br/>**Example**: resolution=2 |
+| `DistanceUnit`   | [`DistanceUnitType`](#DistanceUnitType) | **Optional.** The units to use for distances in the response. |
+| `TimeUnit`  | [`TimeUnitType`](#TimeUnitType) | **Optional.** The units to use for time durations in the response. |
+| `VehicleSpec` | [`VehicleSpec`](#VehicleSpec) | Truck routing specific vehicle attribute.  |
 
 ### <a name="IsochroneRequest"></a> `IsochroneRequest` Class
 
@@ -329,117 +329,116 @@ Requests a that requests an isochrone (drive time polygon). Inherits from the Ba
 | Name            | Return Type | Description                                              |
 |-----------------|-------------|----------------------------------------------------------|
 |`Execute()`       | `Task<Response>` | Executes the request.                                        |
-| Execute(Action\<int\> remainingTimeCallback) | `Task<Response>` | Executes the request.             |
+| `Execute(Action<int> remainingTimeCallback)` | `Task<Response>` | Executes the request.             |
 | `GetRequestUrl()` | `string`      | Gets the request URL for an asynchronous isochrone request. |
 
 #### Properties
 
 | Name                | Type                   | Description    |
 |---------------------|------------------------|----------------|
-| DateTime | DateTime | The dateTime parameter identifies the desired time to be used when calculating an isochrone route. This is supported for driving. When calculating, driving routes the route optimization type should be TimeWithTraffic. The route time will be used as the departure time. |
-| DistanceUnits | [DistanceUnitType](#DistanceUnitType) | The units in which the maxTime value is specified. |                                                                              
-| MaxDistance | `double`  | The maximum travel distance in the specified distance units in which the isochrone polygon is generated. Cannot be set when maxTime is set. |
-| MaxTime | `double`  | The maximum travel time in the specified time units in which the isochrone polygon is generated. Cannot be set when maxDistance is set. Maximum value is 120 minutes. |
-| Optimize                | [RouteOptimizationType](#RouteOptimizationType)          | Specifies what parameters to use to optimize the isochrone route. One of the following values:<br/><br/>- distance: The route is calculated to minimize the distance. Traffic information is not used. Use with maxDistance.<br/>- time [default]: The route is calculated to minimize the time. Traffic information is not used. Use with maxTime.<br/>- timeWithTraffic: The route is calculated to minimize the time and uses current or predictive traffic information depending on if a dateTime value is specified. Use with maxTime. |
-| TimeUnit | [TimeUnitType](#TimeUnitType) | The units in which the maxTime value is specified. Default: **Seconds** |
-| TravelMode | [TravelModeType](#TravelModeType) | The mode of travel for the route. Default: Driving.  |
-| Waypoint | [SimplyWaypoint](#SimplyWaypoint) | The point around which the isochrone will be calculated. |
+| `DateTime` | `DateTime` | The dateTime parameter identifies the desired time to be used when calculating an isochrone route. This is supported for driving. When calculating, driving routes the route optimization type should be TimeWithTraffic. The route time will be used as the departure time. |
+| `DistanceUnits` | [`DistanceUnitType`](#DistanceUnitType) | The units in which the maxTime value is specified. | 
+| `MaxDistance` | `double`  | The maximum travel distance in the specified distance units in which the isochrone polygon is generated. Cannot be set when maxTime is set. |
+| `MaxTime` | `double`  | The maximum travel time in the specified time units in which the isochrone polygon is generated. Cannot be set when maxDistance is set. Maximum value is 120 minutes. |
+| `Optimize` | [`RouteOptimizationType`](#RouteOptimizationType)          | Specifies what parameters to use to optimize the isochrone route. One of the following values:<br/><br/>- distance: The route is calculated to minimize the distance. Traffic information is not used. Use with maxDistance.<br/>- time [default]: The route is calculated to minimize the time. Traffic information is not used. Use with maxTime.<br/>- timeWithTraffic: The route is calculated to minimize the time and uses current or predictive traffic information depending on if a dateTime value is specified. Use with maxTime. |
+| `TimeUnit` | [TimeUnitType](#TimeUnitType) | The units in which the maxTime value is specified. Default: **Seconds** |
+| `TravelMode` | [TravelModeType](#TravelModeType) | The mode of travel for the route. Default: Driving.  |
+| `Waypoint` | [SimplyWaypoint](#SimplyWaypoint) | The point around which the isochrone will be calculated. |
 
-## <a name="RouteMajorRoadsRequest"></a> RouteMajorRoadsRequest Class
+### <a name="RouteMajorRoadsRequest"></a> RouteMajorRoadsRequest Class
 
 Requests routes from a location to major nearby roads. Inherits from the BaseRestRequest class.
 
-### Methods
+#### Methods
 
-| Name            | Return Type | Description                                    |
-|-----------------|-------------|------------------------------------------------|
-|`Execute()`       | `Task<Response>` | Executes the request.                                        |
-| Execute(Action\<int\> remainingTimeCallback) | `Task<Response>` | Executes the request.             |
+| Name            | Return Type | Description|
+|-----------------|-------------|-------------|
+|`Execute()`       | `Task<Response>` | Executes the request.|
+| `Execute(Action<int> remainingTimeCallback)` | `Task<Response>` | Executes the request. |
 | `GetRequestUrl()` | `string`      | Gets the request URL to perform a query for routes using major roads. |
 
-### Properties
+#### Properties
 
 | Name                | Type                           | Description   |
 |---------------------|--------------------------------|---------------|
-| Destination         | [SimpleWaypoint](#SimpleWaypoint)                 | Specifies the final location for all the routes. A destination can be specified as a Point, a landmark, or an address.   |
-| DistanceUnits       | [DistanceUnitType](#DistanceUnitType)               | The units to use for distance.                                                                |
-| ExcludeInstructions | `bool`                            | Specifies to return only starting points for each major route in the response. When this option is not specified, detailed directions for each route are returned. |
-| RouteAttributes     | List\<[RouteAttributeType](#RouteAttributeType)\> | Specifies to include or exclude parts of the routes response.  |
+| `Destination` | [`SimpleWaypoint`](#SimpleWaypoint)  | Specifies the final location for all the routes. A destination can be specified as a Point, a landmark, or an address.   |
+| `DistanceUnits` | [`DistanceUnitType`](#DistanceUnitType)   | The units to use for distance. |
+| `ExcludeInstructions` | `bool` | Specifies to return only starting points for each major route in the response. When this option is not specified, detailed directions for each route are returned. |
+| `RouteAttributes` | `List<RouteAttributeType>` | Specifies to include or exclude parts of the routes response.  |
 
-## <a name="RouteRequest"></a> RouteRequest Class
+### <a name="RouteRequest"></a> RouteRequest Class
 
 A request that calculates routes between waypoints. Inherits from the BaseRestRequest class.
 
-### Methods
+#### Methods
 
-| Name            | Return Type | Description                                                   |
-|-----------------|-------------|---------------------------------------------------------------|
-|`Execute()`       | `Task<Response>` | Executes the request.                                        |
-| Execute(Action\<int\> remainingTimeCallback) | `Task<Response>` | Executes the request.             |
-| `GetRequestUrl()` | `string`      | Gets the request URL to perform a query for route directions. |
+| Name            | Return Type | Description |
+|-----------------|-------------|------|
+|`Execute()`       | `Task<Response>` | Executes the request.|
+| `Execute(Action<int> remainingTimeCallback)` | `Task<Response>` | Executes the request.             |
+| `GetRequestUrl()` | `string`| Gets the request URL to perform a query for route directions. |
 
-### Properties
+#### Properties
 
 | Name         | Type                       | Description       |
 |--------------|----------------------------|-------------------|
-| RouteOptions | [RouteOptions](#RouteOptions) | Options to use when calculate route.  |
-| Waypoints    | List\<[SimpleWaypoint](#SimpleWaypoint)\> | Specifies two or more locations that define the route and that are in sequential order. A route is defined by a set of waypoints and viaWaypoints (intermediate locations that the route must pass through). You can have a maximum of 25 waypoints, and a maximum of 10 viaWaypoints between each set of waypoints. The start and end points of the route cannot be viaWaypoints. |
+| `RouteOptions` | [`RouteOptions`](#RouteOptions) | Options to use when calculate route.  |
+|`Waypoints`  | `List<SimpleWaypoint>` | Specifies two or more locations that define the route and that are in sequential order. A route is defined by a set of waypoints and viaWaypoints (intermediate locations that the route must pass through). You can have a maximum of 25 waypoints, and a maximum of 10 viaWaypoints between each set of waypoints. The start and end points of the route cannot be viaWaypoints. |
 
-### Extended Properties
+#### Extended Properties
 
 Some additional options have been added to the route request to increase its functionality. 
 
 | Name         | Type                       | Description       |
 |--------------|----------------------------|-------------------|
-| BatchSize | `int` | The maximium number of waypoints that can be in a single request. If the batchSize is smaller than the number of waypoints, when the request is executed, it will break the request up into multiple requests, thus allowing routes with more than 25 waypoints to be . Must by between 2 and 25. Default: 25. |
-| WaypointOptimization | [TspOptimizationType](#TspOptimizationType) | Specifies if the waypoint order should be optimized using a travelling salesmen algorithm which metric to optimize on. If less than 10 waypoints, brute force is used, for more than 10 waypoints, a genetic algorithm is used.  Ignores IsViaPoint on waypoints and makes them waypoints. Default: **false**<br/><br/>**Warning**: If travel time or travel distance is used, a standard Bing Maps key will need to be required, not a session key, as the distance matrix API will be used to process the waypoints. This can generate a lot of billable transactions. |
+| `BatchSize` | `int` | The maximium number of waypoints that can be in a single request. If the batchSize is smaller than the number of waypoints, when the request is executed, it will break the request up into multiple requests, thus allowing routes with more than 25 waypoints to be . Must by between 2 and 25. Default: 25. |
+| `WaypointOptimization` | [TspOptimizationType](#TspOptimizationType) | Specifies if the waypoint order should be optimized using a travelling salesmen algorithm which metric to optimize on. If less than 10 waypoints, brute force is used, for more than 10 waypoints, a genetic algorithm is used.  Ignores IsViaPoint on waypoints and makes them waypoints. Default: **false**<br/><br/>**Warning**: If travel time or travel distance is used, a standard Bing Maps key will need to be required, not a session key, as the distance matrix API will be used to process the waypoints. This can generate a lot of billable transactions. |
 
-## <a name="SnapToRoadRequest"></a> SnapToRoadRequest Class
+### <a name="SnapToRoadRequest"></a> SnapToRoadRequest Class
 
 Snaps a set of coordinates to roads. Inherits from the BaseRestRequest class.
 
-### Methods
+#### Methods
 
-| Name            | Return Type | Description                                                   |
-|-----------------|-------------|---------------------------------------------------------------|
-|`Execute()`       | `Task<Response>` | Executes the request.                                        |
-| Execute(Action\<int\> remainingTimeCallback) | `Task<Response>` | Executes the request.             |
+| Name | Return Type | Description|
+|-----------------|-------------|-------------|
+|`Execute()`       | `Task<Response>` | Executes the request.|
+| Execute(Action\<int\> remainingTimeCallback) | `Task<Response>` | Executes the request. |
 | `GetRequestUrl()` | `string`      | Gets the request URL to perform a snap to road query. |
 
-### Properties
+#### Properties
 
 | Name         | Type                       | Description       |
 |--------------|----------------------------|-------------------|
-| Points | List\<Coordinate\> | A set of points to snap to roads. Up to 100 -points may be passed in. |
-| Interpolate | `bool`  | Indicates if the space between the snapped points should be filled with additional points along the road, thus returning the full route path. Default: false |
-| IncludeSpeedLimit | `bool`  | Indicates if speed limitation data should be returned for the snapped points. Default: false |
-| IncludeTruckSpeedLimit- | `bool`  | Indicates if speed limitation data should be returned for the snapped points. Default: false |
-| SpeedUnit- | [SpeedUnitType](#SpeedUnitType) | Indicates the units in which the returned speed limit data is in. |
-| TravelMode | [TravelModeType](#TravelModeType)  | Indicates which routing profile to snap the points to. Default: Driving |
+| `Points` | `List<Coordinate>` | A set of points to snap to roads. Up to 100 -points may be passed in. |
+| `Interpolate` | `bool`  | Indicates if the space between the snapped points should be filled with additional points along the road, thus returning the full route path. Default: false |
+| `IncludeSpeedLimit` | `bool`  | Indicates if speed limitation data should be returned for the snapped points. Default: false |
+| `IncludeTruckSpeedLimit` | `bool`  | Indicates if speed limitation data should be returned for the snapped points. Default: false |
+| `SpeedUnit` | [`SpeedUnitType`](#SpeedUnitType) | Indicates the units in which the returned speed limit data is in. |
+| `TravelMode` | [`TravelModeType`](#TravelModeType)  | Indicates which routing profile to snap the points to. Default: Driving |
 
-## <a name="TrafficRequest"></a> TrafficRequest Class
+### <a name="TrafficRequest"></a> TrafficRequest Class
 
 Requests traffic information. Inherits from the BaseRestRequest class.
 
-### Methods
+#### Methods
 
 | Name            | Return Type | Description                                               |
 |-----------------|-------------|-----------------------------------------------------------|
 |`Execute()`       | `Task<Response>` | Executes the request.                                  |
-| Execute(Action\<int\> remainingTimeCallback) | `Task<Response>` | Executes the request.       |
+| `Execute(Action<int> remainingTimeCallback)` | `Task<Response>` | Executes the request.       |
 | `GetRequestUrl()` | `string`      | Gets a URL for requesting traffic data for a GET request. |
 
-### Properties
+#### Properties
 
 | Name                 | Type                     | Description    |
 |----------------------|--------------------------|----------------|
-| IncludeLocationCodes | `bool`                      | Specifies whether to include traffic location codes in the response. Traffic location codes provide traffic incident information for pre-defined road segments. A subscription is typically required to be able to interpret these codes for a geographical area or country. Default is **false**. |
-| MapArea              | [BoundingBox](#BoundingBox)              | Specifies the area to search for traffic incident information. A rectangular area specified as a bounding box. The size of the area can be a maximum of 500 km x 500 km.                     |
-| Severity             | List\<SeverityType\> | Specifies severity level of traffic incidents to return. The default is to return traffic incidents for all severity levels.   |
-| TrafficType          | List\<TrafficType\>;  | Specifies the type of traffic incidents to return. |
+| `IncludeLocationCodes` | `bool`                      | Specifies whether to include traffic location codes in the response. Traffic location codes provide traffic incident information for pre-defined road segments. A subscription is typically required to be able to interpret these codes for a geographical area or country. Default is **false**. |
+| `MapArea`  | [BoundingBox](#BoundingBox) | Specifies the area to search for traffic incident information. A rectangular area specified as a bounding box. The size of the area can be a maximum of 500 km x 500 km.                     |
+| `Severity` | `List<SeverityType>` | Specifies severity level of traffic incidents to return. The default is to return traffic incidents for all severity levels.   |
+| `TrafficType` | `List<TrafficType>`;  | Specifies the type of traffic incidents to return. |
 
 ## Elevations API
-
 
 ### <a name="ElevationRequest"></a> ElevationRequest Class
 
@@ -460,14 +459,15 @@ A request for elevation data. Inherits from the BaseRestRequest class.
 
 | Name           | Type                   | Description                     |
 |----------------|------------------------|---------------------------------|
-| Bounds         | [BoundingBox](#BoundingBox)            | Specifies the rectangular area over which to provide elevation values.   |
-| Col            | `int`                    | Specifies the number of columns to use to divide the bounding box area into a grid. The rows and columns that define the bounding box each count as two (2) of the rows and columns. Elevation values are returned for all vertices of the grid. |
-| GetGeoidOffset | `bool`                    | A boolean indicating if the offset from the geoid should be returned. Requires a list of points to be specified.                                                                                                                                 |
-| Height         | [ElevationType](#ElevationType)          | Specifies which sea level model to use to calculate elevation.                                                                                                                                                                                   |
-| Points         | List\<[Coordinate](#Coordinate)\> | A set of coordinates on the Earth to use in elevation calculations. The exact use of these points depends on the type of elevation request. Overrides the Bounds value if both are specified. The maximum number of points is 1024.              |
-| Row            | `int`                    | Specifies the number of rows to use to divide the bounding box area into a grid. The rows and columns that define the bounding box each count as two (2) of the rows and columns. Elevation values are returned for all vertices of the grid.    |
-| Samples        | `int`                    | Specifies the number of equally-spaced elevation values to provide along a polyline path. Used when Points value is set. Make = 1024                                                                                                             |
-| Bounds         | [BoundingBox](#BoundingBox)            | Specifies the rectangular area over which to provide elevation values.                                                                                                                                                                           
+| `Bounds`         | [`BoundingBox`](#BoundingBox)            | Specifies the rectangular area over which to provide elevation values.   |
+| `Col`            | `int`                    | Specifies the number of columns to use to divide the bounding box area into a grid. The rows and columns that define the bounding box each count as two (2) of the rows and columns. Elevation values are returned for all vertices of the grid. |
+| `GetGeoidOffset` | `bool`                    | A boolean indicating if the offset from the geoid should be returned. Requires a list of points to be specified.                                                                                                                                 |
+| `Height` | [`ElevationType`](#ElevationType)          | Specifies which sea level model to use to calculate elevation.|
+| `Points`        | `List<Coordinate>` | A set of coordinates on the Earth to use in elevation calculations. The exact use of these points depends on the type of elevation request. Overrides the Bounds value if both are specified. The maximum number of points is 1024.              |
+| `Row`          | `int`                    | Specifies the number of rows to use to divide the bounding box area into a grid. The rows and columns that define the bounding box each count as two (2) of the rows and columns. Elevation values are returned for all vertices of the grid.    |
+| `Samples`        | `int`                    | Specifies the number of equally-spaced elevation values to provide along a polyline path. Used when Points value is set. Make = 1024                             |
+| `Bounds`         | [`BoundingBox`](#BoundingBox)            | Specifies the rectangular area over which to provide elevation values.
+
 ### <a name="ImageryMetadataRequest"></a> ImageryMetadataRequest Class
 
 Requests imagery metadata information from Bing Maps. Inherits from the BaseRestRequest class.
@@ -486,7 +486,7 @@ Requests imagery metadata information from Bing Maps. Inherits from the BaseRest
 |-------------------------|-------------|---------------------------------|
 | `CenterPoint`             | [`Coordinate`](#Coordinate)  | Required when imagerySet is Birdseye or BirdseyeWithLabels. Optional for other imagery sets. The center point to use for the imagery metadata.      |
 |`GetBasicInfo`            | `bool`         | Get only the basic metadata for an imagery set at a specific location. This URL does not return a map tile URL.                                     |
-| `ImagerySet`              | [ImageryType](#ImageryType) | The type of imagery for which you are requesting metadata.                                                                                          |
+| `ImagerySet`              | [`ImageryType`](#ImageryType) | The type of imagery for which you are requesting metadata.                                                                                          |
 | `IncludeImageryProviders` | `bool`         | When you specified the two-letter ISO country code is included for addresses in the response.                                                       |
 | `Orientation`             | `double`       | The orientation of the viewport to use for the imagery metadata. This option only applies to Birdseye imagery.                                      |
 | `UseHTTPS`                | `bool`         | When set to true tile URL's will use HTTPS.                                                                                                         |
@@ -526,7 +526,7 @@ Requests an image from the REST imagery service. Inherits from the BaseImageryRe
 | `ShowTraffic`     | `bool`                        | Specifies if the traffic flow layer should be displayed on the map or not. Default is **false**. |
 | `Style`           | `string` | The custom map style to apply to the image. |
 | `Waypoints`       | `List<SimpleWaypoint>` | Specifies two or more locations that define the route and that are in sequential order. A route is defined by a set of waypoints and viaWaypoints (intermediate locations that the route must pass through). You can have a maximum of 25 waypoints, and a maximum of 10 viaWaypoints between each set of waypoints. The start and end points of the route cannot be viaWaypoints. |
-| ZoomLevel       | `int`                        | The level of zoom to display.  |
+| `ZoomLevel` | `int`                        | The level of zoom to display.  |
 
 # <a name="CommonClasses"></a> Common Classes
 
