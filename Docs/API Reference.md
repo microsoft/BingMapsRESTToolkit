@@ -8,7 +8,7 @@
         - [FindTimeZoneRequest Class](#FindTimeZoneRequest) 
         - [ConvertTimeZoneRequest](#ConvertTimeZoneRequest)
         - [ListTimeZoneRequest](#ListTimeZonesRequest)
-    - [Locations API](#locaitons-api)
+    - [Locations API](#locations-api)
         - [GeocodeRequest Class](#GeocodeRequest)
         - [ReverseGeocodeRequest Class](#ReverseGeocodeRequest)
         - [LocationRecogRequest Class](#LocationRecogReqest)
