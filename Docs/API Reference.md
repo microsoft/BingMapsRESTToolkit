@@ -1,6 +1,6 @@
 # Table of contents 
 
-* [Request Classes](#request-classes)
+* [Request Classes](#RequestClasses)
     - [BaseRestRequest Class](#BaseRestRequest) 
     - [BaseImageryRestRequest Class](#BaseImageryRestRequest) 
     - [DistanceMatrixRequest Class](#DistanceMatrixRequest)
@@ -55,13 +55,15 @@
 
 This documentation does not include the class definitions for the REST Response. These are documented in the Bing Maps MSDN documentation [here](https://msdn.microsoft.com/en-us/library/ff701707.aspx).
 
-#  Request Classes
+# <a name="RequestClasses"></a> Request Classes
 
-## <a name="BaseRestRequest"></a> BaseRestRequest Class
+## Base Classes
+
+### <a name="BaseRestRequest"></a> BaseRestRequest Class
 
 An abstract class in which all REST service requests derive from.
 
-### Methods
+#### Methods
 
 | Name            | Return Type | Description |
 |-----------------|-------------|------------|
@@ -69,7 +71,7 @@ An abstract class in which all REST service requests derive from.
 | `Execute(Action<int> remainingTimeCallback)` | `Task<Response>` | Executes the request.             |
 | `GetRequestUrl()` | `string`  | Abstract method which generates the Bing Maps REST request URL. |
 
-### Properties
+#### Properties
 
 | Name         | Type        | Description |
 |--------------|-------------|------|
@@ -80,12 +82,12 @@ An abstract class in which all REST service requests derive from.
 | `UserLocation` | [`Coordinate`](#Coordinate)  | The user's current position.                                    |
 | `UserMapView`  | [`BoundingBox`](#BoundingBox) | The geographic region that corresponds to the current viewport. |
 
-## <a name="BaseImageryRestRequest"></a> BaseImageryRestRequest Class
+### <a name="BaseImageryRestRequest"></a> BaseImageryRestRequest Class
 
 Abstract class that all Imagery rest requests will derive from. Inherits from the BaseRestRequest class and currently exposes all the same properties and methods.
 
 
-# <a name="TimeZoneAPI"></a> Time Zone API Requests
+## <a name="TimeZoneAPI"></a> Time Zone API Requests
 
 Three request classes for getting Time Zones at a location, converting Time Zones, and getting Time Zone information. Inherits from the `BaseRestRequest` class.
 
@@ -107,17 +109,17 @@ Find the Time Zone at a specific location based on a point or query. Inherits fr
 |`IncludeDstRules` | `bool` | Whether to include the `DstRule` for converted time zone in the response. |
 
 
-## <a name="ConvertTimeZoneRequest"></a> Convert Time Zone Request
+### <a name="ConvertTimeZoneRequest"></a> Convert Time Zone Request
 
 Convert one timezone at a specific UTC datetime to another time zone.
 
-### Constructor
+#### Constructor
 
 This request requries two parameters when calling its constructor: a `DateTime` for the local UTC datetime and a `string` with a Windows or IANA timezone ID.
 
 > `public ConvertTimeZoneRequest(DateTime datetime, string DestID);`
 
-### Properties
+#### Properties
 
 |Name | Properties | Description |
 |-----|------------|-------------|
