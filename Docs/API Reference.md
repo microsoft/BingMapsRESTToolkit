@@ -149,7 +149,7 @@ This request requries two parameters when calling its constructor: a `DateTime` 
 ### Properties
 
 | Name           | Type                   | Description   |
-|------------|-------------|
+|------------|-------------|---|
 | Origins    | List\<[SimpleWaypoint](#SimpleWaypoint)\> |**Required**. List of origins.  |
 | Destinations   | List\<[SimpleWaypoint](#SimpleWaypoint)\> | **Required**. List of destinations. |
 | TravelMode     | [TravelModeType](#TravelModeType) | **Required**. Specifies the mode of transportation to use when calculating the distance matrix. |
