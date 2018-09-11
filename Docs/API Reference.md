@@ -1,8 +1,13 @@
 # Table of contents 
 
 * [Request Classes](#RequestClasses)
-    - [BaseRestRequest Class](#BaseRestRequest) 
-    - [BaseImageryRestRequest Class](#BaseImageryRestRequest) 
+    - [Base Classes](#base-classes)
+        - [BaseRestRequest Class](#BaseRestRequest) 
+        - [BaseImageryRestRequest Class](#BaseImageryRestRequest)
+    - [Time Zone API](#TimeZoneAPI)
+        - [FindTimeZoneRequest Class](#FindTimeZoneRequest) 
+        - [ConvertTimeZoneRequest](#ConvertTimeZoneRequest)
+        - [ListTimeZoneRequest](#ListTimeZonesRequest)
     - [DistanceMatrixRequest Class](#DistanceMatrixRequest)
     - [ElevationRequest Class](#ElevationRequest) 
     - [GeocodeRequest Class](#GeocodeRequest) 
@@ -59,7 +64,7 @@ This documentation does not include the class definitions for the REST Response.
 
 ## Base Classes
 
-### <a name="BaseRestRequest"></a> BaseRestRequest Class
+### <a name="BaseRestRequest"></a> `BaseRestRequest` Class
 
 An abstract class in which all REST service requests derive from.
 
@@ -82,7 +87,7 @@ An abstract class in which all REST service requests derive from.
 | `UserLocation` | [`Coordinate`](#Coordinate)  | The user's current position.                                    |
 | `UserMapView`  | [`BoundingBox`](#BoundingBox) | The geographic region that corresponds to the current viewport. |
 
-### <a name="BaseImageryRestRequest"></a> BaseImageryRestRequest Class
+### <a name="BaseImageryRestRequest"></a>` BaseImageryRestRequest` Class
 
 Abstract class that all Imagery rest requests will derive from. Inherits from the BaseRestRequest class and currently exposes all the same properties and methods.
 
@@ -91,7 +96,7 @@ Abstract class that all Imagery rest requests will derive from. Inherits from th
 
 Three request classes for getting Time Zones at a location, converting Time Zones, and getting Time Zone information. Inherits from the `BaseRestRequest` class.
 
-## <a name="FindTimeZoneRequest"></a> Find Time Zone Request
+### <a name="FindTimeZoneRequest"></a> `FindTimeZoneRequest` Class
 
 Find the Time Zone at a specific location based on a point or query. Inherits from the BaseRestRequest class.
 
@@ -99,23 +104,35 @@ Find the Time Zone at a specific location based on a point or query. Inherits fr
 
 ### Constructor
 
+There are three constructors:
+
+
+> `public FindTimeZoneRequest();`
+
+Find Time Zone by Point:
+
+> `public FindTimeZoneRequest(Coordinate point);`
+
+Find Time Zone by Query:
+
+> `public FindTimeZoneRequest(string query, DateTime datetime);`
+
 ### Properties
 
 |Name | Properties | Description |
 |-----|------------|-------------|
 |`Point` | `Coordinate` | Point for location on Earth for which to get time zone information. |
-|`Query` | `string` | Query to find loation on Earth for which to get time zone information. |
-| `LocationDateTime` | `DateTime` | The `DateTime` for the specified location. (**Optional**)|
+|`Query` | `string` | Query to find location on Earth for which to get time zone information. |
+| `LocationDateTime` | `DateTime` | The `DateTime` for the specified location.|
 |`IncludeDstRules` | `bool` | Whether to include the `DstRule` for converted time zone in the response. |
 
-
-### <a name="ConvertTimeZoneRequest"></a> Convert Time Zone Request
+### <a name="ConvertTimeZoneRequest"></a> `ConvertTimeZoneRequest` Class
 
 Convert one timezone at a specific UTC datetime to another time zone.
 
 #### Constructor
 
-This request requries two parameters when calling its constructor: a `DateTime` for the local UTC datetime and a `string` with a Windows or IANA timezone ID.
+This request requires two parameters when calling its constructor: a `DateTime` for the local UTC datetime and a `string` with a Windows or IANA timezone ID.
 
 > `public ConvertTimeZoneRequest(DateTime datetime, string DestID);`
 
@@ -127,9 +144,44 @@ This request requries two parameters when calling its constructor: a `DateTime` 
 | `LocationDateTime` | `DateTime` | The `DateTime` for the specified location. |
 | `DestinationTZID` | `string` |  The [Windows](https://support.microsoft.com/en-us/help/973627/microsoft-time-zone-index-values) or [IANA](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) time zone ID. For more detail see the [Bing Maps Convert TimeZone API](https://msdnstage.redmond.corp.microsoft.com/en-us/library/mt829733.aspx). |
 
-## <a name="FindTimeZoneRequest"></a> Convert Time Zone Request
+### <a name="ListTimeZonesRequest"></a> `ListTimeZonesRequest` Class
 
-### Properties
+The [Find a Time Zone API](https://msdn.microsoft.com/en-US/library/mt829734.aspx) has two basic operations: get time zone information about a particular time zone, or retrieve a list of [Windows](https://support.microsoft.com/en-us/help/973627/microsoft-time-zone-index-values) or [IANA](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) time zone standards.
+
+#### Constructor
+
+There is one constructor.
+
+> `public ListTimeZonesRequest(bool use_list_operation);`
+
+If `use_list_operaiton` is true, a List operation request is created, which will return a list of IANA or Windows standards.
+
+Set the `TimeZoneStandard` property for an instance of a `TimeTimeZoneRequest` class as a string to either "IANA" or "WINDOWS".
+
+Example for List Operation:
+
+```CSharp
+var request = new ListTimeZonesRequest(true);
+request.TimeZoneStandard = "Windows";
+```
+
+To find information about a particular time zone, set `use_list_operation` to false when calling the constructor:
+
+```CSharp
+var request = new ListTimeZonesRequest(false);
+request.TimeZoneStandard = "Iana";
+request.DestinationTZID = "America/Vancouver";
+```
+
+#### Properties
+
+|Name | Properties | Description |
+|-----|------------|-------------|
+|`IncludeDstRules` | `bool` | Whether to include the `DstRule` for converted time zone in the response. |
+| `LocationDateTime` | `DateTime` | The `DateTime` for the specified location. |
+|`TimeZoneStandard` | `string` |  |
+
+
 
 
 ## <a name="DistanceMatrixRequest"></a> Distance Matrix Request
