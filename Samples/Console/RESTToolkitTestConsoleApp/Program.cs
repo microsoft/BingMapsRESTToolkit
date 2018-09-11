@@ -5,9 +5,9 @@ namespace RESTToolkitTestConsoleApp
 {
     class Tests
     {
-        private string _ApiKey = System.Configuration.ConfigurationManager.AppSettings.Get("BingMapsKey");
+        static private string _ApiKey = System.Configuration.ConfigurationManager.AppSettings.Get("BingMapsKey");
 
-        private void PrintTZResource(TimeZoneResponse tz)
+        static private void PrintTZResource(TimeZoneResponse tz)
         {
             
             Console.WriteLine($"Name: {tz.GenericName}");
@@ -34,7 +34,7 @@ namespace RESTToolkitTestConsoleApp
         }
 
 
-        private Resource[] GetResourcesFromRequest(BaseRestRequest rest_request)
+        static private Resource[] GetResourcesFromRequest(BaseRestRequest rest_request)
         {
             var r = ServiceManager.GetResponseAsync(rest_request).GetAwaiter().GetResult();
 
@@ -48,7 +48,11 @@ namespace RESTToolkitTestConsoleApp
             return r.ResourceSets[0].Resources;
         }
 
-        public void AutoSuggestTest()
+        /*
+         * 
+         *  Pending review.
+         * 
+        static public void AutoSuggestTest()
         {
             Console.WriteLine("Running Autosuggest Test");
             CoordWithRadius ul = new CoordWithRadius() { Latitude = 47.668697, Longitude = -122.376373, Radius = 5 };
@@ -68,20 +72,33 @@ namespace RESTToolkitTestConsoleApp
 
             Console.ReadLine();
         }
+        */
 
-        public void ConvertTimeZoneTest()
+        /// <summary>
+        ///  Convert Time Zone Test
+        ///  https://msdn.microsoft.com/en-us/library/mt829733.aspx
+        ///  
+        ///  NOTE: The `ConvertTimeZoneRequest` requires a Datetime and a TimeZone ID
+        /// </summary>
+        static public void ConvertTimeZoneTest()
         {
             Console.WriteLine("Running Convert TZ Test");
             var dt = DateTimeHelper.GetDateTimeFromUTCString("2018-05-15T13:14:15Z");
             var request = new ConvertTimeZoneRequest(dt, "Cape Verde Standard Time") { BingMapsKey = _ApiKey };
-            var resources = GetResourcesFromRequest(request);
+            Resource[] resources = GetResourcesFromRequest(request);
             var tz = (resources[0] as RESTTimeZone);
             PrintTZResource(tz.TimeZone);
             Console.ReadLine();
 
         }
 
-        public void ListTimeZoneTest()
+
+        /// <summary>
+        /// List Time Zone Test
+        /// 
+        /// https://msdn.microsoft.com/en-us/library/mt829734.aspx
+        /// </summary>
+        static public void ListTimeZoneTest()
         {
             Console.WriteLine("Running List TZ Test");
             var list_request = new ListTimeZonesRequest(true)
@@ -113,7 +130,12 @@ namespace RESTToolkitTestConsoleApp
 
         }
 
-        public void FindTimeZoneTest()
+        /// <summary>
+        /// Find Time Zone test
+        /// 
+        ///  https://msdn.microsoft.com/en-us/library/mt829732.aspx
+        /// </summary>
+        static public void FindTimeZoneTest()
         {
             Console.WriteLine("Running Find Time Zone Test: By Query");
             var dt = DateTime.Now;
@@ -148,7 +170,12 @@ namespace RESTToolkitTestConsoleApp
             Console.ReadLine();
         }
 
-        public void LocationRecogTest()
+        /// <summary>
+        ///  Location Recognition Test
+        ///  
+        /// https://msdn.microsoft.com/en-US/library/mt847173.aspx
+        /// </summary>
+        static public void LocationRecogTest()
         {
             Console.WriteLine("Running Location Recognition Test");
 
@@ -184,7 +211,12 @@ namespace RESTToolkitTestConsoleApp
             Console.ReadLine();
         }
 
-        public void GeoCodeTest()
+        /// <summary>
+        ///  Geocode Test
+        ///  
+        ///  
+        /// </summary>
+        static public void GeoCodeTest()
         {
             Console.WriteLine("Running Geocode Test");
             var request = new GeocodeRequest()
@@ -208,13 +240,11 @@ namespace RESTToolkitTestConsoleApp
     {
         static void Main(string[] args)
         {
-            Tests tests = new Tests();
-            tests.GeoCodeTest();
-            tests.LocationRecogTest();
-            tests.FindTimeZoneTest();
-            tests.ConvertTimeZoneTest();
-            tests.ListTimeZoneTest();
-            tests.AutoSuggestTest();
+            Tests.GeoCodeTest();
+            Tests.LocationRecogTest();
+            Tests.FindTimeZoneTest();
+            Tests.ConvertTimeZoneTest();
+            Tests.ListTimeZoneTest();
         }
     }
 }

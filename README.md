@@ -16,6 +16,10 @@ This is a portable .NET class library which provides a set of tools that make it
 * **Elevation data**
 * **Static map imagery and metadata**
 
+## What's New
+
+* September 2018: Requests for [Location Recognition](https://msdn.microsoft.com/en-US/library/mt847173.aspx) and the [Time Zone API](https://msdn.microsoft.com/en-us/library/mt829726.aspx), including Data Contracts, are now available.
+
 ## Toolkit Features
 
 * Uses HTTPS by default.

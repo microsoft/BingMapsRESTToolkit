@@ -84,6 +84,52 @@ An abstract class in which all REST service requests derive from.
 
 Abstract class that all Imagery rest requests will derive from. Inherits from the BaseRestRequest class and currently exposes all the same properties and methods.
 
+
+# <a name="TimeZoneAPI"></a> Time Zone API Requests
+
+Three request classes for getting Time Zones at a location, converting Time Zones, and getting Time Zone information. Inherits from the `BaseRestRequest` class.
+
+## <a name="FindTimeZoneRequest"></a> Find Time Zone Request
+
+Find the Time Zone at a specific location based on a point or query. Inherits from the BaseRestRequest class.
+
+*Either* instantiate this class by specifiying a `Point` (`Coordinate` class instance) or a Query (`string`), but *not* both.
+
+### Constructor
+
+### Properties
+
+|Name | Properties | Description |
+|-----|------------|-------------|
+|`Point` | `Coordinate` | Point for location on Earth for which to get time zone information. |
+|`Query` | `string` | Query to find loation on Earth for which to get time zone information. |
+| `LocationDateTime` | `DateTime` | The `DateTime` for the specified location. (**Optional**)|
+|`IncludeDstRules` | `bool` | Whether to include the `DstRule` for converted time zone in the response. |
+
+
+## <a name="ConvertTimeZoneRequest"></a> Convert Time Zone Request
+
+Convert one timezone at a specific UTC datetime to another time zone.
+
+### Constructor
+
+This request requries two parameters when calling its constructor: a `DateTime` for the local UTC datetime and a `string` with a Windows or IANA timezone ID.
+
+> `public ConvertTimeZoneRequest(DateTime datetime, string DestID);`
+
+### Properties
+
+|Name | Properties | Description |
+|-----|------------|-------------|
+|`IncludeDstRules` | `bool` | Whether to include the `DstRule` for converted time zone in the response. |
+| `LocationDateTime` | `DateTime` | The `DateTime` for the specified location. |
+| `DestinationTZID` | `string` |  The [Windows](https://support.microsoft.com/en-us/help/973627/microsoft-time-zone-index-values) or [IANA](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) time zone ID. For more detail see the [Bing Maps Convert TimeZone API](https://msdnstage.redmond.corp.microsoft.com/en-us/library/mt829733.aspx). |
+
+## <a name="FindTimeZoneRequest"></a> Convert Time Zone Request
+
+### Properties
+
+
 ## <a name="DistanceMatrixRequest"></a> Distance Matrix Request
 
  A request that calculates a distance matrix between origins and destinations. Inherits from the BaseRestRequest class.
