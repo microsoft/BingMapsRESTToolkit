@@ -50,7 +50,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BingMapsRESTToolkit">
-      <HintPath>..\..\..\Source\bin\Release\BingMapsRESTToolkit.dll</HintPath>
+      <HintPath>..\..\..\Source\bin\Release\BingMapsRESTToolkit.csproj</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
