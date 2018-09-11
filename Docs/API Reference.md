@@ -1,6 +1,6 @@
 # Table of contents 
 
-* [Request Classes](#RequestClasses)
+* [Request Classes](#request-classes)
     - [BaseRestRequest Class](#BaseRestRequest) 
     - [BaseImageryRestRequest Class](#BaseImageryRestRequest) 
     - [DistanceMatrixRequest Class](#DistanceMatrixRequest)
@@ -55,7 +55,7 @@
 
 This documentation does not include the class definitions for the REST Response. These are documented in the Bing Maps MSDN documentation [here](https://msdn.microsoft.com/en-us/library/ff701707.aspx).
 
-# <a name="RequestClasses"></a> Request Classes
+#  Request Classes
 
 ## <a name="BaseRestRequest"></a> BaseRestRequest Class
 
@@ -63,22 +63,22 @@ An abstract class in which all REST service requests derive from.
 
 ### Methods
 
-| Name            | Return Type | Description                                                     |
-|-----------------|-------------|-----------------------------------------------------------------|
-| Execute()       | Task\<Response\> | Executes the request.                                        |
-| Execute(Action\<int\> remainingTimeCallback) | Task\<Response\> | Executes the request.             |
-| GetRequestUrl() | string      | Abstract method which generates the Bing Maps REST request URL. |
+| Name            | Return Type | Description |
+|-----------------|-------------|------------|
+| `Execute()`       | `Task<Response>` | Executes the request.                                        |
+| `Execute(Action<int> remainingTimeCallback)` | `Task<Response>` | Executes the request.             |
+| `GetRequestUrl()` | `string`  | Abstract method which generates the Bing Maps REST request URL. |
 
 ### Properties
 
-| Name         | Type        | Description                                                     |
-|--------------|-------------|-----------------------------------------------------------------|
-| BingMapsKey  | string      | The Bing Maps key for making the request.                       |
-| Culture      | string      | The culture to use for the request.                             |
-| Domain       | string      | The domain of the REST service. Default: https://dev.virtualearth.net/REST/v1/ |
-| UserIp       | string      | An Internet Protocol version 4 (IPv4) address.                  |
-| UserLocation | [Coordinate](#Coordinate)  | The user’s current position.                                    |
-| UserMapView  | [BoundingBox](#BoundingBox) | The geographic region that corresponds to the current viewport. |
+| Name         | Type        | Description |
+|--------------|-------------|------|
+| `BingMapsKey`  | `string`| The Bing Maps key for making the request.  |
+| `Culture`      | `string`      | The culture to use for the request.                             |
+| `Domain`       | `string`      | The domain of the REST service. Default: https://dev.virtualearth.net/REST/v1/ |
+| `UserIp`       | `string`      | An Internet Protocol version 4 (IPv4) address.                  |
+| `UserLocation` | [`Coordinate`](#Coordinate)  | The user's current position.                                    |
+| `UserMapView`  | [`BoundingBox`](#BoundingBox) | The geographic region that corresponds to the current viewport. |
 
 ## <a name="BaseImageryRestRequest"></a> BaseImageryRestRequest Class
 
@@ -155,7 +155,7 @@ This request requries two parameters when calling its constructor: a `DateTime` 
 | TravelMode     | [TravelModeType](#TravelModeType) | **Required**. Specifies the mode of transportation to use when calculating the distance matrix. |
 | StartTime      | DateTime | **Optional for Driving**. Specifies the start or departure time of the matrix to calculate and uses predictive traffic data. |
 | EndTime        | DateTime | **Optional for Driving**. If specified, a matrix based on traffic data with contain a histogram of travel times and distances for the specified resolution intervals (default is 15 minutes) between the start and end times. A start time must be specified for the request to be valid and the total time between start and end cannot be greater than 24 hours.  |
-| Resolution     | int | **Optional for Driving**. The number of intervals to calculate a histogram of data for each cell where a single interval is a quarter of an hour. Can be one of the following values:<br/><br/> • **1** - 15 minutes<br/> • **2** - 30 minutes<br/> • **3** - 45 minutes<br/> • **4** - an hour<br/><br/>If start time is specified and `resolution` is not, it will default to an interval of 1 (15 minutes).<br/><br/>**Example**: resolution=2 |
+| Resolution     | int | **Optional for Driving**. The number of intervals to calculate a histogram of data for each cell where a single interval is a quarter of an hour. Can be one of the following values:<br/><br/> ï¿½ **1** - 15 minutes<br/> ï¿½ **2** - 30 minutes<br/> ï¿½ **3** - 45 minutes<br/> ï¿½ **4** - an hour<br/><br/>If start time is specified and `resolution` is not, it will default to an interval of 1 (15 minutes).<br/><br/>**Example**: resolution=2 |
 | DistanceUnit   | [DistanceUnitType](#DistanceUnitType) | **Optional.** The units to use for distances in the response. |
 | TimeUnit       | [TimeUnitType](#TimeUnitType) | **Optional.** The units to use for time durations in the response. |
 | VehicleSpec | [VehicleSpec](#VehicleSpec) | Truck routing specific vehicle attribute.  |
@@ -291,7 +291,7 @@ Requests a that requests an isochrone (drive time polygon). Inherits from the Ba
 | DistanceUnits | [DistanceUnitType](#DistanceUnitType) | The units in which the maxTime value is specified. |                                                                              
 | MaxDistance | double | The maximum travel distance in the specified distance units in which the isochrone polygon is generated. Cannot be set when maxTime is set. |
 | MaxTime | double | The maximum travel time in the specified time units in which the isochrone polygon is generated. Cannot be set when maxDistance is set. Maximum value is 120 minutes. |
-| Optimize                | [RouteOptimizationType](#RouteOptimizationType)          | Specifies what parameters to use to optimize the isochrone route. One of the following values:<br/><br/>• distance: The route is calculated to minimize the distance. Traffic information is not used. Use with maxDistance.<br/>• time [default]: The route is calculated to minimize the time. Traffic information is not used. Use with maxTime.<br/>• timeWithTraffic: The route is calculated to minimize the time and uses current or predictive traffic information depending on if a dateTime value is specified. Use with maxTime. |
+| Optimize                | [RouteOptimizationType](#RouteOptimizationType)          | Specifies what parameters to use to optimize the isochrone route. One of the following values:<br/><br/>ï¿½ distance: The route is calculated to minimize the distance. Traffic information is not used. Use with maxDistance.<br/>ï¿½ time [default]: The route is calculated to minimize the time. Traffic information is not used. Use with maxTime.<br/>ï¿½ timeWithTraffic: The route is calculated to minimize the time and uses current or predictive traffic information depending on if a dateTime value is specified. Use with maxTime. |
 | TimeUnit | [TimeUnitType](#TimeUnitType) | The units in which the maxTime value is specified. Default: **Seconds** |
 | TravelMode | [TravelModeType](#TravelModeType) | The mode of travel for the route. Default: Driving.  |
 | Waypoint | [SimplyWaypoint](#SimplyWaypoint) | The point around which the isochrone will be calculated. |
@@ -382,11 +382,11 @@ Snaps a set of coordinates to roads. Inherits from the BaseRestRequest class.
 
 | Name         | Type                       | Description       |
 |--------------|----------------------------|-------------------|
-| Points | List\<Coordinate\> | A set of points to snap to roads. Up to 100  points may be passed in. |
+| Points | List\<Coordinate\> | A set of points to snap to roads. Up to 100 ï¿½points may be passed in. |
 | Interpolate | bool | Indicates if the space between the snapped points should be filled with additional points along the road, thus returning the full route path. Default: false |
 | IncludeSpeedLimit | bool | Indicates if speed limitation data should be returned for the snapped points. Default: false |
-| IncludeTruckSpeedLimit  | bool | Indicates if speed limitation data should be returned for the snapped points. Default: false |
-| SpeedUnit  | [SpeedUnitType](#SpeedUnitType) | Indicates the units in which the returned speed limit data is in. |
+| IncludeTruckSpeedLimitï¿½ | bool | Indicates if speed limitation data should be returned for the snapped points. Default: false |
+| SpeedUnitï¿½ | [SpeedUnitType](#SpeedUnitType) | Indicates the units in which the returned speed limit data is in. |
 | TravelMode | [TravelModeType](#TravelModeType)  | Indicates which routing profile to snap the points to. Default: Driving |
 
 ## <a name="TrafficRequest"></a> TrafficRequest Class
@@ -651,7 +651,7 @@ Relative elevation type.
 | Name       | Description                       |
 |------------|-----------------------------------|
 | Ellipsoid  | Ellipsoid Earth model (WGS84).    |
-| Sealevel   | Geoid Earth model (EGM2008 2.5’). |
+| Sealevel   | Geoid Earth model (EGM2008 2.5ï¿½). |
 
 ## <a name="EntityType"></a> EntityType Enumeration
 
@@ -722,10 +722,10 @@ Types of map imagery.
 | Aerial              | Aerial imagery.                         |
 | AerialWithLabels    | Aerial imagery with a road overlay.     |
 | AerialWithLabelsOnDemand | Aerial imagery with on-demand road overlay. |
-| Birdseye            | Bird’s eye (oblique-angle) imagery      |
-| BirdseyeWithLabels  | Bird’s eye imagery with a road overlay. |
-| BirdseyeV2            | The second generation Bird’s eye (oblique-angle) imagery.      |
-| BirdseyeV2WithLabels  | The second generation Bird’s eye (oblique-angle) imagerywith a road overlay. |
+| Birdseye            | Birdï¿½s eye (oblique-angle) imagery      |
+| BirdseyeWithLabels  | Birdï¿½s eye imagery with a road overlay. |
+| BirdseyeV2            | The second generation Birdï¿½s eye (oblique-angle) imagery.      |
+| BirdseyeV2WithLabels  | The second generation Birdï¿½s eye (oblique-angle) imagerywith a road overlay. |
 | CanvasDark | A dark version of the road maps. |
 | CanvasGray | A grayscale version of the road maps. |
 | CanvasLight | A lighter version of the road maps which also has some of the details such as hill shading disabled. |
@@ -741,7 +741,7 @@ The type of route attributes to include in a route response.
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | All                 | Used to specify the following attributes as a group: excluteItinerary, routePath, and transitStops.                                                                                  |
 | ExcludeItinerary    | Do not include detailed directions in the response. Detailed directions are provided as itinerary items and contain details such as written instructions and traffic location codes. |
-| RoutePath           | Include a set of point (latitude and longitude) values that describe the route’s path in the response.                                                                               |
+| RoutePath           | Include a set of point (latitude and longitude) values that describe the routeï¿½s path in the response.                                                                               |
 | RouteSummariesOnly  | Include only travel time and distance for the route, and does not provide other information.                                                                                         |
 | TransitStops        | Include information about transit stops for transit routes.                                                                                                                          |
 
