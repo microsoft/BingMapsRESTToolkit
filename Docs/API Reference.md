@@ -123,6 +123,15 @@ Find Time Zone by Query:
 
 > `public FindTimeZoneRequest(string query, DateTime datetime);`
 
+#### Methods 
+
+| Name            | Return Type | Description                                              |
+|-----------------|-------------|----------------------------------------------------------|
+|`Execute()`       | `Task<Response>` | Executes the request.                                        |
+| `Execute(Action<int> remainingTimeCallback)` | `Task<Response>` | Executes the request.             |
+| `GetRequestUrl()` | `string`      | Gets the request URL to perform a reverse geocode query. |
+
+
 #### Properties
 
 |Name | Properties | Description |
@@ -141,6 +150,14 @@ Convert one timezone at a specific UTC datetime to another time zone.
 This request requires two parameters when calling its constructor: a `DateTime` for the local UTC datetime and a `string` with a Windows or IANA timezone ID.
 
 > `public ConvertTimeZoneRequest(DateTime datetime, string DestID);`
+
+#### Methods 
+
+| Name            | Return Type | Description                                              |
+|-----------------|-------------|----------------------------------------------------------|
+|`Execute()`       | `Task<Response>` | Executes the request.                                        |
+| `Execute(Action<int> remainingTimeCallback)` | `Task<Response>` | Executes the request.             |
+| `GetRequestUrl()` | `string`      | Gets the request URL to perform a reverse geocode query. |
 
 #### Properties
 
@@ -181,6 +198,12 @@ request.DestinationTZID = "America/Vancouver";
 
 #### Methods
 
+| Name            | Return Type | Description                                              |
+|-----------------|-------------|----------------------------------------------------------|
+|`Execute()`       | `Task<Response>` | Executes the request.                                        |
+| `Execute(Action<int> remainingTimeCallback)` | `Task<Response>` | Executes the request.             |
+| `GetRequestUrl()` | `string`      | Gets the request URL to perform a reverse geocode query. |
+
 #### Properties
 
 |Name | Properties | Description |
@@ -191,7 +214,7 @@ request.DestinationTZID = "America/Vancouver";
 
 ## Locations API
 
-### <a name="GeocodeRequest"></a> GeocodeRequest Class
+### <a name="GeocodeRequest"></a> `GeocodeRequest` Class
 
 Geocodes a query to its coordinates. Inherits from the BaseRestRequest class.
 
@@ -214,7 +237,7 @@ Geocodes a query to its coordinates. Inherits from the BaseRestRequest class.
 | `Query`               | `string`        | A free form string address or Landmark. Overrides the Address values if both are specified.   |
 
 
-### <a name="ReverseGeocodeRequest"></a> ReverseGeocodeRequest Class
+### <a name="ReverseGeocodeRequest"></a> `ReverseGeocodeRequest` Class
 
 Requests a that converts a coordinate into a location such as an address. Inherits from the BaseRestRequest class.
 
@@ -236,7 +259,7 @@ Requests a that converts a coordinate into a location such as an address. Inheri
 | `Point`               | [`Coordinate`](#Coordinate)             | A central coordinate to perform the nearby search.                                                           |
 
 
-### <a name="LocationRecogRequest"></a> LocationRecogRequest Class
+### <a name="LocationRecogRequest"></a> `LocationRecogRequest` Class
 
 The [Location Recognition API](https://msdn.microsoft.com/en-us/library/mt847173.aspx) returns a list of entities ranked by their proximity to a specified location.
 
@@ -246,7 +269,24 @@ The [Location Recognition API](https://msdn.microsoft.com/en-us/library/mt847173
 
 #### Methods
 
+| Name            | Return Type | Description                                              |
+|-----------------|-------------|----------------------------------------------------------|
+|`Execute()`       | `Task<Response>` | Executes the request.                                        |
+| `Execute(Action<int> remainingTimeCallback)` | `Task<Response>` | Executes the request.             |
+| `GetRequestUrl()` | `string`      | Gets the request URL to perform a reverse geocode query. |
+
 #### Properties
+
+
+| Name                | Type                   | Description    |
+|---------------------|------------------------|----------------|
+| `CenterPoint` | [`Coordinate`](#Coordinate) | A central coordinate to perform the nearby search. |
+| `DateTimeInput` | `DateTime?` | The date time to search for local entities. |
+| `DistanceUnits` | [`DistanceUnitType`](#DistanceUnitType) | Enum used to specify distance units: either `DistanceUnitType.Kilometers` or `DistanceUnitType.Miles`.|
+|`IncludeEntityTypes` | `string` | Comma-separated string for kinds of entities to search for:<br /><br />- `"address"`: Address. <br />- `"businessAndPOI"`: Business and Point of Interest Entity.<br />- `"naturalPOI"`: Point of Interest entities.<br /><br />*Example:*  `IncludeEntityTypes="businessAndPOI,address"`|
+|`Top`| `int` | Max number of entities to return, integers from `0` to `20`.|
+|`Radius`| `double`| Maximum search radius, from `0` to `2` kilometers. |
+|`VerbosePlaceNames`| `bool`| Whether to include verbose entity names.| 
 
 # Routes API
 
