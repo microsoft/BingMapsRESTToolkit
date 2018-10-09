@@ -21,71 +21,59 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE. 
 */
+
+using System.Runtime.Serialization;
+
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// Types of hazardous material permits for truck routing.
+    /// TimeZone Resource
     /// </summary>
-    public enum HazardousMaterialPermitType
+    [DataContract(Name = "timeZone")]
+    public class TimeZoneResponse : Resource
     {
-        /// <summary>
-        /// Permit for goods which are all appropriate for load.
-        /// </summary>
-        AllAppropriateForLoad,
 
         /// <summary>
-        /// Permit for combustible material.
+        /// Standard name of the time zone, e.g. Pacific standard time
         /// </summary>
-        Combustible,
+        [DataMember(Name = "genericName", EmitDefaultValue = false)]
+        public string GenericName { get; set; }
 
         /// <summary>
-        /// Permit for corrosive material.
+        /// Abbreviation for the time zone
         /// </summary>
-        Corrosive,
+        [DataMember(Name = "abbreviation", EmitDefaultValue = false)]
+        public string Abbreviation { get; set; }
 
         /// <summary>
-        /// Permit for explosive material.
+        /// Time zone name per the IANA standard
         /// </summary>
-        Explosive,
+        [DataMember(Name = "ianaTimeZoneId", EmitDefaultValue = false)]
+        public string IANATimeZoneId { get; set; }
 
         /// <summary>
-        /// Permit for flammable material.
+        /// Time zone name as per the Microsoft Windows standard
         /// </summary>
-        Flammable,
+        [DataMember(Name = "windowsTimeZoneId", EmitDefaultValue = false)]
+        public string WindowsTimeZoneId { get; set; }
 
         /// <summary>
-        /// Permit for flammable solid material.
+        /// Offset of time zone from UTC, in (+/-)hh:mm format
         /// </summary>
-        FlammableSolid,
+        [DataMember(Name = "utcOffset", EmitDefaultValue = false)]
+        public string UtcOffset { get; set; }
 
         /// <summary>
-        /// Permit for gases.
+        /// ConvertedTime Resource List
         /// </summary>
-        Gas,
+        [DataMember(Name = "convertedTime", EmitDefaultValue = false)]
+        public ConvertedTimeResource ConvertedTime { get; set; }
 
         /// <summary>
-        /// No hazardous material permits.
+        /// Dst Rule Resource List
         /// </summary>
-        None, 
+        [DataMember(Name = "dstRule", EmitDefaultValue = false)]
+        public DstRuleResource DstRule { get; set; }
 
-        /// <summary>
-        /// Permit for organic material.
-        /// </summary>
-        Organic,
-
-        /// <summary>
-        /// Permit for poisonous material.
-        /// </summary>
-        Poison,
-
-        /// <summary>
-        /// Permit for poisonous inhalation material.
-        /// </summary>
-        PoisonousInhalation,
-
-        /// <summary>
-        /// Permit for radioactive material.
-        /// </summary>
-        Radioactive
     }
 }

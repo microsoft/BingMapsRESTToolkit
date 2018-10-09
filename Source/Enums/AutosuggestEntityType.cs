@@ -22,21 +22,30 @@
  * THE SOFTWARE. 
 */
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// Measurement units of vehicle dimensions.
+    /// Autosuggest Returns either Address, Place or LocalBusiness Response
     /// </summary>
-    public enum DimensionUnitType
+    public enum AutosuggestEntityType
     {
         /// <summary>
-        /// Dimensions in meters.
+        /// Standard Address Resource
         /// </summary>
-        Meter,
-
+        Address,
         /// <summary>
-        /// Dimensions in feet.
+        /// Natural POI Resource
         /// </summary>
-        Feet
+        Place,
+        /// <summary>
+        /// Location Business Resource
+        /// </summary>
+        LocalBusiness
     }
 }

@@ -21,71 +21,57 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE. 
 */
+
+
+using System;
+using System.Runtime.Serialization;
+
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// Types of hazardous material permits for truck routing.
+    /// A LocationRecog response object returned by the LocationRecog operation.
     /// </summary>
-    public enum HazardousMaterialPermitType
+    [DataContract(Namespace = "http://schemas.microsoft.com/search/local/ws/rest/v1")]
+    public class LocationRecog : Resource
     {
         /// <summary>
-        /// Permit for goods which are all appropriate for load.
+        /// Internal Variable to store string version of `IsPrivateResidence` value
         /// </summary>
-        AllAppropriateForLoad,
+        [DataMember(Name = "isPrivateResidence", EmitDefaultValue = false)]
+        public string _IsPrivateResidence { get; set; }
 
         /// <summary>
-        /// Permit for combustible material.
+        /// IsPrivateResidence: "True" or "False" in JSON
         /// </summary>
-        Combustible,
+        public bool IsPrivateResidence
+        {
+            get
+            {
+                return bool.Parse(_IsPrivateResidence);
+            }
+            set
+            {
+                _IsPrivateResidence = value.ToString();
+            }
+        }
 
         /// <summary>
-        /// Permit for corrosive material.
+        /// Array of LocalBusiness Resources
         /// </summary>
-        Corrosive,
+        [DataMember(Name = "businessesAtLocation", EmitDefaultValue = false)]
+        public LocalBusiness[] BusinessAtLocation { get; set; }
 
         /// <summary>
-        /// Permit for explosive material.
+        /// Array of Business Addressess
         /// </summary>
-        Explosive,
+        [DataMember(Name = "addressOfLocation", EmitDefaultValue = false)]
+        public Address[] AddressOfLocation { get; set; }
 
         /// <summary>
-        /// Permit for flammable material.
+        /// Array Point of Interest Entities
         /// </summary>
-        Flammable,
+        [DataMember(Name = "naturalPOIAtLocation", EmitDefaultValue = false)]
+        public NaturalPOIAtLocationEntity[] NaturalPOIAtLocation { get; set;}
 
-        /// <summary>
-        /// Permit for flammable solid material.
-        /// </summary>
-        FlammableSolid,
-
-        /// <summary>
-        /// Permit for gases.
-        /// </summary>
-        Gas,
-
-        /// <summary>
-        /// No hazardous material permits.
-        /// </summary>
-        None, 
-
-        /// <summary>
-        /// Permit for organic material.
-        /// </summary>
-        Organic,
-
-        /// <summary>
-        /// Permit for poisonous material.
-        /// </summary>
-        Poison,
-
-        /// <summary>
-        /// Permit for poisonous inhalation material.
-        /// </summary>
-        PoisonousInhalation,
-
-        /// <summary>
-        /// Permit for radioactive material.
-        /// </summary>
-        Radioactive
     }
 }

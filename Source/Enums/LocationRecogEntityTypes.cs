@@ -21,22 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE. 
 */
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// Measurement units of vehicle dimensions.
+    /// The different kinds of Location Recog Entities
     /// </summary>
-    public enum DimensionUnitType
+    public enum LocationRecogEntityTypes
     {
         /// <summary>
-        /// Dimensions in meters.
+        ///  Bussiness AND Point of Intrest Entities
         /// </summary>
-        Meter,
-
+        BusinessAndPOI,
         /// <summary>
-        /// Dimensions in feet.
+        ///  Only natural Point of Interest Entities
         /// </summary>
-        Feet
+        NaturalPOI,
+        /// <summary>
+        /// Location Recog Address
+        /// </summary>
+        Address
     }
 }

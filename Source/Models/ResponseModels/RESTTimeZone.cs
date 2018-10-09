@@ -22,21 +22,45 @@
  * THE SOFTWARE. 
 */
 
+using System.Runtime.Serialization;
+
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// Measurement units of vehicle dimensions.
+    /// Resource returned by Find TimeZone by Query
     /// </summary>
-    public enum DimensionUnitType
+    [DataContract(Name = "timeZoneAtLocation")]
+    public class TimeZoneAtLocationResource
     {
         /// <summary>
-        /// Dimensions in meters.
+        /// Name of Location
         /// </summary>
-        Meter,
+        [DataMember(Name = "placeName", EmitDefaultValue = false)]
+        public string PlaceName { get; set; }
 
         /// <summary>
-        /// Dimensions in feet.
+        /// Time Zone Resource List
         /// </summary>
-        Feet
+        [DataMember(Name = "timeZone", EmitDefaultValue = false)]
+        public TimeZoneResponse[] TimeZone { get; set; }
+    }
+
+    /// <summary>
+    /// Response for Find Time Zone by Query
+    /// </summary>
+    [DataContract(Name= "RESTTimeZone", Namespace = "http://schemas.microsoft.com/search/local/ws/rest/v1")]
+    public class RESTTimeZone : Resource
+    {
+        /// <summary>
+        /// Time Zone At Location Resource List
+        /// </summary>
+        [DataMember(Name = "timeZoneAtLocation")]
+        public TimeZoneAtLocationResource[] TimeZoneAtLocation { get; set; }
+
+        /// <summary>
+        /// Time Zone Resource List
+        /// </summary>
+        [DataMember(Name = "timeZone", EmitDefaultValue = false)]
+        public TimeZoneResponse TimeZone { get; set; }
     }
 }

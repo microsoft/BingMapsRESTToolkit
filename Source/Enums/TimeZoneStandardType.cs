@@ -22,21 +22,26 @@
  * THE SOFTWARE. 
 */
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// Measurement units of vehicle dimensions.
+    /// Name of the time zone standard.
     /// </summary>
-    public enum DimensionUnitType
+    public enum TimeZoneStandardType
     {
         /// <summary>
-        /// Dimensions in meters.
+        /// IANA TZ Standard
         /// </summary>
-        Meter,
-
+        IANA,
         /// <summary>
-        /// Dimensions in feet.
+        /// Windows TZ Standard
         /// </summary>
-        Feet
+        WINDOWS
     }
 }

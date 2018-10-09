@@ -22,21 +22,30 @@
  * THE SOFTWARE. 
 */
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// Measurement units of vehicle dimensions.
+    /// Enum for the Type of Location/Region used in REST Autosuggest Calls
     /// </summary>
-    public enum DimensionUnitType
+    public enum AutosuggestLocationType
     {
         /// <summary>
-        /// Dimensions in meters.
+        /// Use a user location and confidence number
         /// </summary>
-        Meter,
-
+        userLocation,
         /// <summary>
-        /// Dimensions in feet.
+        /// Use a Circular Region: central point plus radius
         /// </summary>
-        Feet
+        userCircularMapView,
+        /// <summary>
+        /// Use a Bounding Box Region
+        /// </summary>
+        userMapView
     }
 }

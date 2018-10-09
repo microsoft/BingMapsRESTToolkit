@@ -21,71 +21,61 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE. 
 */
+
+using System;
+using System.Runtime.Serialization;
+
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// Types of hazardous material permits for truck routing.
+    /// Autosuggest Resource Enity: Used for `Place`, `Address`, and `LocalBusiness`
     /// </summary>
-    public enum HazardousMaterialPermitType
+    [DataContract]
+    public class AutosuggestEntityResource : Resource
+    {
+
+        /// <summary>
+        /// Address of the Entity
+        /// </summary>
+        [DataMember(Name ="address", EmitDefaultValue = false)]
+        public Address EntityAddress { get; set; }
+    }
+
+    [DataContract(Name= "LocalBusiness")]
+    public class AutoSuggestLocalBusinessResource : AutosuggestEntityResource
     {
         /// <summary>
-        /// Permit for goods which are all appropriate for load.
+        /// Name of Entity
         /// </summary>
-        AllAppropriateForLoad,
+        [DataMember(Name = "name", EmitDefaultValue = false)]
+        public string Name { get; set; }
+    }
 
+    [DataContract(Name = "Place")]
+    public class AutoSuggestPlaceResource : AutosuggestEntityResource
+    {
         /// <summary>
-        /// Permit for combustible material.
+        /// Name of Entity
         /// </summary>
-        Combustible,
+        [DataMember(Name = "name", EmitDefaultValue = false)]
+        public string Name { get; set; }
+    }
 
-        /// <summary>
-        /// Permit for corrosive material.
-        /// </summary>
-        Corrosive,
+    [DataContract(Name = "Address")]
+    public class AutosuggestAddressResource : AutosuggestEntityResource
+    {
+    }
 
+    /// <summary>
+    /// Resource returned by Autosuggest API
+    /// </summary>
+    [DataContract(Name ="Autosuggest", Namespace ="http://schemas.microsoft.com/search/local/ws/rest/v1")]
+    public class AutosuggestResource : Resource
+    {
         /// <summary>
-        /// Permit for explosive material.
+        /// List if Autosuggest Entities
         /// </summary>
-        Explosive,
-
-        /// <summary>
-        /// Permit for flammable material.
-        /// </summary>
-        Flammable,
-
-        /// <summary>
-        /// Permit for flammable solid material.
-        /// </summary>
-        FlammableSolid,
-
-        /// <summary>
-        /// Permit for gases.
-        /// </summary>
-        Gas,
-
-        /// <summary>
-        /// No hazardous material permits.
-        /// </summary>
-        None, 
-
-        /// <summary>
-        /// Permit for organic material.
-        /// </summary>
-        Organic,
-
-        /// <summary>
-        /// Permit for poisonous material.
-        /// </summary>
-        Poison,
-
-        /// <summary>
-        /// Permit for poisonous inhalation material.
-        /// </summary>
-        PoisonousInhalation,
-
-        /// <summary>
-        /// Permit for radioactive material.
-        /// </summary>
-        Radioactive
+        [DataMember(Name ="value")]
+        public AutosuggestEntityResource[] Value { get; set; }
     }
 }

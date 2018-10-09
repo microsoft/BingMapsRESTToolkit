@@ -22,21 +22,39 @@
  * THE SOFTWARE. 
 */
 
+using System;
+using System.Runtime.Serialization;
+
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// Measurement units of vehicle dimensions.
+    /// Point of Interest Resource
     /// </summary>
-    public enum DimensionUnitType
+    [DataContract(Namespace = "http://schemas.microsoft.com/search/local/ws/rest/v1")]
+    public class NaturalPOIAtLocationEntity
     {
         /// <summary>
-        /// Dimensions in meters.
+        /// POI Name
         /// </summary>
-        Meter,
+        [DataMember(Name = "entityName", EmitDefaultValue = false)]
+        public string EntityName { get; set; }
 
         /// <summary>
-        /// Dimensions in feet.
+        /// POI Latitude
         /// </summary>
-        Feet
+        [DataMember(Name = "latitude", EmitDefaultValue = false)]
+        public double Latitude { get; set; }
+
+        /// <summary>
+        /// POI Longitude
+        /// </summary>
+        [DataMember(Name = "longitude", EmitDefaultValue = false)]
+        public double Longitude { get; set; }
+
+        /// <summary>
+        /// Type of Point of Interest
+        /// </summary>
+        [DataMember(Name = "type", EmitDefaultValue = false)]
+        public string Type { get; set; }
     }
 }

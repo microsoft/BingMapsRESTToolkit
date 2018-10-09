@@ -30,8 +30,30 @@ namespace BingMapsRESTToolkit
     /// <summary>
     /// A helper class for working iwth OData Dates.
     /// </summary>
-    internal static class DateTimeHelper
+    public static class DateTimeHelper
     {
+        private static string dt_format = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'";
+
+        /// <summary>
+        /// Get a UTC string from a Datetime
+        /// </summary>
+        /// <param name="dt">Returns UTC Datetime Object</param>
+        /// <returns></returns>
+        public static string GetUTCString(DateTime dt)
+        {
+            return dt.ToUniversalTime().ToString(dt_format);
+        }
+
+        /// <summary>
+        /// Return a Datetime from UTC datetime string
+        /// </summary>
+        /// <param name="dt_string">UTC datetime string</param>
+        /// <returns></returns>
+        public static DateTime GetDateTimeFromUTCString(string dt_string)
+        {
+            return DateTime.Parse(dt_string);
+        }
+
         /// <summary>
         /// Converts a DateTime object into an OData date.
         /// </summary>

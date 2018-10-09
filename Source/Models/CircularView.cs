@@ -22,21 +22,53 @@
  * THE SOFTWARE. 
 */
 
+using System.Globalization;
+using System.Runtime.Serialization;
+
+
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// Measurement units of vehicle dimensions.
+    /// Used by AutoSuggest API, for a Circular Screen Search Area
     /// </summary>
-    public enum DimensionUnitType
+    [DataContract]
+    public class CircularView
     {
         /// <summary>
-        /// Dimensions in meters.
+        /// Default Constructor
         /// </summary>
-        Meter,
+        /// <param name="latitude">Latitude of point</param>
+        /// <param name="longitude">Longitude of point</param>
+        /// <param name="radius">Radius, in meters</param>
+        CircularView(double latitude, double longitude, int radius)
+        {
+            if (radius >= 0)
+                this.radius = radius;
+            else
+                throw new System.Exception("Radius in UserCircularMapView Constructor must be greater than 0");
+
+            this.coords.Latitude = latitude;
+            this.coords.Longitude = longitude;
+        }
 
         /// <summary>
-        /// Dimensions in feet.
+        /// To String used for exporting Coords to URL parameter
         /// </summary>
-        Feet
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format(CultureInfo.InvariantCulture, "{0:0.#####},{1:0.#####},{2}", coords.Latitude, coords.Longitude, radius);
+        }
+
+        /// <summary>
+        /// The Locaiton of Circular Region
+        /// </summary>
+        public Coordinate coords { get; set; }
+
+        /// <summary>
+        /// Radius (Meters) of Circular Region
+        /// </summary>
+        public int radius { get; set; }
+
     }
 }
