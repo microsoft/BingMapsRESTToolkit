@@ -240,6 +240,7 @@ namespace BingMapsRESTToolkit
             if (!GetGeoidOffset && Height == ElevationType.Ellipsoid)
             {
                 sb.AppendFormat("{0}height=ellipsoid", seperator);
+                seperator = "&";
             }
 
             sb.AppendFormat("{0}key={1}", seperator, BingMapsKey);
