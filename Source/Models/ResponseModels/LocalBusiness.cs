@@ -55,6 +55,6 @@ namespace BingMapsRESTToolkit
         /// List of types which represent the secondary nature of business of the entity
         /// </summary>
         [DataMember(Name = "otherTypes", EmitDefaultValue = false)]
-        public string[] OhterTypes { get; set; }
+        public string[] OtherTypes { get; set; }
     }
 }
