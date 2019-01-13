@@ -110,7 +110,7 @@ namespace BingMapsRESTToolkit
         /// <returns>A response containing the requested data.</returns>
         public override async Task<Response> Execute()
         {
-            return await this.Execute(null);
+            return await this.Execute(null).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace BingMapsRESTToolkit
         {
             var requestUrl = GetRequestUrl();
 
-            return await ServiceHelper.MakeAsyncGetRequest(requestUrl, remainingTimeCallback);
+            return await ServiceHelper.MakeAsyncGetRequest(requestUrl, remainingTimeCallback).ConfigureAwait(false);
         }
 
         /// <summary>

@@ -85,7 +85,7 @@ namespace BingMapsRESTToolkit.Extensions
             {
                 //Calculate a distance matrix based on straight line distances (haversine). 
 
-                dm = await DistanceMatrix.CreateStraightLineNxNMatrix(waypoints, DistanceUnitType.Kilometers, bingMapsKey);
+                dm = await DistanceMatrix.CreateStraightLineNxNMatrix(waypoints, DistanceUnitType.Kilometers, bingMapsKey).ConfigureAwait(false);
             }
             else 
             {
@@ -110,7 +110,7 @@ namespace BingMapsRESTToolkit.Extensions
 
                 distanceMatrixRequest.Origins = waypoints;
 
-                var r = await distanceMatrixRequest.Execute();
+                var r = await distanceMatrixRequest.Execute().ConfigureAwait(false);
 
                 if (r != null)
                 {
@@ -130,7 +130,7 @@ namespace BingMapsRESTToolkit.Extensions
 
             if(dm != null)
             {
-                var solution = await Solve(dm, tspOptimization.Value);
+                var solution = await Solve(dm, tspOptimization.Value).ConfigureAwait(false);
                 solution.TspOptimization = tspOptimization.Value;
                 solution.TravelMode = travelMode.Value;
                 return solution;

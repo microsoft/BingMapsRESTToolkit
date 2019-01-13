@@ -64,7 +64,7 @@ namespace BingMapsRESTToolkit
         /// <returns>The response from the REST service.</returns>
         public static async Task<Response> GetResponseAsync(BaseRestRequest request)
         {
-            return await request.Execute(null);
+            return await request.Execute(null).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace BingMapsRESTToolkit
         /// <returns>The response from the REST service.</returns>
         public static async Task<Response> GetResponseAsync(BaseRestRequest request, Action<int> remainingTimeCallback)
         {
-            return await request.Execute(remainingTimeCallback);
+            return await request.Execute(remainingTimeCallback).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -94,16 +94,16 @@ namespace BingMapsRESTToolkit
                 if (r.Pushpins != null && (r.Pushpins.Count > 18 || r.Style != null))
                 {
                     //Make a post request when there are more than 18 pushpins as there is a risk of URL becoming too large for a GET request.
-                    return await ServiceHelper.PostStringAsync(new Uri(r.GetPostRequestUrl()), r.GetPushpinsAsString(), null);
+                    return await ServiceHelper.PostStringAsync(new Uri(r.GetPostRequestUrl()), r.GetPushpinsAsString(), null).ConfigureAwait(false);
                 }
                 else
                 {
-                    return await ServiceHelper.GetStreamAsync(new Uri(r.GetRequestUrl()));
+                    return await ServiceHelper.GetStreamAsync(new Uri(r.GetRequestUrl())).ConfigureAwait(false);
                 }
             }
             else
             {
-                return await ServiceHelper.GetStreamAsync(new Uri(imageryRequest.GetRequestUrl()));
+                return await ServiceHelper.GetStreamAsync(new Uri(imageryRequest.GetRequestUrl())).ConfigureAwait(false);
             }
         }
     }

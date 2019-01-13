@@ -146,7 +146,7 @@ namespace BingMapsRESTToolkit
         /// <returns>A response containing the requested data.</returns>
         public override async Task<Response> Execute()
         {
-            return await this.Execute(null);
+            return await this.Execute(null).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -161,11 +161,11 @@ namespace BingMapsRESTToolkit
             if (Points != null && Points.Count > 50)
             {
                 //Make a post request when there are more than 50 points as there is a risk of URL becoming too large for a GET request.
-                responseStream = await ServiceHelper.PostStringAsync(new Uri(GetPostRequestUrl()), GetPointsAsString(), null);
+                responseStream = await ServiceHelper.PostStringAsync(new Uri(GetPostRequestUrl()), GetPointsAsString(), null).ConfigureAwait(false);
             }
             else
             {
-                responseStream = await ServiceHelper.GetStreamAsync(new Uri(GetRequestUrl()));
+                responseStream = await ServiceHelper.GetStreamAsync(new Uri(GetRequestUrl())).ConfigureAwait(false);
             }
 
             if (responseStream != null)

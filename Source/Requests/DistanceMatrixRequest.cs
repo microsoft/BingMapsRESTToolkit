@@ -130,7 +130,7 @@ namespace BingMapsRESTToolkit
         /// </summary>
         /// <returns>A response containing the requested distance matrix.</returns>
         public override async Task<Response> Execute() {
-            return await this.Execute(null);
+            return await this.Execute(null).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -143,12 +143,12 @@ namespace BingMapsRESTToolkit
             if (TravelMode != TravelModeType.Truck)
             {
                 //Make sure all origins and destinations are geocoded.
-                await GeocodeWaypoints();
+                await GeocodeWaypoints().ConfigureAwait(false);
 
                 var requestUrl = GetRequestUrl();
                 var requestBody = GetPostRequestBody();
 
-                var response = await ServiceHelper.MakeAsyncPostRequest<DistanceMatrix>(requestUrl, requestBody, remainingTimeCallback);
+                var response = await ServiceHelper.MakeAsyncPostRequest<DistanceMatrix>(requestUrl, requestBody, remainingTimeCallback).ConfigureAwait(false);
 
                 var dm = response.ResourceSets[0].Resources[0] as DistanceMatrix;
 
@@ -174,7 +174,7 @@ namespace BingMapsRESTToolkit
                 var requestUrl = GetRequestUrl();
 
                 //Generate truck routing based distnace matrix by wrapping routing service.
-                return await new Extensions.TruckDistanceMatrixGenerator().Calculate(this, remainingTimeCallback);              
+                return await new Extensions.TruckDistanceMatrixGenerator().Calculate(this, remainingTimeCallback).ConfigureAwait(false);
             }
 
             return null;           
@@ -189,13 +189,13 @@ namespace BingMapsRESTToolkit
             //Ensure all the origins are geocoded.
             if (Origins != null)
             {
-                await SimpleWaypoint.TryGeocodeWaypoints(Origins, this);
+                await SimpleWaypoint.TryGeocodeWaypoints(Origins, this).ConfigureAwait(false);
             }
 
             //Ensure all the destinations are geocoded.
             if (Destinations != null)
             {
-                await SimpleWaypoint.TryGeocodeWaypoints(Destinations, this);
+                await SimpleWaypoint.TryGeocodeWaypoints(Destinations, this).ConfigureAwait(false);
             }
         }
 
@@ -207,7 +207,7 @@ namespace BingMapsRESTToolkit
         {
             if(this.Origins != null && this.Origins.Count > 0)
             //Make sure all origins and destinations are geocoded.
-            await GeocodeWaypoints();
+            await GeocodeWaypoints().ConfigureAwait(false);
 
             var dm = new DistanceMatrix()
             {

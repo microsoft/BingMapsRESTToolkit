@@ -333,7 +333,7 @@ namespace BingMapsRESTToolkit.Extensions
                     OptimizedWeight = minWeight,
                     OptimizedWaypoints = GetOptimizedWaypoints(matrix.Origins, minTour)
                 };
-            });
+            }).ConfigureAwait(false);
         }
 
         #endregion

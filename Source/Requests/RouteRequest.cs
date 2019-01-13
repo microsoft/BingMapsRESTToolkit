@@ -112,7 +112,7 @@ namespace BingMapsRESTToolkit
         /// <returns>A response containing the requested data.</returns>
         public override async Task<Response> Execute()
         {
-            return await this.Execute(null);
+            return await this.Execute(null).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace BingMapsRESTToolkit
                 //Check to see if the waypoints have changed since they were last optimized. 
                 if (waypointsHash != wpHash || string.Compare(optimizationOptionHash, optionHash) != 0)
                 {
-                    var tspResult = await TravellingSalesmen.Solve(Waypoints, mode, WaypointOptimization, depart, BingMapsKey);
+                    var tspResult = await TravellingSalesmen.Solve(Waypoints, mode, WaypointOptimization, depart, BingMapsKey).ConfigureAwait(false);
                     Waypoints = tspResult.OptimizedWaypoints;
 
                     //Update the stored hashes to prevent unneeded optimizations in the future if not needed.
@@ -174,13 +174,13 @@ namespace BingMapsRESTToolkit
                 {
                     var requestBody = GetTruckPostRequestBody(startIdx, out endIdx);
 
-                    response = await ServiceHelper.MakeAsyncPostRequest(requestUrl, requestBody, remainingTimeCallback);
+                    response = await ServiceHelper.MakeAsyncPostRequest(requestUrl, requestBody, remainingTimeCallback).ConfigureAwait(false);
                 }
                 else
                 {
                     remainingTimeCallback?.Invoke(1);
 
-                    using (var responseStream = await ServiceHelper.GetStreamAsync(new Uri(requestUrl)))
+                    using (var responseStream = await ServiceHelper.GetStreamAsync(new Uri(requestUrl)).ConfigureAwait(false))
                     {
                         response = ServiceHelper.DeserializeStream<Response>(responseStream);
                     }
@@ -255,7 +255,7 @@ namespace BingMapsRESTToolkit
 
                 if (routeTasks.Count > 0)
                 {
-                    await ServiceHelper.WhenAllTaskLimiter(routeTasks);
+                    await ServiceHelper.WhenAllTaskLimiter(routeTasks).ConfigureAwait(false);
                 }
 
                 try
@@ -270,7 +270,7 @@ namespace BingMapsRESTToolkit
                                 {
                                     Resources = new Resource[]
                                     {
-                                        await MergeRoutes(routes)
+                                        await MergeRoutes(routes).ConfigureAwait(false)
                                     }
                                 }
                         }

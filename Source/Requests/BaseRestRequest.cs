@@ -106,7 +106,7 @@ namespace BingMapsRESTToolkit
         /// <returns>A response containing the requested data.</returns>
         public virtual async Task<Response> Execute()
         {
-            return await this.Execute(null);
+            return await this.Execute(null).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace BingMapsRESTToolkit
         {
             Response r = null;
 
-            using (var responseStream = await ServiceHelper.GetStreamAsync(new Uri(GetRequestUrl())))
+            using (var responseStream = await ServiceHelper.GetStreamAsync(new Uri(GetRequestUrl())).ConfigureAwait(false))
             {
                 r = ServiceHelper.DeserializeStream<Response>(responseStream);
             }

@@ -273,10 +273,10 @@ namespace BingMapsRESTToolkit
         {
             Response response = null;
 
-            using (var responseStream = await ServiceHelper.GetStreamAsync(new Uri(requestUrl)))
+            using (var responseStream = await ServiceHelper.GetStreamAsync(new Uri(requestUrl)).ConfigureAwait(false))
             {
                 response = ServiceHelper.DeserializeStream<Response>(responseStream);
-                return await ProcessAsyncResponse(response, remainingTimeCallback);
+                return await ProcessAsyncResponse(response, remainingTimeCallback).ConfigureAwait(false);
             }
         }
         
@@ -291,10 +291,10 @@ namespace BingMapsRESTToolkit
         {
             Response response = null;
 
-            using (var responseStream = await ServiceHelper.PostStringAsync(new Uri(requestUrl), requestBody, "application/json"))
+            using (var responseStream = await ServiceHelper.PostStringAsync(new Uri(requestUrl), requestBody, "application/json").ConfigureAwait(false))
             {
                 response = ServiceHelper.DeserializeStream<Response>(responseStream);
-                return await ProcessAsyncResponse(response, remainingTimeCallback);
+                return await ProcessAsyncResponse(response, remainingTimeCallback).ConfigureAwait(false);
             }
         }
 
@@ -310,10 +310,10 @@ namespace BingMapsRESTToolkit
         {
             Response response = null;
 
-            using (var responseStream = await ServiceHelper.GetStreamAsync(new Uri(requestUrl)))
+            using (var responseStream = await ServiceHelper.GetStreamAsync(new Uri(requestUrl)).ConfigureAwait(false))
             {
                 response = ServiceHelper.DeserializeStream<Response>(responseStream);
-                return await ProcessAsyncResponse<T>(response, remainingTimeCallback);
+                return await ProcessAsyncResponse<T>(response, remainingTimeCallback).ConfigureAwait(false);
             }
         }
 
@@ -330,10 +330,10 @@ namespace BingMapsRESTToolkit
         {
             Response response = null;
 
-            using (var responseStream = await ServiceHelper.PostStringAsync(new Uri(requestUrl), requestBody, "application/json"))
+            using (var responseStream = await ServiceHelper.PostStringAsync(new Uri(requestUrl), requestBody, "application/json").ConfigureAwait(false))
             {
                 response = ServiceHelper.DeserializeStream<Response>(responseStream);
-                return await ProcessAsyncResponse<T>(response, remainingTimeCallback);
+                return await ProcessAsyncResponse<T>(response, remainingTimeCallback).ConfigureAwait(false);
             }
         }
 
@@ -374,7 +374,7 @@ namespace BingMapsRESTToolkit
                     {
                         var start = DateTime.Now;
 
-                        await Task.WhenAll(taskGroup);
+                        await Task.WhenAll(taskGroup).ConfigureAwait(false);
 
                         var end = DateTime.Now;
 
@@ -385,14 +385,14 @@ namespace BingMapsRESTToolkit
                         if (i != tasks.Count - 1 && ellapsed.TotalMilliseconds < 1000)
                         {
                             //Ensure that atleast a second has passed since the last batch of requests.
-                            await Task.Delay(1000 - (int)ellapsed.TotalMilliseconds);
+                            await Task.Delay(1000 - (int)ellapsed.TotalMilliseconds).ConfigureAwait(false);
                         }
                     }
                 }
 
                 if (taskGroup.Count > 0)
                 {
-                    await Task.WhenAll(taskGroup);
+                    await Task.WhenAll(taskGroup).ConfigureAwait(false);
                 }
             });
         }
@@ -423,13 +423,13 @@ namespace BingMapsRESTToolkit
                     {
                         var status = response.ResourceSets[0].Resources[0] as AsyncStatus;
 
-                        status = await ServiceHelper.ProcessAsyncStatus(status, remainingTimeCallback);
+                        status = await ServiceHelper.ProcessAsyncStatus(status, remainingTimeCallback).ConfigureAwait(false);
 
                         if (status != null && status.IsCompleted && !string.IsNullOrEmpty(status.ResultUrl))
                         {
                             try
                             {
-                                using (var resultStream = await ServiceHelper.GetStreamAsync(new Uri(status.ResultUrl)))
+                                using (var resultStream = await ServiceHelper.GetStreamAsync(new Uri(status.ResultUrl)).ConfigureAwait(false))
                                 {
                                     return ServiceHelper.DeserializeStream<Response>(resultStream);
                                 }
@@ -472,13 +472,13 @@ namespace BingMapsRESTToolkit
                     {
                         var status = response.ResourceSets[0].Resources[0] as AsyncStatus;
 
-                        status = await ServiceHelper.ProcessAsyncStatus(status, remainingTimeCallback);
+                        status = await ServiceHelper.ProcessAsyncStatus(status, remainingTimeCallback).ConfigureAwait(false);
 
                         if (status != null && status.IsCompleted && !string.IsNullOrEmpty(status.ResultUrl))
                         {
                             try
                             {
-                                using (var resultStream = await ServiceHelper.GetStreamAsync(new Uri(status.ResultUrl)))
+                                using (var resultStream = await ServiceHelper.GetStreamAsync(new Uri(status.ResultUrl)).ConfigureAwait(false))
                                 {
                                     var resource = ServiceHelper.DeserializeStream<T>(resultStream);
                                     response.ResourceSets[0].Resources[0] = resource;
@@ -521,9 +521,9 @@ namespace BingMapsRESTToolkit
                 remainingTimeCallback?.Invoke(status.CallbackInSeconds);
 
                 //Wait remaining seconds.
-                await Task.Delay(TimeSpan.FromSeconds(status.CallbackInSeconds));
+                await Task.Delay(TimeSpan.FromSeconds(status.CallbackInSeconds)).ConfigureAwait(false);
 
-                status = await ServiceHelper.MonitorAsyncStatus(statusUrl, 0, remainingTimeCallback);
+                status = await ServiceHelper.MonitorAsyncStatus(statusUrl, 0, remainingTimeCallback).ConfigureAwait(false);
             }
             else
             {
@@ -562,7 +562,7 @@ namespace BingMapsRESTToolkit
 
             try
             {
-                using (var rs = await ServiceHelper.GetStreamAsync(statusUrl))
+                using (var rs = await ServiceHelper.GetStreamAsync(statusUrl).ConfigureAwait(false))
                 {
                     var r = ServiceHelper.DeserializeStream<Response>(rs);
 
@@ -581,8 +581,8 @@ namespace BingMapsRESTToolkit
                                 remainingTimeCallback?.Invoke(status.CallbackInSeconds);
 
                                 //Wait remaining seconds.
-                                await Task.Delay(TimeSpan.FromSeconds(status.CallbackInSeconds));
-                                return await MonitorAsyncStatus(statusUrl, 0, remainingTimeCallback);
+                                await Task.Delay(TimeSpan.FromSeconds(status.CallbackInSeconds)).ConfigureAwait(false);
+                                return await MonitorAsyncStatus(statusUrl, 0, remainingTimeCallback).ConfigureAwait(false);
                             }
                         }
                     }
@@ -594,8 +594,8 @@ namespace BingMapsRESTToolkit
                 if (failedTries < MaxStatusCheckRetries)
                 {
                     //Wait some time and try again.
-                    await Task.Delay(TimeSpan.FromSeconds(StatusCheckRetryDelay));
-                    return await MonitorAsyncStatus(statusUrl, failedTries + 1, remainingTimeCallback);
+                    await Task.Delay(TimeSpan.FromSeconds(StatusCheckRetryDelay)).ConfigureAwait(false);
+                    return await MonitorAsyncStatus(statusUrl, failedTries + 1, remainingTimeCallback).ConfigureAwait(false);
                 }
                 else
                 {

@@ -46,7 +46,7 @@ namespace BingMapsRESTToolkit.Extensions
         /// <returns>An efficient path between all waypoints based on time or distance.</returns>
         public static async Task<TspResult> Solve(List<SimpleWaypoint> waypoints, TravelModeType? travelMode, TspOptimizationType? tspOptimization, DateTime? departureTime, string bingMapsKey)
         {
-            return await GetTspAlgorithm(waypoints).Solve(waypoints, travelMode, tspOptimization, departureTime, bingMapsKey);
+            return await GetTspAlgorithm(waypoints).Solve(waypoints, travelMode, tspOptimization, departureTime, bingMapsKey).ConfigureAwait(false);
         }
 
         ///<summary>
@@ -57,7 +57,7 @@ namespace BingMapsRESTToolkit.Extensions
         /// <returns>An efficient path between all waypoints based on time or distance.</returns>
         public static async Task<TspResult> Solve(DistanceMatrix matrix, TspOptimizationType tspOptimization)
         {
-            return await GetTspAlgorithm(matrix.Origins).Solve(matrix, tspOptimization);
+            return await GetTspAlgorithm(matrix.Origins).Solve(matrix, tspOptimization).ConfigureAwait(false);
         }
 
         /// <summary>

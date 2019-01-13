@@ -87,7 +87,7 @@ namespace BingMapsRESTToolkit.Extensions
             MatrixCells = new List<DistanceMatrixCell>();
             
             //Calculate the first cell on it's own to verify that the request can be made. If it fails, do not proceed.
-            var firstResponse = await CalculateTruckRoute(request.Origins[0], request.Destinations[0], 0, request);
+            var firstResponse = await CalculateTruckRoute(request.Origins[0], request.Destinations[0], 0, request).ConfigureAwait(false);
 
             if(firstResponse != null && firstResponse.ErrorDetails != null && firstResponse.ErrorDetails.Length > 0){
                 return firstResponse;
@@ -152,7 +152,7 @@ namespace BingMapsRESTToolkit.Extensions
                 }
             }
 
-            await ServiceHelper.WhenAllTaskLimiter(cellTasks);
+            await ServiceHelper.WhenAllTaskLimiter(cellTasks).ConfigureAwait(false);
 
             var dm = new DistanceMatrix()
             {
@@ -202,7 +202,7 @@ namespace BingMapsRESTToolkit.Extensions
 
             try
             {
-                var response = await CalculateTruckRoute(dmRequest.Origins[originIdx], dmRequest.Destinations[destIdx], timeIdx, dmRequest);
+                var response = await CalculateTruckRoute(dmRequest.Origins[originIdx], dmRequest.Destinations[destIdx], timeIdx, dmRequest).ConfigureAwait(false);
 
                 if (response != null && response.ResourceSets != null && response.ResourceSets.Length > 0 &&
                         response.ResourceSets[0].Resources != null && response.ResourceSets[0].Resources.Length > 0)
@@ -272,7 +272,7 @@ namespace BingMapsRESTToolkit.Extensions
                 request.RouteOptions.Optimize = RouteOptimizationType.TimeWithTraffic;
             }
 
-            return await request.Execute();
+            return await request.Execute().ConfigureAwait(false);
         }
 
         #endregion

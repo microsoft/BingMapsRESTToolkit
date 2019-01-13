@@ -488,7 +488,7 @@ namespace BingMapsRESTToolkit
 
             if (!string.IsNullOrEmpty(bingMapsKey))
             {
-                await SimpleWaypoint.TryGeocodeWaypoints(waypoints, bingMapsKey);
+                await SimpleWaypoint.TryGeocodeWaypoints(waypoints, bingMapsKey).ConfigureAwait(false);
             }
 
             var numWaypoints = waypoints.Count;
@@ -513,7 +513,7 @@ namespace BingMapsRESTToolkit
                         TravelDistance = distance
                     };
                 }
-            }));
+            })).ConfigureAwait(false);
 
             return new DistanceMatrix()
             {

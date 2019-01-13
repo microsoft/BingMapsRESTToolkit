@@ -110,7 +110,7 @@ namespace BingMapsRESTToolkit
         {
             Stream responseStream = null;
 
-            responseStream = await ServiceHelper.GetStreamAsync(new Uri(GetRequestUrl()));
+            responseStream = await ServiceHelper.GetStreamAsync(new Uri(GetRequestUrl())).ConfigureAwait(false);
 
 
             if (responseStream != null)
