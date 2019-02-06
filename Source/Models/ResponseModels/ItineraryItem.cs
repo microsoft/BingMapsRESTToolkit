@@ -159,6 +159,12 @@ namespace BingMapsRESTToolkit
         public TransitLine TransitLine { get; set; }
 
         /// <summary>
+        /// The list of transit stops associated with the itinerary item.
+        /// </summary>
+        [DataMember(Name = "transitStops", EmitDefaultValue = false)]
+        public TransitStop[] TransitStops { get; set; }
+
+        /// <summary>
         /// The ID assigned to the transit stop by the transit agency.
         /// </summary>
         [DataMember(Name = "transitStopId", EmitDefaultValue = false)]

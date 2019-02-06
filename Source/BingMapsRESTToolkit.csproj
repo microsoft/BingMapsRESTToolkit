@@ -131,6 +131,7 @@
     <Compile Include="Models\ResponseModels\RESTTimeZone.cs" />
     <Compile Include="Models\ResponseModels\TimeZoneResponse.cs" />
     <Compile Include="Models\ResponseModels\TrafficIncident.cs" />
+    <Compile Include="Models\ResponseModels\TransitStop.cs" />
     <Compile Include="Models\ResponseModels\TransitLine.cs" />
     <Compile Include="Models\CircularView.cs" />
     <Compile Include="Models\ResponseModels\Warning.cs" />
