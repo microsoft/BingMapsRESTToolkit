@@ -1,3 +1,16 @@
+## Version 1.1.6 - 6/4/2019 
+
+Change the Author from Microsoft to RecursiveGeek to avoid confusion for the NuGet package usage.
+
+## Version 1.1.5 - 6/4/2019
+
+[RecursiveGeek fork](https://github.com/RecursiveGeek/BingMapsRESTToolkit), created to fix issues (Microsoft hasn't updated GitHub since 2/6/2019 
+and hasn't updated NuGet since 3/10/2018).  It doesn't look at active at the moment.  
+
+* Fix to allow building under Visual Studio 2019 due to a missing project reference in *RESTToolkitTestConsoleApp* to the *BingMapsRESTToolkit* project.
+* Expose the newer classes not yet available to NuGet under Microsoft's publishing.
+* Add PowerShell Script to help with NuGet package publishing of *BingMapsRESTToolkit.Standard*.
+
 ## Version 1.1.4 - 3/9/2018
 
 * Async support added to SnapToRoadRequest, thus allowing up to 1,000 points to be snapped in a single request.

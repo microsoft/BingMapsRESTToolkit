@@ -2,22 +2,25 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.1.4</Version>
-    <Authors>Microsoft</Authors>
-    <Company>Microsoft</Company>
+    <Version>1.1.6</Version>
+    <Authors>RecursiveGeek (fork from Microsoft)</Authors>
+    <Company>RecursiveGeek (fork from Microsoft)</Company>
     <Description>A toolkit that makes it easy to access the Bing Maps REST services from .NET</Description>
     <Copyright>Microsoft 2017</Copyright>
-    <PackageLicenseUrl>https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/LICENSE.md</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/Microsoft/BingMapsRESTToolkit</PackageProjectUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/RecursiveGeek/BingMapsRESTToolkit</PackageProjectUrl>
     <PackageIconUrl>https://www.bing.com/sa/simg/bing_p_rr_teal_min.ico</PackageIconUrl>
     <PackageTags>Microsoft "Bing Maps" Maps GIS Map Geospatial VB C# .NET REST</PackageTags>
-    <PackageReleaseNotes>See the changelog here: https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/CHANGELOG.md</PackageReleaseNotes>
-    <PackageId>BingMapsRESTToolkit</PackageId>
-    <AssemblyVersion>1.1.4.0</AssemblyVersion>
-    <FileVersion>1.1.4.0</FileVersion>
+    <PackageReleaseNotes>See the changelog here: https://github.com/RecursiveGeek/BingMapsRESTToolkit/blob/master/CHANGELOG.md</PackageReleaseNotes>
+    <PackageId>BingMapsRESTToolkit.Standard</PackageId>
     <AssemblyName>BingMapsRESTToolkit</AssemblyName>
     <RootNamespace>BingMapsRESTToolkit</RootNamespace>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/RecursiveGeek/BingMapsRESTToolkit</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Product>BingMapsRESTToolkit.Standard</Product>
   </PropertyGroup>
 
   <ItemGroup>
@@ -170,6 +173,13 @@
     <PackageReference Include="System.Runtime.Serialization.Json" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

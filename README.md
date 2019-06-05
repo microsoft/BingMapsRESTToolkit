@@ -7,12 +7,10 @@
 
 ## June 4, 2019
 This has been forked from [Microsoft's BingMapsRESTToolkit](https://github.com/microsoft/BingMapsRESTToolkit) since active development has stalled.  
-The current Microsoft solution doesn't compile under Visual Studio 2019 due to a missing project reference in *RESTToolkitTestConsoleApp* to the 
-*BingMapsRESTToolkit* project.
 
 In addition, the [Microsoft BinMapsRESTToolkit](https://www.nuget.org/packages/BingMapsRESTToolkit/) is showing release v1.1.4, done on 3/10/2018.  However, the GitHub
-project has been updated since then (e.g., *FindTimeZoneRequest* class updated on 8/29/2018).  This is problematic when wanting to access the paid Bing Map Services.  
-At the moment, there is a need to access their service to get the Time Zone from a postal code.
+project has been updated since then (e.g., *FindTimeZoneRequest* class updated on 8/29/2018).  This is problematic when wanting to access the paid Bing Map Services
+and use more recently added request and response classes not in the NuGet package.  At the moment, there is a need to access their service to get the Time Zone from a postal code.
 
 # Bing Maps REST Toolkit for .NET 
 
