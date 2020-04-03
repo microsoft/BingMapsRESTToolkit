@@ -213,7 +213,7 @@ namespace BingMapsRESTToolkit
         /// <returns>A response containing the requested data.</returns>
         public override async Task<Response> Execute()
         {
-            return await this.Execute(null);
+            return await this.Execute(null).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -230,11 +230,11 @@ namespace BingMapsRESTToolkit
             if (Pushpins != null && Pushpins.Count > 18)
             {
                 //Make a post request when there are more than 18 pushpins as there is a risk of URL becoming too large for a GET request.
-                responseStream = await ServiceHelper.PostStringAsync(new Uri(GetPostRequestUrl()), GetPushpinsAsString(), null);
+                responseStream = await ServiceHelper.PostStringAsync(new Uri(GetPostRequestUrl()), GetPushpinsAsString(), null).ConfigureAwait(false);
             }
             else
             {
-                responseStream = await ServiceHelper.GetStreamAsync(new Uri(GetRequestUrl()));
+                responseStream = await ServiceHelper.GetStreamAsync(new Uri(GetRequestUrl())).ConfigureAwait(false);
             }
 
             if (responseStream != null)

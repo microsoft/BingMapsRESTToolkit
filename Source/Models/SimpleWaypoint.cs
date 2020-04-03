@@ -227,7 +227,7 @@ namespace BingMapsRESTToolkit
                 BingMapsKey = bingMapsKey
             };
 
-            await TryGeocode(waypoint, request);
+            await TryGeocode(waypoint, request).ConfigureAwait(false);
         }
         
         /// <summary>
@@ -255,7 +255,7 @@ namespace BingMapsRESTToolkit
 
                 try
                 {
-                    var r = await ServiceManager.GetResponseAsync(request);
+                    var r = await ServiceManager.GetResponseAsync(request).ConfigureAwait(false);
 
                     if (r != null && r.ResourceSets != null &&
                         r.ResourceSets.Length > 0 &&
@@ -294,7 +294,7 @@ namespace BingMapsRESTToolkit
 
             if (geocodeTasks.Count > 0)
             {
-                await ServiceHelper.WhenAllTaskLimiter(geocodeTasks);
+                await ServiceHelper.WhenAllTaskLimiter(geocodeTasks).ConfigureAwait(false);
             }
         }
 
@@ -311,7 +311,7 @@ namespace BingMapsRESTToolkit
                 BingMapsKey = bingMapsKey
             };
 
-            await TryGeocodeWaypoints(waypoints, request);
+            await TryGeocodeWaypoints(waypoints, request).ConfigureAwait(false);
         }
 
         #endregion
