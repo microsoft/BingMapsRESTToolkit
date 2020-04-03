@@ -30,6 +30,16 @@ namespace BingMapsRESTToolkit
     public enum AvoidType
     {
         /// <summary>
+        /// Avoids crossing country borders in the route.
+        /// </summary>
+        BorderCrossing,
+
+        /// <summary>
+        /// Avoids the use of ferries in the route.
+        /// </summary>
+        Ferry,
+
+        /// <summary>
         /// Avoids the use of highways in the route. 
         /// </summary>
         Highways,
