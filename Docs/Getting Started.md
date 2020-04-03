@@ -42,7 +42,7 @@ To find out about licensing options and learn about Bing Maps controls, please v
 
 ## <a name="RunningTheSamples"></a> Running the Samples
 
-Download the complete project including the samples and the source code for the Ring Maps REST toolkit. All of the samples require a Bing Maps key to work. To add your Bing Maps key to the sample, open the **App.config** file of the sample and add it to the **BingMapsKey** property. This property likely has a placeholder value of **YOUR\_BING\_MAPS\_KEY**. Once this is done, simply run the sample in debug or release mode.
+Download the complete project including the samples and the source code for the Bing Maps REST toolkit. All of the samples require a Bing Maps key to work. To add your Bing Maps key to the sample, open the **App.config** file of the sample and add it to the **BingMapsKey** property. This property likely has a placeholder value of **YOUR\_BING\_MAPS\_KEY**. Once this is done, simply run the sample in debug or release mode.
 
 ## <a name="AddingToolkitToProject"></a> Adding the Bing Maps REST Toolkit to your project
 
@@ -202,7 +202,7 @@ using (var imageStream = await ServiceManager.GetImageAsync(request))
 The Bing Maps platform allows basic accounts to generate up to 5 QPS (queries per second) and Enterprise accounts 50 QPS (enterprise accounts can upgrade to higher QPS levels). This library has a few methods which will make multiple requests to the Bing Maps platform;
 
 * The SimpleWaypoint class has a `TryGeocodeWaypoints` method which will geocode an array of SimpleWaypoints.
-* The distance matrix API only accepts coordinates as waypoints, as such the `DistanceMatrixRequest` class will geocode all waypoints automatically if needed. Additionally, the distance matrix API does not support truck routing based matricies, but this library adds support by wrapping the truck routing service and making multiple requests to it. 
+* The distance matrix API only accepts coordinates as waypoints, as such the `DistanceMatrixRequest` class will geocode all waypoints automatically if needed. Additionally, the distance matrix API does not support truck routing based matrices, but this library adds support by wrapping the truck routing service and making multiple requests to it. 
 
 Since these methods can generate a lot of requests in a short period of time, a static `QpsLimit` property has been added the `ServiceManager` class which will allow you to fine tune this value as needed. By default this value is set to 5. To change this value to 50 (or some other value), add the following line of code before your request.
 
