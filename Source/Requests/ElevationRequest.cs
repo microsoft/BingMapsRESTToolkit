@@ -201,25 +201,24 @@ namespace BingMapsRESTToolkit
             var sb = new StringBuilder(this.Domain);
             sb.Append("Elevation/");
 
-            string seperator = "?";
+            string seperator = "&";
 
             if (Points != null && Points.Count > 0)
             {
                 if (GetGeoidOffset)
                 {
                     //Get elevation geoid offsets
-                    sb.Append("SeaLevel");
+                    sb.Append("SeaLevel?");
                 }
                 else if (samples == 0)
                 {
                     //Get elevations for a list of points
-                    sb.Append("List");
+                    sb.Append("List?");
                 }
                 else
                 {
                     //Get elevations along a Polyline with samples
                     sb.AppendFormat("Polyline?samples={0}", samples);
-                    seperator = "&";
                 }
             }
             else if (Bounds != null)
@@ -230,7 +229,6 @@ namespace BingMapsRESTToolkit
                 }
                 
                 sb.AppendFormat("Bounds?bounds={0}&rows={1}&cols={2}", Bounds.ToString(), row, col);
-                seperator = "&";
             }
             else
             {
@@ -240,7 +238,6 @@ namespace BingMapsRESTToolkit
             if (!GetGeoidOffset && Height == ElevationType.Ellipsoid)
             {
                 sb.AppendFormat("{0}height=ellipsoid", seperator);
-                seperator = "&";
             }
 
             sb.AppendFormat("{0}key={1}", seperator, BingMapsKey);
