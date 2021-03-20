@@ -185,7 +185,8 @@ namespace TravellingSalesmenRouteSample
 
                     if (m.Success)
                     {
-                        waypoints.Add(new SimpleWaypoint(double.Parse(m.Groups[1].Value), double.Parse(m.Groups[3].Value)));
+                        waypoints.Add(new SimpleWaypoint(double.Parse(m.Groups[1].Value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture),
+                            double.Parse(m.Groups[3].Value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture)));
                     }
                     else
                     {

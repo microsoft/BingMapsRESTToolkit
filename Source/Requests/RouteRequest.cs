@@ -678,32 +678,32 @@ namespace BingMapsRESTToolkit
 
                     if (RouteOptions.VehicleSpec.VehicleHeight > 0)
                     {
-                        sb.AppendFormat(",\"vehicleHeight\":{0}", RouteOptions.VehicleSpec.VehicleHeight);
+                        sb.AppendFormat(CultureInfo.InvariantCulture, ",\"vehicleHeight\":{0}", RouteOptions.VehicleSpec.VehicleHeight);
                     }
 
                     if (RouteOptions.VehicleSpec.VehicleWidth > 0)
                     {
-                        sb.AppendFormat(",\"vehicleWidth\":{0}", RouteOptions.VehicleSpec.VehicleWidth);
+                        sb.AppendFormat(CultureInfo.InvariantCulture, ",\"vehicleWidth\":{0}", RouteOptions.VehicleSpec.VehicleWidth);
                     }
 
                     if (RouteOptions.VehicleSpec.VehicleLength > 0)
                     {
-                        sb.AppendFormat(",\"vehicleLength\":{0}", RouteOptions.VehicleSpec.VehicleLength);
+                        sb.AppendFormat(CultureInfo.InvariantCulture, ",\"vehicleLength\":{0}", RouteOptions.VehicleSpec.VehicleLength);
                     }
 
                     if (RouteOptions.VehicleSpec.VehicleWeight > 0)
                     {
-                        sb.AppendFormat(",\"vehicleWeight\":{0}", RouteOptions.VehicleSpec.VehicleWeight);
+                        sb.AppendFormat(CultureInfo.InvariantCulture, ",\"vehicleWeight\":{0}", RouteOptions.VehicleSpec.VehicleWeight);
                     }
 
                     if (RouteOptions.VehicleSpec.VehicleMaxGradient > 0)
                     {
-                        sb.AppendFormat(",\"vehicleMaxGradient\":{0}", RouteOptions.VehicleSpec.VehicleMaxGradient);
+                        sb.AppendFormat(CultureInfo.InvariantCulture, ",\"vehicleMaxGradient\":{0}", RouteOptions.VehicleSpec.VehicleMaxGradient);
                     }
 
                     if (RouteOptions.VehicleSpec.VehicleMinTurnRadius > 0)
                     {
-                        sb.AppendFormat(",\"vehicleMinTurnRadius\":{0}", RouteOptions.VehicleSpec.VehicleMinTurnRadius);
+                        sb.AppendFormat(CultureInfo.InvariantCulture, ",\"vehicleMinTurnRadius\":{0}", RouteOptions.VehicleSpec.VehicleMinTurnRadius);
                     }
 
                     if (RouteOptions.VehicleSpec.VehicleTrailers > 0)

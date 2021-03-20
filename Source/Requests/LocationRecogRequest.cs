@@ -233,7 +233,7 @@ namespace BingMapsRESTToolkit
 
             List<string> param_list = new List<string>
             {
-                string.Format("r={0}", Radius.ToString()),
+                string.Format("r={0}", Radius.ToString(System.Globalization.CultureInfo.InvariantCulture)),
                 string.Format("top={0}", Top.ToString()),
                 string.Format("distanceUnit={0}", du),
                 string.Format("verboseplacenames={0}", VerbosePlaceNames.ToString().ToLower()),
