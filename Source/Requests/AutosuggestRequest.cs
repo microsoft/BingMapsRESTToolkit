@@ -50,7 +50,7 @@ namespace BingMapsRESTToolkit
         /// Return Comma-separated list of Lat,Lon,Radius
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => string.Format("{0},{1},{2}", Latitude.ToString(), Longitude.ToString(), Radius.ToString());
+        public override string ToString() => string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0},{1},{2}", Latitude.ToString(), Longitude.ToString(), Radius.ToString());
     }
 
 

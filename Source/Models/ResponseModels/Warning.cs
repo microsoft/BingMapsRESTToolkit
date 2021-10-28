@@ -52,7 +52,8 @@ namespace BingMapsRESTToolkit
                     double lat;
                     double lon;
 
-                    if (latLng.Length >= 2 && double.TryParse(latLng[0], out lat) && double.TryParse(latLng[1], out lon))
+                    if (latLng.Length >= 2 && double.TryParse(latLng[0], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out lat) 
+                        && double.TryParse(latLng[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out lon))
                     {
                         return new Coordinate(lat, lon);
                     }
@@ -68,7 +69,7 @@ namespace BingMapsRESTToolkit
                 }
                 else
                 {
-                    Origin = string.Format("{0},{1}", value.Latitude, value.Longitude);
+                    Origin = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0},{1}", value.Latitude, value.Longitude);
                 }
             }
         }
@@ -120,7 +121,7 @@ namespace BingMapsRESTToolkit
                 }
                 else
                 {
-                    To = string.Format("{0},{1}", value.Latitude, value.Longitude);
+                    To = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0},{1}", value.Latitude, value.Longitude);
                 }
             }
         }

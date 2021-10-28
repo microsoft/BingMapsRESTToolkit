@@ -192,7 +192,7 @@ namespace BingMapsRESTToolkit
                     throw new Exception("Distance based isochrones are not supported for transit travel mode. Use maxTime.");
                 }
 
-                sb.AppendFormat("&maxDistance={0}&distanceUnit={1}", MaxDistance, EnumHelper.DistanceUnitTypeToString(DistanceUnit));
+                sb.AppendFormat(CultureInfo.InvariantCulture, "&maxDistance={0}&distanceUnit={1}", MaxDistance, EnumHelper.DistanceUnitTypeToString(DistanceUnit));
 
                 //Can only optimize based on distance when generating distance based isochrones.
                 if (Optimize != RouteOptimizationType.Distance)
