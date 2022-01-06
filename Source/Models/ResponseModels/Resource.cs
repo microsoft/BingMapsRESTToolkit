@@ -30,6 +30,7 @@ namespace BingMapsRESTToolkit
     /// A resource that is returned depending on the request.
     /// </summary>
     [DataContract]
+    [KnownType(typeof(SearchResult))]
     [KnownType(typeof(Location))]
     [KnownType(typeof(Route))]
     [KnownType(typeof(TrafficIncident))]
