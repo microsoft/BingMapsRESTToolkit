@@ -123,6 +123,7 @@
     <Compile Include="Models\ResponseModels\RoutePath.cs" />
     <Compile Include="Models\ResponseModels\RouteSubLeg.cs" />
     <Compile Include="Models\ResponseModels\SeaLevelData.cs" />
+    <Compile Include="Models\ResponseModels\SearchResult.cs" />
     <Compile Include="Models\ResponseModels\Shape.cs" />
     <Compile Include="Models\ResponseModels\Shield.cs" />
     <Compile Include="Models\ResponseModels\SnappedPoint.cs" />
