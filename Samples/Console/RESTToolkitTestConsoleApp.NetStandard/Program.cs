@@ -51,17 +51,17 @@ namespace RESTToolkitTestConsoleApp
         public void AutoSuggestTest()
         {
             Console.WriteLine("Running Autosuggest Test");
-            CoordWithRadius ul = new CoordWithRadius() { Latitude = 47.668697, Longitude = -122.376373, Radius = 5 };
+            var ul = new CircularView(47.668697, -122.376373,  5);
 
             var request = new AutosuggestRequest()
             {
                 BingMapsKey = _ApiKey,
                 Query = "El Bur",
-                UserLoc = ul
+                UserLocation = ul,
             };
             Console.WriteLine(request.GetRequestUrl());
             var resources = GetResourcesFromRequest(request);
-            var entities = (resources[0] as AutosuggestResource);
+            var entities = (resources[0] as Autosuggest);
 
             foreach (var entity in entities.Value)
                 Console.Write($"Entity of type {entity.Type} returned.");
@@ -167,7 +167,7 @@ namespace RESTToolkitTestConsoleApp
 
             if (r.BusinessAtLocation != null)
             {
-                foreach (LocalBusiness business in r.BusinessAtLocation)
+                foreach (BusinessAtLocation business in r.BusinessAtLocation)
                 {
                     Console.WriteLine($"Business:\n{business.BusinessInfo.EntityName}");
                 }

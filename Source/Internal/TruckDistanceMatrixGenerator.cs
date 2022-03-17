@@ -92,18 +92,17 @@ namespace BingMapsRESTToolkit.Extensions
             if(firstResponse != null && firstResponse.ErrorDetails != null && firstResponse.ErrorDetails.Length > 0){
                 return firstResponse;
             }
-            else if (firstResponse == null || firstResponse.ResourceSets == null || firstResponse.ResourceSets.Length == 0 || 
-                firstResponse.ResourceSets[0].Resources == null || firstResponse.ResourceSets[0].Resources.Length == 0)
+            else if (!Response.HasResource(firstResponse))
             {
                 return new Response()
                 {
-                    ErrorDetails = new string[] { "Unabble to calculate distance matrix." },
+                    ErrorDetails = new string[] { "Unable to calculate distance matrix." },
                     StatusCode = 400,
                     StatusDescription = "Bad request"
                 };
             }
 
-            var truckRoute = firstResponse.ResourceSets[0].Resources[0] as Route;
+            var truckRoute = Response.GetFirstResource(firstResponse) as Route;
 
             MatrixCells.Add(new DistanceMatrixCell()
             {
@@ -204,10 +203,9 @@ namespace BingMapsRESTToolkit.Extensions
             {
                 var response = await CalculateTruckRoute(dmRequest.Origins[originIdx], dmRequest.Destinations[destIdx], timeIdx, dmRequest).ConfigureAwait(false);
 
-                if (response != null && response.ResourceSets != null && response.ResourceSets.Length > 0 &&
-                        response.ResourceSets[0].Resources != null && response.ResourceSets[0].Resources.Length > 0)
+                if (Response.HasResource(response))
                 {
-                    var truckRoute = response.ResourceSets[0].Resources[0] as Route;
+                    var truckRoute = Response.GetFirstResource(response) as Route;
                                      
                     MatrixCells.Add(new DistanceMatrixCell()
                     {

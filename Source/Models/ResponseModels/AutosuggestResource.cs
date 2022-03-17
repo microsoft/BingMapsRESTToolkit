@@ -31,46 +31,32 @@ namespace BingMapsRESTToolkit
     /// Autosuggest Resource Enity: Used for `Place`, `Address`, and `LocalBusiness`
     /// </summary>
     [DataContract]
-    public class AutosuggestEntityResource : Resource
+    public class AutosuggestEntityResource
     {
-
         /// <summary>
         /// Address of the Entity
         /// </summary>
         [DataMember(Name ="address", EmitDefaultValue = false)]
-        public Address EntityAddress { get; set; }
-    }
+        public Address Address { get; set; }
 
-    [DataContract(Name= "LocalBusiness")]
-    public class AutoSuggestLocalBusinessResource : AutosuggestEntityResource
-    {
         /// <summary>
         /// Name of Entity
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
-    }
 
-    [DataContract(Name = "Place")]
-    public class AutoSuggestPlaceResource : AutosuggestEntityResource
-    {
         /// <summary>
-        /// Name of Entity
+        /// The type of the entity
         /// </summary>
-        [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string Name { get; set; }
-    }
-
-    [DataContract(Name = "Address")]
-    public class AutosuggestAddressResource : AutosuggestEntityResource
-    {
+        [DataMember(Name = "type", EmitDefaultValue = false)]
+        public string Type { get; set; }
     }
 
     /// <summary>
     /// Resource returned by Autosuggest API
     /// </summary>
     [DataContract(Name ="Autosuggest", Namespace ="http://schemas.microsoft.com/search/local/ws/rest/v1")]
-    public class AutosuggestResource : Resource
+    public class Autosuggest : Resource
     {
         /// <summary>
         /// List if Autosuggest Entities

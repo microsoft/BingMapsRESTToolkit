@@ -18,8 +18,6 @@ namespace TravellingSalesmenRouteSample
 
         private string SessionKey;
 
-        private Regex CoordinateRx = new Regex(@"^[\s\r\n\t]*(-?[0-9]{0,2}(\.[0-9]*)?)[\s\t]*,[\s\t]*(-?[0-9]{0,3}(\.[0-9]*)?)[\s\r\n\t]*$");
-
         #endregion
 
         public MainWindow()
@@ -181,17 +179,7 @@ namespace TravellingSalesmenRouteSample
             {
                 if (!string.IsNullOrWhiteSpace(p))
                 {
-                    var m = CoordinateRx.Match(p);
-
-                    if (m.Success)
-                    {
-                        waypoints.Add(new SimpleWaypoint(double.Parse(m.Groups[1].Value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture),
-                            double.Parse(m.Groups[3].Value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture)));
-                    }
-                    else
-                    {
-                        waypoints.Add(new SimpleWaypoint(p));
-                    }
+                    waypoints.Add(SimpleWaypoint.Parse(p));
                 }
             }
 

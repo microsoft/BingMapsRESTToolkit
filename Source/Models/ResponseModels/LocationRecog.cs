@@ -59,7 +59,7 @@ namespace BingMapsRESTToolkit
         /// Array of LocalBusiness Resources
         /// </summary>
         [DataMember(Name = "businessesAtLocation", EmitDefaultValue = false)]
-        public LocalBusiness[] BusinessAtLocation { get; set; }
+        public BusinessAtLocation[] BusinessAtLocation { get; set; }
 
         /// <summary>
         /// Array of Business Addressess

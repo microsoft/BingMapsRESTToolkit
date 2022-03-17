@@ -77,7 +77,7 @@ namespace BingMapsRESTToolkit
             //  /Date(1235764800000)/
             //  /Date(1467298867000-0700)/
 
-            jsonDate = jsonDate.Replace("/Date(", "").Replace(")/", "");
+            jsonDate = jsonDate.Replace("\\/Date(", "").Replace("/Date(", "").Replace(")/", "").Replace(")\\/", "");
 
             long ms = 0;    // number of milliseconds since midnight Jan 1, 1970
             long hours = 0;

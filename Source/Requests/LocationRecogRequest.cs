@@ -220,22 +220,11 @@ namespace BingMapsRESTToolkit
 
             string du;
 
-            switch (DistanceUnits)
-            {
-                case DistanceUnitType.Miles:
-                    du = "mile";
-                    break;
-                case DistanceUnitType.Kilometers:
-                default:
-                    du = "kilometer";
-                    break;
-            }
-
             List<string> param_list = new List<string>
             {
                 string.Format("r={0}", Radius.ToString(System.Globalization.CultureInfo.InvariantCulture)),
                 string.Format("top={0}", Top.ToString()),
-                string.Format("distanceUnit={0}", du),
+                string.Format("distanceUnit={0}", EnumHelper.DistanceUnitTypeToString(DistanceUnits)),
                 string.Format("verboseplacenames={0}", VerbosePlaceNames.ToString().ToLower()),
                 string.Format("key={0}", BingMapsKey.ToString()),
                 string.Format("includeEntityTypes={0}", IncludeEntityTypes)

@@ -43,6 +43,7 @@
     <Compile Include="Enums\AutosuggestLocationType.cs" />
     <Compile Include="Enums\AvoidType.cs" />
     <Compile Include="Enums\ConfidenceLevelType.cs" />
+    <Compile Include="Enums\CostValueType.cs" />
     <Compile Include="Enums\DimensionUnitType.cs" />
     <Compile Include="Enums\HazardousMaterialPermitType.cs" />
     <Compile Include="Enums\HazardousMaterialType.cs" />
@@ -51,6 +52,8 @@
     <Compile Include="Enums\ImageryType.cs" />
     <Compile Include="Enums\LocationRecogEntityTypes.cs" />
     <Compile Include="Enums\ManeuverType.cs" />
+    <Compile Include="Enums\OptimizationType.cs" />
+    <Compile Include="Enums\OptimizeInstructionType.cs" />
     <Compile Include="Enums\RouteAttributeType.cs" />
     <Compile Include="Enums\RouteOptimizationType.cs" />
     <Compile Include="Enums\RouteTimeType.cs" />
@@ -72,6 +75,14 @@
     <Compile Include="Internal\DateTimeHelper.cs" />
     <Compile Include="Internal\EnumHelper.cs" />
     <Compile Include="Internal\InternalSettings.cs" />
+    <Compile Include="Models\Agent.cs" />
+    <Compile Include="Models\Break.cs" />
+    <Compile Include="Models\OptimizeItineraryItem.cs" />
+    <Compile Include="Models\Price.cs" />
+    <Compile Include="Models\ResponseModels\RegionTravelSummary.cs" />
+    <Compile Include="Models\Shift.cs" />
+    <Compile Include="Models\ResponseModels\AgentItinerary.cs" />
+    <Compile Include="Models\ResponseModels\Entity.cs" />
     <Compile Include="Models\ResponseModels\AsyncStatus.cs" />
     <Compile Include="Models\BoundingBox.cs" />
     <Compile Include="CustomMapStyleManager.cs" />
@@ -101,9 +112,13 @@
     <Compile Include="Models\ResponseModels\ImageryMetadata.cs" />
     <Compile Include="Models\ResponseModels\ImageryProvider.cs" />
     <Compile Include="Models\ResponseModels\Instruction.cs" />
-    <Compile Include="Models\ResponseModels\LocalBusiness.cs" />
+    <Compile Include="Models\ResponseModels\BusinessAtLocation.cs" />
+    <Compile Include="Models\ResponseModels\LocalInsightsResponse.cs" />
     <Compile Include="Models\ResponseModels\LocationRecog.cs" />
     <Compile Include="Models\ResponseModels\NaturalPOIAtLocationEntity.cs" />
+    <Compile Include="Models\ResponseModels\OptimizeInstruction.cs" />
+    <Compile Include="Models\ResponseModels\OptimizeRoute.cs" />
+    <Compile Include="Models\ResponseModels\OptimizeItinerary.cs" />
     <Compile Include="Models\ResponseModels\RouteProxyAsyncResult.cs" />
     <Compile Include="Models\ResponseModels\IsochroneResponse.cs" />
     <Compile Include="Models\ResponseModels\ItineraryItem.cs" />
@@ -138,6 +153,7 @@
     <Compile Include="Models\ResponseModels\Warning.cs" />
     <Compile Include="Models\ResponseModels\Waypoint.cs" />
     <Compile Include="Models\RouteOptions.cs" />
+    <Compile Include="Models\ResponseModels\CategoryTypeResult.cs" />
     <Compile Include="Models\VehicleSpec.cs" />
     <Compile Include="Requests\AutosuggestRequest.cs" />
     <Compile Include="Requests\ConvertTimeZoneRequest.cs" />
@@ -156,7 +172,10 @@
     <Compile Include="Internal\ServiceHelper.cs" />
     <Compile Include="Requests\IsochroneRequest.cs" />
     <Compile Include="Requests\ListTimeZonesRequest.cs" />
+    <Compile Include="Requests\LocalInsightsRequest.cs" />
+    <Compile Include="Requests\LocalSearchRequest.cs" />
     <Compile Include="Requests\LocationRecogRequest.cs" />
+    <Compile Include="Requests\OptimizeItineraryRequest.cs" />
     <Compile Include="Requests\SnapToRoadRequest.cs" />
     <Compile Include="Internal\SpatialTools.cs" />
     <Compile Include="Models\SimpleAddress.cs" />

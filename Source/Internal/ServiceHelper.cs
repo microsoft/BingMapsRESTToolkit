@@ -24,11 +24,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace BingMapsRESTToolkit
@@ -417,11 +417,12 @@ namespace BingMapsRESTToolkit
                     throw new Exception(String.Join("", response.ErrorDetails));
                 }
 
-                if (response.ResourceSets != null && response.ResourceSets.Length > 0 && response.ResourceSets[0].Resources != null && response.ResourceSets[0].Resources.Length > 0)
+                if (Response.HasResource(response))
                 {
-                    if (response.ResourceSets[0].Resources[0] is AsyncStatus && !string.IsNullOrEmpty((response.ResourceSets[0].Resources[0] as AsyncStatus).RequestId))
+                    var res = Response.GetFirstResource(response);
+                    if (res is AsyncStatus && !string.IsNullOrEmpty((res as AsyncStatus).RequestId))
                     {
-                        var status = response.ResourceSets[0].Resources[0] as AsyncStatus;
+                        var status = res as AsyncStatus;
 
                         status = await ServiceHelper.ProcessAsyncStatus(status, remainingTimeCallback).ConfigureAwait(false);
 
@@ -442,11 +443,11 @@ namespace BingMapsRESTToolkit
 
                         return response;
                     }
-                    else if (response.ResourceSets[0].Resources[0] is AsyncStatus && !string.IsNullOrEmpty((response.ResourceSets[0].Resources[0] as AsyncStatus).ErrorMessage))
+                    else if (res is AsyncStatus && !string.IsNullOrEmpty((res as AsyncStatus).ErrorMessage))
                     {
-                        throw new Exception((response.ResourceSets[0].Resources[0] as AsyncStatus).ErrorMessage);
+                        throw new Exception((res as AsyncStatus).ErrorMessage);
                     }
-                    else if (response.ResourceSets[0].Resources[0] is Resource && !(response.ResourceSets[0].Resources[0] is AsyncStatus))
+                    else if (res is Resource && !(res is AsyncStatus))
                     {
                         return response;
                     }
@@ -466,11 +467,12 @@ namespace BingMapsRESTToolkit
                     throw new Exception(String.Join("", response.ErrorDetails));
                 }
 
-                if (response.ResourceSets != null && response.ResourceSets.Length > 0 && response.ResourceSets[0].Resources != null && response.ResourceSets[0].Resources.Length > 0)
+                if (Response.HasResource(response))
                 {
-                    if (response.ResourceSets[0].Resources[0] is AsyncStatus && !string.IsNullOrEmpty((response.ResourceSets[0].Resources[0] as AsyncStatus).RequestId))
+                    var res = Response.GetFirstResource(response);
+                    if (res is AsyncStatus && !string.IsNullOrEmpty((res as AsyncStatus).RequestId))
                     {
-                        var status = response.ResourceSets[0].Resources[0] as AsyncStatus;
+                        var status = res as AsyncStatus;
 
                         status = await ServiceHelper.ProcessAsyncStatus(status, remainingTimeCallback).ConfigureAwait(false);
 
@@ -480,8 +482,37 @@ namespace BingMapsRESTToolkit
                             {
                                 using (var resultStream = await ServiceHelper.GetStreamAsync(new Uri(status.ResultUrl)).ConfigureAwait(false))
                                 {
-                                    var resource = ServiceHelper.DeserializeStream<T>(resultStream);
-                                    response.ResourceSets[0].Resources[0] = resource;
+                                    if (typeof(T) == typeof(DistanceMatrix))
+                                    {
+                                        //There is a bug in the distance matrix service that when some options are set, the response isn't wrapped with a resourceSet->resources like all other services.
+                                        using (var sr = new StreamReader(resultStream))
+                                        {
+                                            var r = sr.ReadToEnd();
+
+                                            //Remove first character from string.
+                                            r = r.Remove(0, 1);
+
+                                            //Add namespace type to JSON object.
+                                            r = "{\"__type\":\"DistanceMatrix:http://schemas.microsoft.com/search/local/ws/rest/v1\"," + r;
+
+                                            var bytes = Encoding.UTF8.GetBytes(r);
+                                            using (var stream = new MemoryStream(bytes))
+                                            {
+                                                var resource = ServiceHelper.DeserializeStream<T>(stream);
+                                                response.ResourceSets[0].Resources[0] = resource;
+                                            }
+                                        }
+                                    } 
+                                    else if (typeof(T) == typeof(SnapToRoadResponse))
+                                    {
+                                        //Snap to road for some reason includes a full resource set response while other async services don't.
+                                        response = ServiceHelper.DeserializeStream<Response>(resultStream);
+                                    }
+                                    else
+                                    {
+                                        var resource = ServiceHelper.DeserializeStream<T>(resultStream);
+                                        response.ResourceSets[0].Resources[0] = resource;
+                                    }
                                 }
                             }
                             catch (Exception ex)
@@ -492,11 +523,11 @@ namespace BingMapsRESTToolkit
 
                         return response;
                     }
-                    else if (response.ResourceSets[0].Resources[0] is AsyncStatus && !string.IsNullOrEmpty((response.ResourceSets[0].Resources[0] as AsyncStatus).ErrorMessage))
+                    else if (res is AsyncStatus && !string.IsNullOrEmpty((res as AsyncStatus).ErrorMessage))
                     {
-                        throw new Exception((response.ResourceSets[0].Resources[0] as AsyncStatus).ErrorMessage);
+                        throw new Exception((res as AsyncStatus).ErrorMessage);
                     }
-                    else if (response.ResourceSets[0].Resources[0] is Resource && !(response.ResourceSets[0].Resources[0] is AsyncStatus))
+                    else if (res is Resource && !(res is AsyncStatus))
                     {
                         return response;
                     }
@@ -525,10 +556,6 @@ namespace BingMapsRESTToolkit
 
                 status = await ServiceHelper.MonitorAsyncStatus(statusUrl, 0, remainingTimeCallback).ConfigureAwait(false);
             }
-            else
-            {
-                return status;
-            }
 
             if (status != null)
             {
@@ -538,7 +565,7 @@ namespace BingMapsRESTToolkit
                 }
                 else if (!status.IsAccepted)
                 {
-                    throw new Exception("The request was not accepted.");
+                    throw new Exception("The request was not accepted. " + (!string.IsNullOrEmpty(status.ErrorMessage) ? status.ErrorMessage : ""));
                 }
                 else if (!string.IsNullOrEmpty(status.ErrorMessage))
                 {
@@ -546,7 +573,7 @@ namespace BingMapsRESTToolkit
                 }
             }
 
-            return null;
+            return status;
         }
 
         /// <summary>
@@ -572,17 +599,37 @@ namespace BingMapsRESTToolkit
                         {
                             throw new Exception(r.ErrorDetails[0]);
                         }
-                        else if (r.ResourceSets != null && r.ResourceSets.Length > 0 && r.ResourceSets[0].Resources != null && r.ResourceSets[0].Resources.Length > 0 && r.ResourceSets[0].Resources[0] is AsyncStatus)
+                        else if (Response.HasResource(r))
                         {
-                            status = r.ResourceSets[0].Resources[0] as AsyncStatus;
-
-                            if (!status.IsCompleted && status.CallbackInSeconds > 0)
+                            var res = Response.GetFirstResource(r);
+                            if (res is AsyncStatus)
                             {
-                                remainingTimeCallback?.Invoke(status.CallbackInSeconds);
+                                status = res as AsyncStatus;
 
-                                //Wait remaining seconds.
-                                await Task.Delay(TimeSpan.FromSeconds(status.CallbackInSeconds)).ConfigureAwait(false);
-                                return await MonitorAsyncStatus(statusUrl, 0, remainingTimeCallback).ConfigureAwait(false);
+                                if (!status.IsCompleted && status.CallbackInSeconds > 0)
+                                {
+                                    remainingTimeCallback?.Invoke(status.CallbackInSeconds);
+
+                                    //Wait remaining seconds.
+                                    await Task.Delay(TimeSpan.FromSeconds(status.CallbackInSeconds)).ConfigureAwait(false);
+                                    return await MonitorAsyncStatus(statusUrl, 0, remainingTimeCallback).ConfigureAwait(false);
+                                }
+                            }
+                            else if (res is OptimizeItinerary)
+                            {
+                                var oi = res as OptimizeItinerary;
+
+                                status = new AsyncStatus()
+                                {
+                                    CallbackInSeconds = -1,
+                                    IsCompleted = oi.IsCompleted,
+                                    IsAccepted = oi.IsAccepted,
+                                    CallbackUrl = statusUrl.OriginalString,
+                                    ResultUrl = oi.IsCompleted ? statusUrl.OriginalString: null,
+                                };
+                            } else
+                            {
+                                var t = "";
                             }
                         }
                     }

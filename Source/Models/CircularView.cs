@@ -29,10 +29,12 @@ using System.Runtime.Serialization;
 namespace BingMapsRESTToolkit
 {
     /// <summary>
-    /// Used by AutoSuggest API, for a Circular Screen Search Area
+    /// A Circular Screen Search Area.
+    /// NOTE: someone created this without looking around for similar classes (CoordwithRadius) does the same thing. 
+    /// This class has been modified to wrap CoordwithRadius, to be backwards compatible.
     /// </summary>
     [DataContract]
-    public class CircularView
+    public class CircularView : Coordinate
     {
         /// <summary>
         /// Default Constructor
@@ -40,35 +42,32 @@ namespace BingMapsRESTToolkit
         /// <param name="latitude">Latitude of point</param>
         /// <param name="longitude">Longitude of point</param>
         /// <param name="radius">Radius, in meters</param>
-        CircularView(double latitude, double longitude, int radius)
+        public CircularView(double latitude, double longitude, int radius): base()
         {
             if (radius >= 0)
-                this.radius = radius;
+                this.Radius = radius;
             else
                 throw new System.Exception("Radius in UserCircularMapView Constructor must be greater than 0");
 
-            this.coords.Latitude = latitude;
-            this.coords.Longitude = longitude;
+            this.Latitude = latitude;
+            this.Longitude = longitude;
         }
-
-        /// <summary>
-        /// To String used for exporting Coords to URL parameter
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return string.Format(CultureInfo.InvariantCulture, "{0:0.#####},{1:0.#####},{2}", coords.Latitude, coords.Longitude, radius);
-        }
-
-        /// <summary>
-        /// The Locaiton of Circular Region
-        /// </summary>
-        public Coordinate coords { get; set; }
 
         /// <summary>
         /// Radius (Meters) of Circular Region
         /// </summary>
-        public int radius { get; set; }
+        [DataMember(Name="radius")]
+        public int? Radius { get; set; }
 
+        public override string ToString()
+        {
+            if (Radius.HasValue)
+            {
+                return string.Format(CultureInfo.InvariantCulture, "{0:0.######},{1:0.######},{2}", Latitude, Longitude, Radius.Value);
+            } else
+            {
+                return string.Format(CultureInfo.InvariantCulture, "{0:0.######},{1:0.######}", Latitude, Longitude);
+            }
+        }
     }
 }

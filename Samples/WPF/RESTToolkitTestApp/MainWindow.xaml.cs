@@ -106,7 +106,72 @@ namespace RESTToolkitTestApp
 
             ProcessRequest(r);
         }
-       
+
+        private void LocalSearchBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            var r = new LocalSearchRequest()
+            {
+                Query = "coffee",
+                MaxResults = 25,
+                UserLocation = new Coordinate(47.602038, -122.333964),
+                BingMapsKey = BingMapsKey
+            };
+
+            ProcessRequest(r);
+        }
+
+        private void LocalSearchTypeBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            var r = new LocalSearchRequest()
+            {
+                Types = new List<string>() { "CoffeeAndTea" },
+                MaxResults = 25,
+                UserLocation = new Coordinate(47.602038, -122.333964),
+                BingMapsKey = BingMapsKey
+            };
+
+            ProcessRequest(r);
+        }
+
+
+        private void LocalInsightsBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            var r = new LocalInsightsRequest()
+            {
+                Types = new List<string>() { "CoffeeAndTea" },
+                Waypoint = new SimpleWaypoint("Bellevue, WA"),
+                MaxTime = 60,
+                TimeUnit = TimeUnitType.Minute,
+                DateTime = DateTime.Now.AddMinutes(15),
+                TravelMode = TravelModeType.Driving,
+                BingMapsKey = BingMapsKey
+            };
+
+            ProcessRequest(r);
+        }
+
+        private void LocationRecogBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            var r = new LocationRecogRequest() { 
+                BingMapsKey = BingMapsKey, 
+                CenterPoint = new Coordinate(47.668697, -122.376373) 
+            };
+
+            ProcessRequest(r);
+        }
+
+        private void AutosuggestBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            var r = new AutosuggestRequest()
+            {
+                BingMapsKey = BingMapsKey,
+                Query = "El Bur",
+                UserLocation = new CircularView(47.668697, -122.376373, 5),
+            };
+
+            ProcessRequest(r);
+        }
+
         /// <summary>
         /// Demostrates how to make an Elevation Request.
         /// </summary>
@@ -120,6 +185,23 @@ namespace RESTToolkitTestApp
                     new Coordinate(45, -110)
                 },
                 Samples = 1024,
+                BingMapsKey = BingMapsKey
+            };
+
+            ProcessRequest(r);
+        }
+
+
+        /// <summary>
+        /// Demostrates how to make an Elevation Request for a bounding box.
+        /// </summary>
+        private void ElevationByBboxBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            var r = new ElevationRequest()
+            {
+                Bounds = new BoundingBox(new double[] {50.995391, -1.320763, 52.000577, -2.311836}),
+                Row = 50,
+                Col = 4,
                 BingMapsKey = BingMapsKey
             };
 
@@ -311,6 +393,116 @@ namespace RESTToolkitTestApp
                         Address = "Redmond, WA"
                     }
                 },
+                BingMapsKey = BingMapsKey
+            };
+
+            ProcessRequest(r);
+        }
+
+        /// <summary>
+        /// Demostrates how to make a Multi-route optimization Request.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OptimizeItineraryBtn_Clicked(object sender, RoutedEventArgs e)
+        {
+            var r = new OptimizeItineraryRequest()
+            {
+                Agents = new List<Agent>()
+                {
+                    new Agent()
+                    {
+                        Name = "agent1",
+                        Shifts = new List<Shift>()
+                        {
+                            new Shift()
+                            {
+                                StartTimeUtc = new DateTime(2022, 1, 1, 8, 0, 0), //8 am
+                                StartLocation = new SimpleWaypoint("1603 NW 89th St, Seattle, WA 98117, US"),
+                                EndTimeUtc = new DateTime(2022, 1, 1, 18, 0, 0), //6pm
+                                EndLocation = new SimpleWaypoint(47.7070790545669, -122.355226696231),
+                                Breaks = new Break[]
+                                {
+                                    new Break()
+                                    {
+                                        StartTimeUtc = new DateTime(2022, 1, 1, 12, 0, 0), //12pm/noon
+                                        EndTimeUtc = new DateTime(2022, 1, 1, 14, 0, 0),   //2pm
+                                        DurationTimeSpan = new TimeSpan(0, 30, 0) //30 minutes.
+                                    },
+                                    new Break()
+                                    {
+                                        StartTimeUtc = new DateTime(2022, 1, 1, 16, 0, 0), //4pm
+                                        EndTimeUtc = new DateTime(2022, 1, 1, 16, 30, 0)   //4:30pm
+                                    }
+                                }
+                            }
+                        },
+                        Price = new Price()
+                        {
+                            FixedPrice = 100,
+                            PricePerHour = 5,
+                            PricePerKM = 1
+                        },
+                        Capacity = new int[] { 16 }
+                    }
+                },
+                ItineraryItems = new List<OptimizeItineraryItem>()
+                {
+                    new OptimizeItineraryItem()
+                    {
+                        Name = "Customer 1",
+                        OpeningTimeUtc = new DateTime(2022, 1, 1, 9, 0, 0), //9am
+                        ClosingTimeUtc = new DateTime(2022, 1, 1, 18, 0, 0),   //6pm
+                        DwellTimeSpan = new TimeSpan(0, 32, 0), //32 minutes
+                        Priority = 5,
+                        Quantity = new int[] { 4 },
+                        //Waypoint = new SimpleWaypoint(47.692290770423,-122.385954752402),
+                        Waypoint = new SimpleWaypoint("8712 Jones Pl NW, Seattle, WA 98117, US")
+                    },
+                    new OptimizeItineraryItem()
+                    {
+                        Name = "Customer 2",
+                        OpeningTimeUtc = new DateTime(2022, 1, 1, 9, 0, 0), //9am
+                        ClosingTimeUtc = new DateTime(2022, 1, 1, 18, 0, 0),   //6pm
+                        DwellTimeSpan = new TimeSpan(1, 34, 0), //1 hour 34 minutes
+                        Priority = 16,
+                        Quantity = new int[] { -3 },
+                        Waypoint = new SimpleWaypoint(47.6962193175262,-122.342180147243),
+                        DropOffFrom = new string[] { "Customer 3" }
+                    },
+                    new OptimizeItineraryItem()
+                    {
+                        Name = "Customer 3",
+                        OpeningTimeUtc = new DateTime(2022, 1, 1, 9, 0, 0), //9am
+                        ClosingTimeUtc = new DateTime(2022, 1, 1, 18, 0, 0),   //6pm
+                        DwellTimeSpan = new TimeSpan(1, 0, 0), //1 hour
+                        Priority = 88,
+                        Quantity = new int[] { 3 },
+                        Waypoint = new SimpleWaypoint(47.6798098928389,-122.383036445391)
+                    },
+                    new OptimizeItineraryItem()
+                    {
+                        Name = "Customer 4",
+                        OpeningTimeUtc = new DateTime(2022, 1, 1, 9, 0, 0), //9am
+                        ClosingTimeUtc = new DateTime(2022, 1, 1, 18, 0, 0),   //6pm
+                        DwellTimeSpan = new TimeSpan(0, 25, 0), //25 minutes
+                        Priority = 3,
+                        Quantity = new int[] { -3 },
+                        Waypoint = new SimpleWaypoint(47.6867440824094,-122.354711700877),
+                        DropOffFrom = new string[] { "Customer 1" }
+                    },
+                    new OptimizeItineraryItem()
+                    {
+                        Name = "Customer 5",
+                        OpeningTimeUtc = new DateTime(2022, 1, 1, 9, 0, 0), //9am
+                        ClosingTimeUtc = new DateTime(2022, 1, 1, 18, 0, 0),   //6pm
+                        DwellTimeSpan = new TimeSpan(0, 18, 0), //18 minutes
+                        Priority = 1,
+                        Quantity = new int[] { -1 },
+                        Waypoint = new SimpleWaypoint(47.6846639223203,-122.364839942855),
+                        DropOffFrom = new string[] { "Customer 1" }
+                    }
+                 },
                 BingMapsKey = BingMapsKey
             };
 
@@ -628,8 +820,11 @@ namespace RESTToolkitTestApp
                     {
                         _time = TimeSpan.FromSeconds(remainingTime);
 
-                        RequestProgressBarText.Text = string.Format("Time remaining {0} ", _time);
-                        
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            RequestProgressBarText.Text = string.Format("Time remaining {0} ", _time);
+                        });
+
                         _timer.Start();
                     }
                 });

@@ -150,7 +150,7 @@ namespace BingMapsRESTToolkit
 
                 var response = await ServiceHelper.MakeAsyncPostRequest<DistanceMatrix>(requestUrl, requestBody, remainingTimeCallback).ConfigureAwait(false);
 
-                var dm = response.ResourceSets[0].Resources[0] as DistanceMatrix;
+                var dm = Response.GetFirstResource(response) as DistanceMatrix;
 
                 //TODO: Overwrite origins/destinations for now as we have added support for geocoding in this library, but this is not yet supported by the Distance Matirx API.
                 dm.Origins = this.Origins;

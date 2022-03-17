@@ -80,5 +80,34 @@ namespace BingMapsRESTToolkit
         /// </summary>
         [DataMember(Name = "resourceSets", EmitDefaultValue = false)]
         public ResourceSet[] ResourceSets { get; set; }
+
+        /// <summary>
+        /// Check that a response has one or more resources. This is a helper class to save on having to check all the parts of the response tree.
+        /// </summary>
+        /// <param name="response">A response object.</param>
+        /// <returns>Boolean indicating if the response has one or more resources.</returns>
+        public static bool HasResource(Response response)
+        {
+            return response.ResourceSets != null && 
+                response.ResourceSets.Length > 0 && 
+                response.ResourceSets[0].Resources != null && 
+                response.ResourceSets[0].Resources.Length > 0 &&
+                response.ResourceSets[0].Resources[0] != null;
+        }
+
+        /// <summary>
+        /// Gets the first resource in a response.
+        /// </summary>
+        /// <param name="response">A response object.</param>
+        /// <returns>The first resource in a response, or null.</returns>
+        public static Resource GetFirstResource(Response response)
+        {
+            if (HasResource(response))
+            {
+                return response.ResourceSets[0].Resources[0];
+            }
+
+            return null;
+        }
     }
 }

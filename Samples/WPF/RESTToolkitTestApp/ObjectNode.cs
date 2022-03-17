@@ -209,10 +209,10 @@ namespace RESTToolkitTestApp
                                 object v = p.GetValue(value, null);
                                 IEnumerable arr = v as IEnumerable;
 
-                                ObjectNode arrayNode = new ObjectNode(p.Name, arr.ToString(), typeof(object));
-
                                 if (arr != null)
                                 {
+                                    ObjectNode arrayNode = new ObjectNode(p.Name, arr.ToString(), typeof(object));
+
                                     int i = 0, k = 0;
                                     ObjectNode arrayNode2;
 
@@ -241,11 +241,12 @@ namespace RESTToolkitTestApp
                                         i++;
                                     }
 
+                                    Children.Add(arrayNode);
                                 }
-
-                                Children.Add(arrayNode);
                             }
-                            catch { }
+                            catch (Exception e){
+                                var t = e;
+                            }
                         }
                         else
                         {

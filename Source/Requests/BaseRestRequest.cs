@@ -142,7 +142,13 @@ namespace BingMapsRESTToolkit
             if(UserMapView != null){
                 //South Latitude, West Longitude, North Latitude, East Longitude
                 url += string.Format("&umv={0}", UserMapView.ToString());
-            } 
+            }
+
+            if (UserCircularMapView != null)
+            {
+                //latitude, longitude, radius
+                url += string.Format("&ucmv={0}", UserCircularMapView.ToString());
+            }
 
             if (UserLocation != null)
             {

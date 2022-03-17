@@ -579,7 +579,8 @@ namespace BingMapsRESTToolkit
                     sb.AppendFormat(",\"heading\":{0}", RouteOptions.Heading.Value);
                 }
 
-                if (RouteOptions.MaxSolutions > 1 && RouteOptions.MaxSolutions <= 3)
+                //Truck routing doesn't support max solutions and throws an error if included in the request.
+                if (RouteOptions.TravelMode != TravelModeType.Truck && RouteOptions.MaxSolutions > 1 && RouteOptions.MaxSolutions <= 3)
                 {
                     sb.AppendFormat(",\"maxSolutions\":{0}", RouteOptions.MaxSolutions);
                 }
@@ -601,22 +602,49 @@ namespace BingMapsRESTToolkit
 
                 if (RouteOptions.RouteAttributes != null && RouteOptions.RouteAttributes.Count > 0)
                 {
-                    sb.Append(",\"routeAttributes\":\"");
+                    string rt = "";
 
-                    //Route summaries only supported, but other route attributes try to do something similar, so have them short circuit to this option.
-                    if (RouteOptions.RouteAttributes.Contains(RouteAttributeType.RouteSummariesOnly) || RouteOptions.RouteAttributes.Contains(RouteAttributeType.All) || RouteOptions.RouteAttributes.Contains(RouteAttributeType.ExcludeItinerary))
-                    {
-                        sb.Append("routeSummariesOnly,");
+                    if (RouteOptions.TravelMode == TravelModeType.Truck) {
+                        //Truck supports routePath and regionTravelSummary, and only allows one to be specified.
+                        if(RouteOptions.RouteAttributes.Contains(RouteAttributeType.RoutePath) || RouteOptions.RouteAttributes.Contains(RouteAttributeType.All))
+                        {
+                            rt += "routePath,";
+                        }
+                        else if (RouteOptions.RouteAttributes.Contains(RouteAttributeType.RegionTravelSummary))
+                        {
+                            rt += "regionTravelSummary,";
+                        }
+                        else
+                        {
+                            rt += ",";
+                        }
+                    } else {
+                        if (RouteOptions.RouteAttributes.Contains(RouteAttributeType.RoutePath) || RouteOptions.RouteAttributes.Contains(RouteAttributeType.All))
+                        {
+                            rt += "routePath,";
+                        }
+
+                        //Route summaries only supported, but other route attributes try to do something similar, so have them short circuit to this option.
+                        if (RouteOptions.RouteAttributes.Contains(RouteAttributeType.RouteSummariesOnly) || RouteOptions.RouteAttributes.Contains(RouteAttributeType.All) || RouteOptions.RouteAttributes.Contains(RouteAttributeType.ExcludeItinerary))
+                        {
+                            rt += "routeSummariesOnly,";
+                        }
+
+                        if (RouteOptions.RouteAttributes.Contains(RouteAttributeType.RegionTravelSummary))
+                        {
+                            rt += "regionTravelSummary,";
+                        }
                     }
 
-                    if (RouteOptions.RouteAttributes.Contains(RouteAttributeType.RoutePath) || RouteOptions.RouteAttributes.Contains(RouteAttributeType.All))
+                    if (!string.IsNullOrEmpty(rt))
                     {
-                        sb.Append("routePath,");
-                    }
+                        sb.Append(",\"routeAttributes\":\"");
+                        sb.Append(rt);
 
-                    //Remove trailing comma.
-                    sb.Length--;
-                    sb.Append("\"");
+                        //Remove trailing comma.
+                        sb.Length--;
+                        sb.Append("\"");
+                    }
                 }
 
                 if (RouteOptions.DistanceUnits == DistanceUnitType.Kilometers)
@@ -782,10 +810,9 @@ namespace BingMapsRESTToolkit
                         }
                     }
 
-                    if (r != null && r.ErrorDetails == null && r.ResourceSets != null && r.ResourceSets.Length > 0 &&
-                        r.ResourceSets[0].Resources != null && r.ResourceSets[0].Resources.Length > 0)
+                    if (Response.HasResource(r))
                     {
-                        routes[idx] = r.ResourceSets[0].Resources[0] as Route;
+                        routes[idx] = Response.GetFirstResource(r) as Route;
                         return;
                     }
 

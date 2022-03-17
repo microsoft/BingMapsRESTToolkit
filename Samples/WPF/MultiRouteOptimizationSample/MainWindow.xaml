@@ -1,0 +1,106 @@
+﻿<Window x:Class="MultiRouteOptimizationSample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MultiRouteOptimizationSample"        
+        xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+        mc:Ignorable="d"
+        Title="Multi-route itinerary optimization sample" Height="800" Width="1200">
+
+    <Window.Resources>
+        <Style x:Key="CustomInfoboxStyle" TargetType="ToolTip">
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="VerticalOffset" Value="15" />
+            <Setter Property="HorizontalOffset" Value="155" />
+            <Setter Property="Placement" Value="Top" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToolTip">
+                        <StackPanel>
+                            <Grid Width="200" MinHeight="50" HorizontalAlignment="Left">
+                                <Border Background="Black"/>
+                                <StackPanel Margin="5">
+                                    <ContentPresenter Margin="5" Content="{TemplateBinding Content}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <Polygon HorizontalAlignment="Left" Fill="Black">
+                                <Polygon.Points>
+                                    <Point X="0" Y="0"/>
+                                    <Point X="20" Y="0"/>
+                                    <Point X="30" Y="30"/>
+                                </Polygon.Points>
+                            </Polygon>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <TabControl>
+            <TabItem Header="Main">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Margin="5">
+                        <Button Content="Instructions" Click="InstructionsBtn_Clicked" />
+                        <Button Content="Calculate itinerary" Click="CalculateBtn_Clicked" />
+                        <Button Name="CalculateRoutePathBtn" Content="Calculate route path" Click="CalculateRoutePathBtn_Clicked" IsEnabled="False" />
+
+                        <TextBlock Text="Output" FontWeight="Bold" Margin="0,10"/>
+                        <TextBox Name="OutputTbx" Height="200" Grid.Column="1" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Margin="0,0,0,10"/>
+
+                        <Button Content="Export request" Click="ExportRequestBtn_Clicked" />
+                        <Button Content="Import request" Click="ImportRequestBtn_Clicked" />
+                        <Button Content="Export result" Click="ExportResultBtn_Clicked" />
+                        <Button Content="Import result" Click="ImportResultBtn_Clicked" />
+                    </StackPanel>
+
+                    <m:Map Name="MyMap" Grid.Column="1"/>
+
+                    <StackPanel Grid.Column="1" Background="White" Width="100" Height="100" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                        <TextBlock Text="Legend" FontSize="16" FontWeight="Bold" Margin="5"/>
+
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Width="10" Height="10" Margin="5" Fill="Blue"/>
+                            <TextBlock Text="Agent 1"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Width="10" Height="10" Margin="5" Fill="Orange"/>
+                            <TextBlock Text="Agent 2"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Width="10" Height="10" Margin="5" Fill="Red"/>
+                            <TextBlock Text="Agent 3"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Request details">
+                <StackPanel>
+                    <TextBlock Text="Agents" Margin="0,10" FontSize="14" FontWeight="Bold"/>
+                    <DataGrid Name="AgentTable" CanUserAddRows="False" CanUserResizeColumns="True" CanUserSortColumns="True" IsReadOnly="True" />
+                    <TextBlock Text="Initerary stops" Margin="0,10" FontSize="14" FontWeight="Bold"/>
+                    <DataGrid Name="IniteraryStopTable" CanUserAddRows="False" CanUserResizeColumns="True" CanUserSortColumns="True" IsReadOnly="True" />
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+
+        <Grid Name="LoadingScreen" Background="#55000000" Visibility="Collapsed" Grid.ColumnSpan="2">
+            <TextBlock FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Calculating..." Foreground="White"/>
+        </Grid>
+    </Grid>    
+</Window>

@@ -350,7 +350,7 @@ namespace BingMapsRESTToolkit
                     {
                         x = Bounds.WestLongitude + (dLon * c);
 
-                        int idx = r * row + c;
+                        int idx = r * col + c;
 
                         coords[idx] = new Coordinate()
                         {

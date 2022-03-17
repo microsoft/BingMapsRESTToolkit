@@ -12,6 +12,9 @@
         - [GeocodeRequest Class](#GeocodeRequest)
         - [ReverseGeocodeRequest Class](#ReverseGeocodeRequest)
         - [LocationRecogRequest Class](#LocationRecogRequest)
+        - [LocalSearchRequest Class](#LocalSearchRequest)
+        - [LocalInsightsRequest Class](#LocalInsightsRequest)
+        - [AutosuggestRequest Class](#AutosuggestRequest)
     - [Routes API](#routes-api)
         - [DistanceMatrixRequest Class](#DistanceMatrixRequest)
         - [IsochroneRequest Class](#IsochroneRequest)
@@ -19,6 +22,7 @@
         - [RouteRequest Class](#RouteRequest) 
         - [SnapToRoadRequest Class](#SnapToRoadRequest)
         - [TrafficRequest Class](#TrafficRequest) 
+        - [OptimizeItineraryRequest class](#OptimizeItineraryRequest)
     - [Elevation API](#elevation-api)
         - [ElevationRequest Class](#ElevationRequest)  
     - [Imagery API](#imagery-api) 
@@ -62,6 +66,7 @@
     - [TravellingSalesmen Classes](#TravellingSalesmen)
     - [TspOptimizationType Enumeration](#TspOptimizationType)
     - [TspSolution Class](#TspSolution)
+* [Response class extensions](#response-class-extensions)
 
 
 This documentation does not include the class definitions for the REST Response. These are documented in the Bing Maps MSDN documentation [here](https://msdn.microsoft.com/en-us/library/ff701707.aspx).
@@ -265,7 +270,7 @@ The [Location Recognition API](https://msdn.microsoft.com/en-us/library/mt847173
 
 #### Constructor
 
-> `public LocationRecogRequest();`
+> `public LocationRecogRequest()`
 
 #### Methods
 
@@ -287,6 +292,75 @@ The [Location Recognition API](https://msdn.microsoft.com/en-us/library/mt847173
 |`Top`| `int` | Max number of entities to return, integers from `0` to `20`.|
 |`Radius`| `double`| Maximum search radius, from `0` to `2` kilometers. |
 |`VerbosePlaceNames`| `bool`| Whether to include verbose entity names.| 
+
+### <a name="LocalSearchRequest"></a> `LocalSearchRequest` Class
+
+The [Local Search API](https://docs.microsoft.com/en-us/bingmaps/rest-services/locations/local-search) returns a list of business entities centered around a location or a geographic region.
+
+#### Methods
+
+| Name            | Return Type | Description                                              |
+|-----------------|-------------|----------------------------------------------------------|
+| `Execute()`       | `Task<Response>` | Executes the request.                                        |
+| `Execute(Action<int> remainingTimeCallback)` | `Task<Response>` | Executes the request.             |
+| `GetRequestUrl()` | `string`      | Gets the request URL to perform a reverse geocode query. |
+
+#### Properties
+
+
+| Name                | Type                   | Description    |
+|---------------------|------------------------|----------------|
+| `MaxResults`        | `int`           | Specifies the maximum number of locations to return in the response.                          |
+| `Query`             | `string`        | A free form string address or Landmark. Overrides the Address values if both are specified.   |
+| `Types`             | `List<string>`  | The specified types used to filter the local entities returned by the Local Search API. A comma-separated list of string type identifiers. See the [list of available Type IDs](https://docs.microsoft.com/en-us/bingmaps/rest-services/common-parameters-and-types/type-identifiers/) |
+
+### <a name="LocalInsightsRequest"></a> `LocalInsightsRequest` Class
+
+The [Local Insights API](https://docs.microsoft.com/en-us/bingmaps/rest-services/routes/local-insights) returns a list of local entities within the specified maximum driving time or distance traveled from a specified point on Earth.
+
+#### Methods
+
+| Name            | Return Type | Description                                              |
+|-----------------|-------------|----------------------------------------------------------|
+| `Execute()`       | `Task<Response>` | Executes the request.                                        |
+| `Execute(Action<int> remainingTimeCallback)` | `Task<Response>` | Executes the request.             |
+| `GetRequestUrl()` | `string`      | Gets the request URL to perform a reverse geocode query. |
+
+#### Properties
+
+| Name                | Type                   | Description    |
+|---------------------|------------------------|----------------|
+| `DateTime` | `DateTime` | The dateTime parameter identifies the desired time to be used when calculating an isochrone route. This is supported for driving. When calculating, driving routes the route optimization type should be TimeWithTraffic. The route time will be used as the departure time. |
+| `DistanceUnits` | [`DistanceUnitType`](#DistanceUnitType) | The units in which the maxTime value is specified. | 
+| `MaxDistance` | `double`  | The maximum travel distance in the specified distance units in which the isochrone polygon is generated. Cannot be set when maxTime is set. |
+| `MaxTime` | `double`  | The maximum travel time in the specified time units in which the isochrone polygon is generated. Cannot be set when maxDistance is set. Maximum value is 120 minutes. |
+| `Optimize` | [`RouteOptimizationType`](#RouteOptimizationType)          | Specifies what parameters to use to optimize the isochrone route. One of the following values:<br/><br/>- distance: The route is calculated to minimize the distance. Traffic information is not used. Use with maxDistance.<br/>- time [default]: The route is calculated to minimize the time. Traffic information is not used. Use with maxTime.<br/>- timeWithTraffic: The route is calculated to minimize the time and uses current or predictive traffic information depending on if a dateTime value is specified. Use with maxTime. |
+| `TimeUnit` | [TimeUnitType](#TimeUnitType) | The units in which the maxTime value is specified. Default: **Seconds** |
+| `TravelMode` | [TravelModeType](#TravelModeType) | The mode of travel for the route. Default: Driving.  |
+| `Types`             | `List<string>`  | The specified types used to filter the local entities returned by the Local Search API. A comma-separated list of string type identifiers. See the [list of available Type IDs](https://docs.microsoft.com/en-us/bingmaps/rest-services/common-parameters-and-types/type-identifiers/) |
+| `Waypoint` | [SimplyWaypoint](#SimplyWaypoint) | The point around which the isochrone will be calculated. |
+
+
+## <a name="AutosuggestRequest"></a> AutosuggestRequest Class
+
+The [Autosuggest API](https://docs.microsoft.com/en-us/bingmaps/rest-services/autosuggest) returns a list of suggested entities which the user is most likely searching for.
+
+#### Methods
+
+| Name            | Return Type | Description                                              |
+|-----------------|-------------|----------------------------------------------------------|
+| `Execute()`       | `Task<Response>` | Executes the request.                                        |
+| `Execute(Action<int> remainingTimeCallback)` | `Task<Response>` | Executes the request.             |
+| `GetRequestUrl()` | `string`      | Gets the request URL to perform a reverse geocode query. |
+
+#### Properties
+
+| Name                | Type                   | Description    |
+|---------------------|------------------------|----------------|
+| `CountryFilter`          | `string`           | A list of returned entity types. |
+| `IncludeEntityTypes`          | `List<AutosuggestEntityType>`           | Specifies the maximum number of locations to return in the response. |
+| `MaxResults`          | `int`           | Specifies the maximum number of locations to return in the response.                          |
+| `Query`               | `string`        | A free form string address or Landmark. Overrides the Address values if both are specified.   |
 
 ## Routes API
 
@@ -425,7 +499,7 @@ Requests traffic information. Inherits from the BaseRestRequest class.
 
 | Name            | Return Type | Description                                               |
 |-----------------|-------------|-----------------------------------------------------------|
-|`Execute()`       | `Task<Response>` | Executes the request.                                  |
+| `Execute()`       | `Task<Response>` | Executes the request.                                  |
 | `Execute(Action<int> remainingTimeCallback)` | `Task<Response>` | Executes the request.       |
 | `GetRequestUrl()` | `string`      | Gets a URL for requesting traffic data for a GET request. |
 
@@ -437,6 +511,29 @@ Requests traffic information. Inherits from the BaseRestRequest class.
 | `MapArea`  | [BoundingBox](#BoundingBox) | Specifies the area to search for traffic incident information. A rectangular area specified as a bounding box. The size of the area can be a maximum of 500 km x 500 km.                     |
 | `Severity` | `List<SeverityType>` | Specifies severity level of traffic incidents to return. The default is to return traffic incidents for all severity levels.   |
 | `TrafficType` | `List<TrafficType>`;  | Specifies the type of traffic incidents to return. |
+
+
+### <a name="OptimizeItineraryRequest"></a> OptimizeItineraryRequest class
+
+Request for Bing Maps Multi-Itinerary Optimization API.
+
+#### Methods
+
+| Name            | Return Type | Description                                               |
+|-----------------|-------------|-----------------------------------------------------------|
+| `Execute()`       | `Task<Response>` | Executes the request.                                  |
+| `Execute(Action<int> remainingTimeCallback)` | `Task<Response>` | Executes the request.       |
+| `GetRequestUrl()` | `string`      | Gets a URL for requesting traffic data for a GET request. |
+
+#### Properties
+
+| Name                 | Type                     | Description    |
+|----------------------|--------------------------|----------------|
+| `Agents` | `List<Agent>`  | List of agent itinerary information: including the agent name, shift starting and ending locations for agent, and capacity of the agent's vehicle. |
+| `ItineraryItems`  | `List<OptimizeItineraryItem>` | List of itinerary items to be scheduled among the specified agents, including the location name, location (lat/lon), priority, dwell time, business closing and opening times for each item to be scheduled, quantity to be delivered to or picked up from each location, and pickup/drop off sequence dependency with other itineraryItems. |
+| `Type` | `OptimizationType` | Specifies whether traffic data should used to optimize the order of waypoint items. Default: `SimpleRequest` Note: If the ‘type’ parameter is set to ‘TrafficRequest’, it will automatically use ‘true’ as the ‘roadnetwork’ parameter value. |
+| `RoadNetwork` | `bool`;  | Optional. If true, uses actual road network information, and both travel distances and travel times between the itinerary locations to calculate optimizations. If false, a constant radius is used to measure distances and a constant travel speed is used to calculate travel times between locations. |
+| `CostValue` | `CostValueType` | A parameter used to optimize itineraries in addition to maximizing the sum of item priorities. Default: TravelTime |
 
 ## Elevations API
 
@@ -556,6 +653,13 @@ A class that defines location coordinate value.
 > Coordinate()
 
 > Coordinate(double latitude, double longitude)
+
+### Static Methods
+
+| Name            | Return Type | Description                                                   |
+|-----------------|-------------|---------------------------------------------------------------|
+| Parse(string coordinateString) | Coordinate | Parses a coordinate value from a string with the format "latitude,longitude".  |
+
 
 ### Properties
 
@@ -680,12 +784,20 @@ A simple waypoint class that can be used to calculate a route.
 
 > SimpleWaypoint(double latitude, double longitude) 
 
+### Methods
+
 | Name            | Return Type | Description                                                   |
 |-----------------|-------------|---------------------------------------------------------------|
 | TryGeocode(SimpleWaypoint waypoint, string bingMapsKey) | Task | Tries to geocode a simple waypoint.  |
 | TryGeocode(SimpleWaypoint waypoint, BaseRestRequest baseRequest) | Task | Tries to geocode a simple waypoint.  |
 | TryGeocodeWaypoints(List\<SimpleWaypoint\> waypoints, string bingMapsKey) | Task      | Attempts to geocode a list of simple waypoints. |
 | TryGeocodeWaypoints(List\<SimpleWaypoint\> waypoints, BaseRestRequest baseRequest) | Task      | Attempts to geocode a list of simple waypoints. |
+
+### Static Methods
+
+| Name            | Return Type | Description                                                   |
+|-----------------|-------------|---------------------------------------------------------------|
+| Parse(string waypointString) | SimpleWaypoint | Parses a simple waypoint value from a string. If it has the format "latitude,longitude", it will be used as a coordinate, otherwise as an address.  |
 
 ### Properties
 
@@ -860,7 +972,8 @@ The type of route attributes to include in a route response.
 | All                 | Used to specify the following attributes as a group: excluteItinerary, routePath, and transitStops.                                                                                  |
 | ExcludeItinerary    | Do not include detailed directions in the response. Detailed directions are provided as itinerary items and contain details such as written instructions and traffic location codes. |
 | RoutePath           | Include a set of point (latitude and longitude) values that describe the route-s path in the response.                                                                               |
-| RouteSummariesOnly  | Include only travel time and distance for the route, and does not provide other information.                                                                                         |
+| RouteSummariesOnly  | Include only travel time and distance for the route, and does not provide other information.    
+| RegionTravelSummary  | Include travel summary of distance, time, and toll road distance by two entity types: country (e.g. US, Canada) and administrative division or subregion (e.g. “state” in US and “province” in Canada). |
 | TransitStops        | Include information about transit stops for transit routes.                                                                                                                          |
 
 ## <a name="RouteOptimizationType"></a> RouteOptimizationType Enumeration
@@ -1035,3 +1148,27 @@ The result from a Travelling Salesmen calculation.
 | TravelMode | [TravelModeType](#TravelModeType) | The travel mode used to calculate the distance matrix. |
 | TspOptimization | [TspOptimizationType](#TspOptimizationType) | The metric used to solve the travelling salesmen problem for. |
 
+## Response class extensions
+
+Extensions that have been added to response classes.
+
+### Response class extension
+
+Extensions to the `Response` class to assist with common tasks.
+
+#### Static Methods
+
+| Name            | Return Type | Description                                              |
+|-----------------|-------------|----------------------------------------------------------|
+| HasResource(Response response) | bool | Check that a response has one or more resources. This is a helper class to save on having to check all the parts of the response tree. |
+| GetFirstResource(Response response) | Resource | Gets the first resource in a response. |
+
+### RoutePath class extension
+
+Extensions to the `RoutePath` class to assist with common tasks.
+
+## Methods
+
+| Name            | Return Type | Description                                              |
+|-----------------|-------------|----------------------------------------------------------|
+| GetCoordinates() | Coordinate[] | Gets an array of coordinate objects for the route path. |

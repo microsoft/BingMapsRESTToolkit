@@ -164,11 +164,13 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// The address query for the waypoint. 
         /// </summary>
+        [DataMember(Name = "address")]
         public string Address { get; set; }
 
         /// <summary>
         /// A bool indicating whether the waypoint is a via point.
         /// </summary>
+        [DataMember(Name = "isViaPoint")]
         public bool IsViaPoint { get; set; }
 
         #endregion
@@ -186,7 +188,7 @@ namespace BingMapsRESTToolkit
             {
                 var wp = obj as SimpleWaypoint;
 
-                if((Coordinate == null && wp.Coordinate != null) || (Coordinate != null && wp.Coordinate == null))
+                if ((Coordinate == null && wp.Coordinate != null) || (Coordinate != null && wp.Coordinate == null))
                 {
                     return false;
                 }
@@ -229,7 +231,7 @@ namespace BingMapsRESTToolkit
 
             await TryGeocode(waypoint, request).ConfigureAwait(false);
         }
-        
+
         /// <summary>
         /// Tries to geocode a simple waypoint. 
         /// </summary>
@@ -257,12 +259,9 @@ namespace BingMapsRESTToolkit
                 {
                     var r = await ServiceManager.GetResponseAsync(request).ConfigureAwait(false);
 
-                    if (r != null && r.ResourceSets != null &&
-                        r.ResourceSets.Length > 0 &&
-                        r.ResourceSets[0].Resources != null &&
-                        r.ResourceSets[0].Resources.Length > 0)
+                    if (Response.HasResource(r))
                     {
-                        var l = r.ResourceSets[0].Resources[0] as Location;
+                        var l = Response.GetFirstResource(r) as Location;
 
                         waypoint.Coordinate = new Coordinate(l.Point.Coordinates[0], l.Point.Coordinates[1]);
                     }
@@ -315,5 +314,36 @@ namespace BingMapsRESTToolkit
         }
 
         #endregion
+
+        #region Public Static Methods
+
+        /// <summary>
+        /// Parses a simple waypoint value from a string. If it has the format "latitude,longitude", it will be used as a coordinate, otherwise as an address. 
+        /// </summary>
+        /// <param name="waypointString">String containing a coordinate or address</param>
+        /// <returns>A simple waypoint.</returns>
+        public static SimpleWaypoint Parse(string waypointString)
+        {
+            var c = Coordinate.Parse(waypointString);
+
+            if (c == null)
+            {
+                return new SimpleWaypoint(waypointString);
+            }
+
+            return new SimpleWaypoint(c);
+        }
+
+        #endregion
+
+        public override string ToString()
+        {
+            if(!string.IsNullOrWhiteSpace(Address))
+            {
+                return Address;
+            }
+
+            return string.Format(CultureInfo.InvariantCulture, "{0:0.######}, {1:0.######}", Latitude, Longitude);
+        }
     }
 }

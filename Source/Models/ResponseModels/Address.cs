@@ -98,5 +98,17 @@ namespace BingMapsRESTToolkit
         /// </summary>
         [DataMember(Name = "landmark", EmitDefaultValue = false)]
         public string Landmark { get; set; }
+
+        /// <summary>
+        /// Only returned by Autosuggest API.
+        /// </summary>
+        [DataMember(Name = "houseNumber", EmitDefaultValue = false)]
+        public string HouseNumber { get; set; }
+
+        /// <summary>
+        /// Only returned by Autosuggest API.
+        /// </summary>
+        [DataMember(Name = "streetName", EmitDefaultValue = false)]
+        public string StreetName { get; set; }
     }
 }

@@ -25,6 +25,7 @@
 using System;
 using System.Globalization;
 using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 
 namespace BingMapsRESTToolkit
 {
@@ -37,6 +38,8 @@ namespace BingMapsRESTToolkit
         #region Private Properties
 
         private double _latitude, _longitude;
+
+        private static Regex CoordinateRx = new Regex(@"^[\s\r\n\t]*(-?[0-9]{0,2}(\.[0-9]*)?)[\s\t]*,[\s\t]*(-?[0-9]{0,3}(\.[0-9]*)?)[\s\r\n\t]*$");
 
         #endregion
 
@@ -152,6 +155,30 @@ namespace BingMapsRESTToolkit
         public override int GetHashCode()
         {
             return string.Format(CultureInfo.InvariantCulture, "{0:0.######}|{1:0.######}", Latitude, Longitude).GetHashCode();
+        }
+
+        #endregion
+
+        #region Public Static Methods
+
+        /// <summary>
+        /// Parses a coordinate value from a string with the format "latitude,longitude". 
+        /// </summary>
+        /// <param name="coordinateString">Coordinate string to parse</param>
+        /// <returns>A coordinate or null.</returns>
+        public static Coordinate Parse(string coordinateString)
+        {
+            var m = CoordinateRx.Match(coordinateString);
+
+            if (m.Success)
+            {
+                if(double.TryParse(m.Groups[1].Value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double latitude) &&
+                    double.TryParse(m.Groups[3].Value, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double longitude)) {
+                    return new Coordinate(latitude, longitude);
+                }
+            }
+
+            return null;
         }
 
         #endregion

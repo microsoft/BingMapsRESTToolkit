@@ -124,7 +124,7 @@ namespace BingMapsRESTToolkit
             var requestUrl = GetRequestUrl();
             var requestBody = GetPostRequestBody();
 
-            return await ServiceHelper.MakeAsyncPostRequest<Route>(requestUrl, requestBody, remainingTimeCallback).ConfigureAwait(false);
+            return await ServiceHelper.MakeAsyncPostRequest<SnapToRoadResponse>(requestUrl, requestBody, remainingTimeCallback).ConfigureAwait(false);
         }
         
         /// <summary>
@@ -157,8 +157,8 @@ namespace BingMapsRESTToolkit
                     throw new Exception(string.Format("The distance between point {0} and point {1} is greater than {2} kilometers.", i-1, i, maxDistanceKmBetweenPoints));
                 }
             }
-            
-            if(Points.Count > maxSyncPoints)
+
+            if (Points.Count > maxSyncPoints)
             {
                 //Make an async request.
                 return this.Domain + "Routes/SnapToRoadAsync?key=" + this.BingMapsKey;

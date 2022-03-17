@@ -44,5 +44,26 @@ namespace BingMapsRESTToolkit
         /// </summary>
         [DataMember(Name = "generalizations", EmitDefaultValue = false)]
         public Generalization[] Generalizations { get; set; }
+
+        /// <summary>
+        /// Gets an array of coordinate objects for the route path.
+        /// </summary>
+        /// <returns>An array of coordinate objects for the route path.</returns>
+        public Coordinate[] GetCoordinates()
+        {
+            if(Line != null && Line.Coordinates != null && Line.Coordinates.Length > 0)
+            {
+                var coords = new Coordinate[Line.Coordinates.Length];
+
+                for(int i = 0; i < Line.Coordinates.Length; i++)
+                {
+                    coords[i] = new Coordinate(Line.Coordinates[i][0], Line.Coordinates[i][1]);
+                }
+
+                return coords;
+            }
+
+            return null;
+        }
     }
 }

@@ -24,182 +24,163 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BingMapsRESTToolkit
 {
-
-    public class CoordWithRadius : Coordinate
-    {
-        /// <summary>
-        /// Radius in Meters
-        /// </summary>
-        public int Radius { get; set; }
-
-        /// <summary>
-        /// Default Constuctor
-        /// </summary>
-        public CoordWithRadius() : base()
-        {
-        }
-
-        /// <summary>
-        /// Return Comma-separated list of Lat,Lon,Radius
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString() => string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0},{1},{2}", Latitude.ToString(), Longitude.ToString(), Radius.ToString());
-    }
-
-
+    /// <summary>
+    /// Returns a list of suggested entities which the user is most likely searching for.
+    /// </summary>
     public class AutosuggestRequest : BaseRestRequest
     {
-
         #region Private Properties
 
-        private const int max_maxResults = 10;
+        private int maxResults = 7;
 
         #endregion
 
         #region Constructor
 
+        /// <summary>
+        /// Returns a list of suggested entities which the user is most likely searching for.
+        /// </summary>
         public AutosuggestRequest()
         {
-            AutoLocation = AutosuggestLocationType.userLocation;
             IncludeEntityTypes = new List<AutosuggestEntityType>()
-                {
-                    AutosuggestEntityType.Address,
-                    AutosuggestEntityType.LocalBusiness,
-                    AutosuggestEntityType.Place,
-                };
-            Culture = "en-US";
-            UserRegion = "US";
-            CountryFilter = null;
-            Query = "";
-            UserLoc = null;
+            {
+                AutosuggestEntityType.Address,
+                AutosuggestEntityType.Business,
+                AutosuggestEntityType.Place
+            };
         }
 
         #endregion
 
         #region Public Properties
 
-        public CoordWithRadius UserLoc { get; set; } 
-
-        public string CountryFilter { get; set; }
-
-        public List<AutosuggestEntityType> IncludeEntityTypes {get; set;}
-
-        public AutosuggestLocationType AutoLocation { get; set; }
-
+        /// <summary>
+        /// A free form string address or Landmark. Overrides the Address values if both are specified.
+        /// </summary>
         public string Query { get; set; }
 
-        public int? MaxResults { get; set; }
+        /// <summary>
+        /// Used to constrain entity suggestions to a single country denoted by a 2-letter country code abbreviation.
+        /// </summary>
+        public string CountryFilter { get; set; }
+
+        /// <summary>
+        /// A list of returned entity types.
+        /// </summary>
+        public List<AutosuggestEntityType> IncludeEntityTypes { get; set; }
+
+        /// <summary>
+        /// Specifies the maximum number of locations to return in the response.
+        /// </summary>
+        public int MaxResults
+        {
+            get { return maxResults; }
+            set
+            {
+                if (value > 0 && value <= 20)
+                {
+                    maxResults = value;
+                }
+            }
+        }
 
         #endregion
 
         #region Public Methods
 
-        public override Task<Response> Execute()
+        /// <summary>
+        /// Executes the request.
+        /// </summary>
+        /// <returns>A response containing the requested data.</returns>
+        public override async Task<Response> Execute()
         {
-            return Execute(null);
+            return await this.Execute(null).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Executes the request.
+        /// </summary>
+        /// <param name="remainingTimeCallback">A callback function in which the estimated remaining time in seconds is sent.</param>
+        /// <returns>A response containing the requested data.</returns>
         public override async Task<Response> Execute(Action<int> remainingTimeCallback)
         {
-            Stream responseStream = null;
+            Response r = null;
 
-            responseStream = await ServiceHelper.GetStreamAsync(new Uri(GetRequestUrl())).ConfigureAwait(false);
-
-
-            if (responseStream != null)
+            using (var responseStream = await ServiceHelper.GetStreamAsync(new Uri(GetRequestUrl())).ConfigureAwait(false))
             {
-                var r = ServiceHelper.DeserializeStream<Response>(responseStream);
-                responseStream.Dispose();
-                return r;
+                using (var sr = new StreamReader(responseStream))
+                {
+                    var s = sr.ReadToEnd();
+
+                    //Replace "__type" with "type" for Entities to work around inconsistent logic used in Bing Maps REST APIs.
+                    s = s.Replace("\"__type\":\"Address\"", "\"type\":\"Address\"")
+                        .Replace("\"__type\":\"LocalBusiness\"", "\"type\":\"LocalBusiness\"")
+                        .Replace("\"__type\":\"Place\"", "\"type\":\"Place\"");
+
+                    var bytes = Encoding.UTF8.GetBytes(s);
+                    using (var stream = new MemoryStream(bytes))
+                    {
+                        r = ServiceHelper.DeserializeStream<Response>(stream);
+                    }                    
+                }
             }
 
-            return null;
+            return r;
         }
 
         public override string GetRequestUrl()
         {
-            if (Query == "")
-                throw new Exception("Empty Query value in Autosuggest REST Request");
-            
-            string queryStr = string.Format("q={0}", Uri.EscapeDataString(Query));
-
-            string maxStr = string.Format("maxRes={0}", (max_maxResults < MaxResults) ? max_maxResults : MaxResults);
-
-            string locStr = null;
-
-            switch(AutoLocation)
+            if (string.IsNullOrWhiteSpace(Query))
             {
-                case AutosuggestLocationType.userCircularMapView:
-                    locStr = string.Format("ucmv={0}", UserCircularMapView.ToString());
-                    break;
-                case AutosuggestLocationType.userMapView:
-                    locStr = string.Format("umv={0}", UserMapView.ToString());
-                    break;
-                case AutosuggestLocationType.userLocation:
-                    if (UserLoc == null)
-                        throw new Exception("User Location is Requred");
-                    locStr = string.Format("ul={0}", UserLoc.ToString());
-                    break;
+                throw new Exception("A Query value must specified.");
             }
 
-            string inclEntityStr = string.Format("inclenttype={0}", getIncludeEntityTypeString());
-
-            string cultureStr = string.Format("c={0}", Culture.ToString());
-
-            List<string> param_list = new List<string>
+            if(UserCircularMapView == null && UserLocation == null && UserMapView == null)
             {
-                queryStr,
-                locStr,
-                inclEntityStr,
-                cultureStr,
-                maxStr,
-                string.Format("key={0}", BingMapsKey)
-            };
-
-            if (CountryFilter != null)
-            {
-                string country_filterStr = string.Format("cf={0}", CountryFilter.ToString());
-                param_list.Add(country_filterStr);
+                throw new Exception("A UserLocation, UserCircularMapView, UserMapView must specified.");
             }
 
-            return Domain + "Autosuggest?" + string.Join("&", param_list);
-        }
+            var sb = new StringBuilder(this.Domain);
+            sb.Append("Autosuggest");
 
-        #endregion
+            sb.AppendFormat("?q={0}", Uri.EscapeDataString(Query));
 
-        #region Private Methods
-
-        private string getIncludeEntityTypeString()
-        {
-            List<string> vals = new List<string>();
-
-            foreach(var entity_type in IncludeEntityTypes.Distinct())
+            if (maxResults != 5)
             {
-                switch(entity_type)
+                sb.AppendFormat("&maxResults={0}", maxResults);
+            }
+
+            if (!string.IsNullOrWhiteSpace(CountryFilter))
+            {
+                sb.AppendFormat("&countryFilter={0}", CountryFilter);
+            }
+
+            if (IncludeEntityTypes != null && IncludeEntityTypes.Count > 0)
+            {
+                sb.Append("&includeEntityTypes=");
+
+                var t = typeof(AutosuggestEntityType);
+
+                foreach (var iet in IncludeEntityTypes)
                 {
-                    case AutosuggestEntityType.Address:
-                        vals.Add("Address");
-                        break;
-                    case AutosuggestEntityType.LocalBusiness:
-                        vals.Add("Business");
-                        break;
-                    case AutosuggestEntityType.Place:
-                        vals.Add("Place");
-                        break;
+                    sb.AppendFormat("{0},", Enum.GetName(t, iet));
                 }
+
+                //Remove trailing comma.
+                sb.Length--;
             }
 
-            return string.Join(",", vals);
+            sb.Append(GetBaseRequestUrl());
+
+            return sb.ToString();
         }
 
         #endregion
-
     }
 }

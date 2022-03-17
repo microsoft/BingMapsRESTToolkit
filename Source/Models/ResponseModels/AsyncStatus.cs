@@ -34,7 +34,6 @@ namespace BingMapsRESTToolkit
     [KnownType(typeof(RouteProxyAsyncResult))]
     public class AsyncStatus: Resource
     {
-
         #region Public Properties
 
         /// <summary>

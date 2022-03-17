@@ -68,11 +68,13 @@ namespace BingMapsRESTToolkit.Extensions
         /// <returns>An efficient path between all waypoints based on time or distance.</returns>
         public async Task<TspResult> Solve(List<SimpleWaypoint> waypoints, TravelModeType? travelMode, TspOptimizationType? tspOptimization, DateTime? departureTime, string bingMapsKey)
         {
-            if(waypoints == null && waypoints.Count > 0)
+            if(waypoints == null || waypoints.Count == 0)
             {
-                //Ensure that unique waypoints are in the list. This will reduce the number of cells generated in the distance matrix, thus lower cost.
-                waypoints = waypoints.Distinct().ToList();
+                throw new Exception("No waypoints specified.");
             }
+
+            //Ensure that unique waypoints are in the list. This will reduce the number of cells generated in the distance matrix, thus lower cost.
+            waypoints = waypoints.Distinct().ToList();
 
             if (tspOptimization == null || !tspOptimization.HasValue)
             {
@@ -84,7 +86,6 @@ namespace BingMapsRESTToolkit.Extensions
             if (tspOptimization.Value == TspOptimizationType.StraightLineDistance)
             {
                 //Calculate a distance matrix based on straight line distances (haversine). 
-
                 dm = await DistanceMatrix.CreateStraightLineNxNMatrix(waypoints, DistanceUnitType.Kilometers, bingMapsKey).ConfigureAwait(false);
             }
             else 
@@ -119,11 +120,13 @@ namespace BingMapsRESTToolkit.Extensions
                         throw new Exception(String.Join("", r.ErrorDetails));
                     }
 
-                    if (r.ResourceSets != null && r.ResourceSets.Length > 0 && r.ResourceSets[0] != null &&
-                        r.ResourceSets[0].Resources != null && r.ResourceSets.Length > 0 && r.ResourceSets[0].Resources[0] != null &&
-                        r.ResourceSets[0].Resources[0] is DistanceMatrix)
+                    if (Response.HasResource(r))
                     {
-                        dm = r.ResourceSets[0].Resources[0] as DistanceMatrix;
+                        var res = Response.GetFirstResource(r);
+                        if (res is DistanceMatrix)
+                        {
+                            dm = res as DistanceMatrix;
+                        }
                     }
                 }
             }

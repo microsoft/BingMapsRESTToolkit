@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.1.4</Version>
+    <Version>1.1.5</Version>
     <Authors>Microsoft</Authors>
     <Company>Microsoft</Company>
     <Description>A toolkit that makes it easy to access the Bing Maps REST services from .NET</Description>
@@ -13,7 +13,7 @@
     <PackageTags>Microsoft "Bing Maps" Maps GIS Map Geospatial VB C# .NET REST</PackageTags>
     <PackageReleaseNotes>See the changelog here: https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/CHANGELOG.md</PackageReleaseNotes>
     <PackageId>BingMapsRESTToolkit</PackageId>
-    <AssemblyVersion>1.1.4.0</AssemblyVersion>
+    <AssemblyVersion>1.1.5.0</AssemblyVersion>
     <FileVersion>1.1.4.0</FileVersion>
     <AssemblyName>BingMapsRESTToolkit</AssemblyName>
     <RootNamespace>BingMapsRESTToolkit</RootNamespace>
@@ -26,6 +26,7 @@
     <Compile Include="..\Enums\AutosuggestLocationType.cs" Link="Enums\AutosuggestLocationType.cs" />
     <Compile Include="..\Enums\AvoidType.cs" Link="Enums\AvoidType.cs" />
     <Compile Include="..\Enums\ConfidenceLevelType.cs" Link="Enums\ConfidenceLevelType.cs" />
+    <Compile Include="..\Enums\CostValueType.cs" Link="CostValueType.cs" />
     <Compile Include="..\Enums\DimensionUnitType.cs" Link="Enums\DimensionUnitType.cs" />
     <Compile Include="..\Enums\DistanceUnitType.cs" Link="Enums\DistanceUnitType.cs" />
     <Compile Include="..\Enums\ElevationType.cs" Link="Enums\ElevationType.cs" />
@@ -37,6 +38,8 @@
     <Compile Include="..\Enums\ImageryType.cs" Link="Enums\ImageryType.cs" />
     <Compile Include="..\Enums\ManeuverType.cs" Link="Enums\ManeuverType.cs" />
     <Compile Include="..\Enums\LocationRecogEntityTypes.cs" Link="Enums\LocationRecogEntityTypes.cs" />
+    <Compile Include="..\Enums\OptimizationType.cs" Link="OptimizationType.cs" />
+    <Compile Include="..\Enums\OptimizeInstructionType.cs" Link="OptimizeInstructionType.cs" />
     <Compile Include="..\Enums\TimeZoneStandardType.cs" Link="Enums\TimeZoneStandardType.cs" />
     
     <Compile Include="..\Enums\RouteAttributeType.cs" Link="Enums\RouteAttributeType.cs" />
@@ -61,7 +64,9 @@
     <Compile Include="..\Internal\ServiceHelper.cs" Link="Internal\ServiceHelper.cs" />
     <Compile Include="..\Internal\SpatialTools.cs" Link="Internal\SpatialTools.cs" />
     <Compile Include="..\Internal\TruckDistanceMatrixGenerator.cs" Link="Internal\TruckDistanceMatrixGenerator.cs" />
+    <Compile Include="..\Models\Agent.cs" Link="Agent.cs" />
     <Compile Include="..\Models\BoundingBox.cs" Link="Models\BoundingBox.cs" />
+    <Compile Include="..\Models\Break.cs" Link="Break.cs" />
     <Compile Include="..\Models\Coordinate.cs" Link="Models\Coordinate.cs" />
     <Compile Include="..\Models\CustomMapStyles\BorderedMapElementStyle.cs" Link="Models\CustomMapStyles\BorderedMapElementStyle.cs" />
     <Compile Include="..\Models\CustomMapStyles\CustomMapStyle.cs" Link="Models\CustomMapStyles\CustomMapStyle.cs" />
@@ -70,10 +75,15 @@
     <Compile Include="..\Models\CustomMapStyles\SettingsStyle.cs" Link="Models\CustomMapStyles\SettingsStyle.cs" />
     <Compile Include="..\Models\CircularView.cs" Link="Models\CircularView.cs" />
     <Compile Include="..\Models\ImageryPushpin.cs" Link="Models\ImageryPushpin.cs" />
+    <Compile Include="..\Models\OptimizeItineraryItem.cs" Link="OptimizeItineraryItem.cs" />
     <Compile Include="..\Models\PointCompression.cs" Link="Models\PointCompression.cs" />
+    <Compile Include="..\Models\Price.cs" Link="Price.cs" />
     <Compile Include="..\Models\ResponseModels\Address.cs" Link="Models\ResponseModels\Address.cs" />
+    <Compile Include="..\Models\ResponseModels\AgentItinerary.cs" Link="AgentItinerary.cs" />
     <Compile Include="..\Models\ResponseModels\AsyncStatus.cs" Link="Models\ResponseModels\AsyncStatus.cs" />
     <Compile Include="..\Models\ResponseModels\BirdseyeMetadata.cs" Link="Models\ResponseModels\BirdseyeMetadata.cs" />
+    <Compile Include="..\Models\ResponseModels\BusinessAtLocation.cs" Link="BusinessAtLocation.cs" />
+    <Compile Include="..\Models\ResponseModels\CategoryTypeResult.cs" Link="CategoryTypeResult.cs" />
     <Compile Include="..\Models\ResponseModels\CompressedPointList.cs" Link="Models\ResponseModels\CompressedPointList.cs" />
     <Compile Include="..\Models\ResponseModels\CoverageArea.cs" Link="Models\ResponseModels\CoverageArea.cs" />
     <Compile Include="..\Models\ResponseModels\Detail.cs" Link="Models\ResponseModels\Detail.cs" />
@@ -81,6 +91,7 @@
     <Compile Include="..\Models\ResponseModels\DistanceMatrixAsyncStatus.cs" Link="Models\ResponseModels\DistanceMatrixAsyncStatus.cs" />
     <Compile Include="..\Models\ResponseModels\DistanceMatrixCell.cs" Link="Models\ResponseModels\DistanceMatrixCell.cs" />
     <Compile Include="..\Models\ResponseModels\ElevationData.cs" Link="Models\ResponseModels\ElevationData.cs" />
+    <Compile Include="..\Models\ResponseModels\Entity.cs" Link="Entity.cs" />
     <Compile Include="..\Models\ResponseModels\Generalization.cs" Link="Models\ResponseModels\Generalization.cs" />
     <Compile Include="..\Models\ResponseModels\GeospatialEndpointResponse.cs" Link="Models\ResponseModels\GeospatialEndpointResponse.cs" />
     <Compile Include="..\Models\ResponseModels\GeospatialService.cs" Link="Models\ResponseModels\GeospatialService.cs" />
@@ -91,12 +102,17 @@
     <Compile Include="..\Models\ResponseModels\IsochroneResponse.cs" Link="Models\ResponseModels\IsochroneResponse.cs" />
     <Compile Include="..\Models\ResponseModels\ItineraryItem.cs" Link="Models\ResponseModels\ItineraryItem.cs" />
     <Compile Include="..\Models\ResponseModels\Line.cs" Link="Models\ResponseModels\Line.cs" />
+    <Compile Include="..\Models\ResponseModels\LocalInsightsResponse.cs" Link="LocalInsightsResponse.cs" />
     <Compile Include="..\Models\ResponseModels\Location.cs" Link="Models\ResponseModels\Location.cs" />
+    <Compile Include="..\Models\ResponseModels\OptimizeInstruction.cs" Link="OptimizeInstruction.cs" />
+    <Compile Include="..\Models\ResponseModels\OptimizeItinerary.cs" Link="OptimizeItinerary.cs" />
+    <Compile Include="..\Models\ResponseModels\OptimizeRoute.cs" Link="OptimizeRoute.cs" />
     <Compile Include="..\Models\ResponseModels\Pixel.cs" Link="Models\ResponseModels\Pixel.cs" />
     <Compile Include="..\Models\ResponseModels\Point.cs" Link="Models\ResponseModels\Point.cs" />
     <Compile Include="..\Models\ResponseModels\Polygon.cs" Link="Models\ResponseModels\Polygon.cs" />
     <Compile Include="..\Models\ResponseModels\PushpinMetdata.cs" Link="Models\ResponseModels\PushpinMetdata.cs" />
     <Compile Include="..\Models\ResponseModels\QueryParseValue.cs" Link="Models\ResponseModels\QueryParseValue.cs" />
+    <Compile Include="..\Models\ResponseModels\RegionTravelSummary.cs" Link="RegionTravelSummary.cs" />
     <Compile Include="..\Models\ResponseModels\Resource.cs" Link="Models\ResponseModels\Resource.cs" />
     <Compile Include="..\Models\ResponseModels\ResourceSet.cs" Link="Models\ResponseModels\ResourceSet.cs" />
     <Compile Include="..\Models\ResponseModels\Response.cs" Link="Models\ResponseModels\Response.cs" />
@@ -107,6 +123,7 @@
     <Compile Include="..\Models\ResponseModels\RouteProxyAsyncResult.cs" Link="Models\ResponseModels\RouteProxyAsyncResult.cs" />
     <Compile Include="..\Models\ResponseModels\RouteSubLeg.cs" Link="Models\ResponseModels\RouteSubLeg.cs" />
     <Compile Include="..\Models\ResponseModels\SeaLevelData.cs" Link="Models\ResponseModels\SeaLevelData.cs" />
+    <Compile Include="..\Models\ResponseModels\SearchResult.cs" Link="SearchResult.cs" />
     <Compile Include="..\Models\ResponseModels\Shape.cs" Link="Models\ResponseModels\Shape.cs" />
     <Compile Include="..\Models\ResponseModels\Shield.cs" Link="Models\ResponseModels\Shield.cs" />
     <Compile Include="..\Models\ResponseModels\SnappedPoint.cs" Link="Models\ResponseModels\SnappedPoint.cs" />
@@ -120,18 +137,21 @@
 
     <Compile Include="..\Models\ResponseModels\NaturalPOIAtLocationEntity.cs" Link="Models\ResponseModels\NaturalPOIAtLocationEntity.cs" />
     <Compile Include="..\Models\ResponseModels\LocationRecog.cs" Link="Models\ResponseModels\LocationRecog.cs" />
-    <Compile Include="..\Models\ResponseModels\LocalBusiness.cs" Link="Models\ResponseModels\LocalBusiness.cs" />
     <Compile Include="..\Models\ResponseModels\BusinessInfoEntity.cs" Link="Models\ResponseModels\BusinessInfoEntity.cs" />
 
     <Compile Include="..\Models\ResponseModels\DstRuleResource.cs" Link="Models\ResponseModels\DstRuleResource.cs" />
     <Compile Include="..\Models\ResponseModels\ConvertedTimeResource.cs" Link="Models\ResponseModels\ConvertedTimeResource.cs" />
     <Compile Include="..\Models\ResponseModels\TimeZoneResponse.cs" Link="Models\ResponseModels\TimeZoneResponse.cs" />
     <Compile Include="..\Models\ResponseModels\RESTTimeZone.cs" Link="Models\ResponseModels\RESTTimeZone.cs" />
-    <Compile Include="..\Models\ResponseModels\AutosuggestResource.cs" Link="Models\ResponseModels\AutosuggestResource.cs" />
+    <Compile Include="..\Models\ResponseModels\AutosuggestResource.cs" Link="AutosuggestResource.cs" />
     
 
 
     <Compile Include="..\Models\RouteOptions.cs" Link="Models\RouteOptions.cs" />
+    
+
+
+    <Compile Include="..\Models\Shift.cs" Link="Shift.cs" />
     <Compile Include="..\Models\SimpleAddress.cs" Link="Models\SimpleAddress.cs" />
     <Compile Include="..\Models\SimpleWaypoint.cs" Link="Models\SimpleWaypoint.cs" />
     <Compile Include="..\Models\VehicleSpec.cs" Link="Models\VehicleSpec.cs" />
@@ -145,6 +165,9 @@
     <Compile Include="..\Requests\ImageryMetadataRequest.cs" Link="Requests\ImageryMetadataRequest.cs" />
     <Compile Include="..\Requests\ImageryRequest.cs" Link="Requests\ImageryRequest.cs" />
     <Compile Include="..\Requests\IsochroneRequest.cs" Link="Requests\IsochroneRequest.cs" />
+    <Compile Include="..\Requests\LocalInsightsRequest.cs" Link="LocalInsightsRequest.cs" />
+    <Compile Include="..\Requests\LocalSearchRequest.cs" Link="LocalSearchRequest.cs" />
+    <Compile Include="..\Requests\OptimizeItineraryRequest.cs" Link="OptimizeItineraryRequest.cs" />
     <Compile Include="..\Requests\ReverseGeocodeRequest.cs" Link="Requests\ReverseGeocodeRequest.cs" />
     <Compile Include="..\Requests\RouteMajorRoadsRequest.cs" Link="Requests\RouteMajorRoadsRequest.cs" />
     <Compile Include="..\Requests\RouteRequest.cs" Link="Requests\RouteRequest.cs" />

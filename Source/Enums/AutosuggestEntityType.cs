@@ -22,12 +22,6 @@
  * THE SOFTWARE. 
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace BingMapsRESTToolkit
 {
     /// <summary>
@@ -46,6 +40,6 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// Location Business Resource
         /// </summary>
-        LocalBusiness
+        Business
     }
 }

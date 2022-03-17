@@ -25,11 +25,18 @@
             <StackPanel>
                 <Button Content="Geocode" Click="GeocodeBtn_Clicked" Height="30"/>
                 <Button Content="Reverse Geocode" Click="ReverseGeocodeBtn_Clicked" Height="30"/>
+                <Button Content="Local Search" Click="LocalSearchBtn_Clicked" Height="30"/>
+                <Button Content="Local Search (types)" Click="LocalSearchTypeBtn_Clicked" Height="30"/>
+                <Button Content="Local Insights" Click="LocalInsightsBtn_Clicked" Height="30"/>
+                <Button Content="Location Recognition" Click="LocationRecogBtn_Clicked" Height="30"/>
+                <Button Content="Autosuggest" Click="AutosuggestBtn_Clicked" Height="30"/>
                 <Button Content="Elevation" Click="ElevationBtn_Clicked" Height="30"/>
+                <Button Content="Elevations by bounding box" Click="ElevationByBboxBtn_Clicked" Height="30"/>
                 <Button Content="Route" Click="RouteBtn_Clicked" Height="30"/>
                 <Button Content="Long Route" Click="LongRouteBtn_Clicked" Height="30"/>
                 <Button Content="Transit Route" Click="TransitRouteBtn_Clicked" Height="30"/>
                 <Button Content="Truck Route" Click="TruckRouteBtn_Clicked" Height="30"/>
+                <Button Content="Multi-Itinerary Optimization" Click="OptimizeItineraryBtn_Clicked" Height="30"/>
                 <Button Content="Traffic" Click="TrafficBtn_Clicked" Height="30"/>
                 <Button Content="Imagery Metadata" Click="ImageMetadataBtn_Clicked" Height="30"/>
                 <Button Content="Static Image" Click="StaticImageBtn_Clicked" Height="30"/>

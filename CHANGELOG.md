@@ -1,3 +1,14 @@
+## Version 1.1.5 - 3/15/2022
+
+* Added AutoSuggest, LocalSearch, LocalInsights, and OptimizeItineraryRequest APIs. Added samples for each.
+* Added a visual sample for OptimizeItineraryRequest.
+* Added support for regional travel summary in routes.
+* Fixed backlog of issues and updates.
+* Add helper methods to existing classes
+	- SimpleWaypoint and Coordinate classes - static Parse method.
+	- Resource class - static HasResource and GetFirstResouce methods.
+	- RoutePath class - method to retrieve route path as an array of coordinates.
+
 ## Version 1.1.4 - 3/9/2018
 
 * Async support added to SnapToRoadRequest, thus allowing up to 1,000 points to be snapped in a single request.

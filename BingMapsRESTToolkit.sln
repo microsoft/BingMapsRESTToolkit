@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32228.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{EE7ACF1F-56D3-4A01-8262-A49A8B444639}"
 EndProject
@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{A155C8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{833D0345-46F0-486E-9BEF-5269405683F8}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\..\Source\Repos\Bing-Maps-V8-TypeScript-Definitions\.gitignore = ..\..\..\..\Source\Repos\Bing-Maps-V8-TypeScript-Definitions\.gitignore
+		..\..\..\Source\Repos\Bing-Maps-V8-TypeScript-Definitions\.gitignore = ..\..\..\Source\Repos\Bing-Maps-V8-TypeScript-Definitions\.gitignore
 		CHANGELOG.md = CHANGELOG.md
 		CONTRIBUTING.md = CONTRIBUTING.md
 		LICENSE.md = LICENSE.md
@@ -42,6 +42,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{5F797BB6-1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravellingSalesmenRouteSample", "Samples\WPF\TravellingSalesmenRouteSample\TravellingSalesmenRouteSample.csproj", "{5173922A-0160-4EE1-9AD8-F629B23CFE71}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiRouteOptimizationSample", "Samples\WPF\MultiRouteOptimizationSample\MultiRouteOptimizationSample.csproj", "{9AEB32AD-D999-4E5F-8CB7-B6A0727DA12A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{5173922A-0160-4EE1-9AD8-F629B23CFE71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5173922A-0160-4EE1-9AD8-F629B23CFE71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5173922A-0160-4EE1-9AD8-F629B23CFE71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AEB32AD-D999-4E5F-8CB7-B6A0727DA12A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AEB32AD-D999-4E5F-8CB7-B6A0727DA12A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AEB32AD-D999-4E5F-8CB7-B6A0727DA12A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AEB32AD-D999-4E5F-8CB7-B6A0727DA12A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +92,7 @@ Global
 		{1BCB3853-DAFE-4B33-9888-23666A1040B9} = {80170A9E-5ACF-483A-8A8E-18CA7B0C9A34}
 		{5F797BB6-13E8-4A02-BC01-613FC791EB41} = {833D0345-46F0-486E-9BEF-5269405683F8}
 		{5173922A-0160-4EE1-9AD8-F629B23CFE71} = {26E65B0F-9554-408A-95D4-BDEC52945FC3}
+		{9AEB32AD-D999-4E5F-8CB7-B6A0727DA12A} = {26E65B0F-9554-408A-95D4-BDEC52945FC3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3DB70BA-969B-47D7-8A77-65B190E2CC81}

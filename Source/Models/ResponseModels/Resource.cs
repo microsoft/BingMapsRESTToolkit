@@ -44,13 +44,11 @@ namespace BingMapsRESTToolkit
     [KnownType(typeof(IsochroneResponse))]
     [KnownType(typeof(SnapToRoadResponse))]
     [KnownType(typeof(LocationRecog))]
+    [KnownType(typeof(LocalInsightsResponse))]    
     [KnownType(typeof(TimeZoneResponse))]
     [KnownType(typeof(RESTTimeZone))]
-    [KnownType(typeof(AutosuggestResource))]
-    [KnownType(typeof(AutosuggestEntityResource))]
-    [KnownType(typeof(AutoSuggestLocalBusinessResource))]
-    [KnownType(typeof(AutoSuggestPlaceResource))]
-    [KnownType(typeof(AutosuggestAddressResource))]
+    [KnownType(typeof(Autosuggest))]
+    [KnownType(typeof(OptimizeItinerary))]
     public class Resource
     {
         /// <summary>

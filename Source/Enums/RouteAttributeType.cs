@@ -52,6 +52,11 @@ namespace BingMapsRESTToolkit
         /// <summary>
         /// Include information about transit stops for transit routes.
         /// </summary>
-        TransitStops
+        TransitStops,
+
+        /// <summary>
+        /// Include travel summary of distance, time, and toll road distance by two entity types: country (e.g. US, Canada) and administrative division or subregion (e.g. “state” in US and “province” in Canada).
+        /// </summary>
+        RegionTravelSummary
     }
 }

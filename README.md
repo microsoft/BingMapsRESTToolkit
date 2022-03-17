@@ -1,5 +1,6 @@
 ![Bing Maps Logo](https://github.com/Microsoft/Bing-Maps-V8-TypeScript-Definitions/blob/master/images/BingMapsLogoTeal.png)
 
+![Local version](https://img.shields.io/badge/Local%20version-1.1.5-green.svg)
 [![NuGet](https://img.shields.io/badge/NuGet-1.1.4-blue.svg)](https://www.nuget.org/packages/BingMapsRESTToolkit)
 [![license](https://img.shields.io/badge/license-MIT-yellow.svg)](https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/LICENSE.md)
 
@@ -7,6 +8,7 @@
 
 This is a portable .NET class library which provides a set of tools that make it easy to access the Bing Maps REST services in .NET based apps. Take a look at the [Getting Started documentation](https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/Docs/Getting%20Started.md). The Bing Maps REST Services provides the following functionality:
 
+* **Autosuggest**
 * **Forward and reverse geocoding**
 * **Route calculations** - for driving, walking, transit and truck
 * **Distance matricies** - time and distance based matrices between a set of origins and destinations. Optionally retrieve this data over a period of time using predictive traffic data
@@ -15,10 +17,8 @@ This is a portable .NET class library which provides a set of tools that make it
 * **Traffic incident data**
 * **Elevation data**
 * **Static map imagery and metadata**
-
-## What's New
-
-* September 2018: Requests for [Location Recognition](https://msdn.microsoft.com/en-US/library/mt847173.aspx) and the [Time Zone API](https://msdn.microsoft.com/en-us/library/mt829726.aspx), including Data Contracts, are now available.
+* **Local search**
+* And much more!
 
 ## Toolkit Features
 
@@ -30,6 +30,12 @@ This is a portable .NET class library which provides a set of tools that make it
 * Supports calculating driving, truck, walking and transit routes that have more than 25 waypoints.
 * **Travelling Salesmen** algorithms that tie into the distance matrix API [documentation](https://github.com/Microsoft/BingMapsRESTToolkit/blob/master/Docs/Getting%20Started.md#TravellingSalesmen). 
 * **Truck routing based Distance Matricies** - The Bing Maps distance matric API does not support truck routing based matricies. This library adds support for this by wrapping the truck routing API. 
+
+## Reference locally
+
+The NuGet package is not updated as frequently as the source code in this repo. You can use the latest version by 
+downloading the source code and copying the contents of the `Source` folder into your solution folder. 
+Then in your solution add an "Existing project" and select the "BingMapsRESTToolkit.csproj" file.
 
 ## NuGet Package
 

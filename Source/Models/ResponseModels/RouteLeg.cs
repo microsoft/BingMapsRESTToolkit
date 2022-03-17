@@ -185,5 +185,11 @@ namespace BingMapsRESTToolkit
                 }
             }
         }
+
+        /// <summary>
+        /// Regional travel information.
+        /// </summary>
+        [DataMember(Name = "regionTravelSummary", EmitDefaultValue = false)]
+        public RegionTravelSummary RegionTravelSummary { get; set; }
     }
 }

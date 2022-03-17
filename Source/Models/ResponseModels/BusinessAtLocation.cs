@@ -31,7 +31,7 @@ namespace BingMapsRESTToolkit
     /// Local Business Resoruce, used by Location Recognition
     /// </summary>
     [DataContract(Namespace = "http://schemas.microsoft.com/search/local/ws/rest/v1")]
-    public class LocalBusiness
+    public class BusinessAtLocation
     {
         /// <summary>
         /// Busisness Address `Address` Resource

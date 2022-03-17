@@ -68,5 +68,11 @@ namespace BingMapsRESTToolkit
         /// </summary>
         [DataMember(Name = "otherTypeIds", EmitDefaultValue = false)]
         public int[] OtherTypeIds { get; set; }
+
+        [DataMember(Name = "type", EmitDefaultValue = false)]
+        public string Type { get; set; }
+
+        [DataMember(Name = "otherType", EmitDefaultValue = false)]
+        public string[] OtherType { get; set; }
     }
 }
