@@ -110,7 +110,7 @@ namespace BingMapsRESTToolkit.Extensions
                 DestinationIndex = 0,
                 HasError = false,
                 TravelDistance = truckRoute.TravelDistance,
-                TravelDuration = (request.TimeUnits == TimeUnitType.Minute) ? truckRoute.TravelDuration * 60 : truckRoute.TravelDuration
+                TravelDuration = (request.TimeUnits == TimeUnitType.Minute) ? truckRoute.TravelDuration / 60 : truckRoute.TravelDuration
             });
 
             var cellTasks = new List<Task>();
