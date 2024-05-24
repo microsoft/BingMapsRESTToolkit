@@ -1,3 +1,11 @@
+> [!WARNING]
+> **Bing Maps for Enterprise is deprecated and will be retired**
+> * Enterprise account customers can continue to use Bing Maps for Enterprise services **until June 30th, 2028**.
+> * Free (Basic) account customers can continue to use Bing Maps for Enterprise services until **June 30th, 2025**.
+> * To avoid service disruptions, all implementations using Bing Maps for Enterprise REST APIs and SDKs will need to be updated to use [Azure Maps](https://azuremaps.com) by the retirement date that applies to your Bing Maps for Enterprise account type.
+> * For migration documentation, please see [Bing Maps Migration Overview](https://learn.microsoft.com/azure/azure-maps/migrate-bing-maps-overview).
+> * For more details on the retirement, see the [announcement](https://aka.ms/BMERetirementAnnouncement) on the Bing Maps Blog.
+
 ![Bing Maps Logo](https://github.com/Microsoft/Bing-Maps-V8-TypeScript-Definitions/blob/master/images/BingMapsLogoTeal.png)
 
 ![Local version](https://img.shields.io/badge/Local%20version-1.1.5-green.svg)
